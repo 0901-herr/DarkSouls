@@ -1,0 +1,44 @@
+﻿Work Breakdown Agreement Lab 02 Team 6
+
+
+Group members:
+1. Yong Liang Herr 31987850
+2. William Ho Swee Chiong 32579756
+3. Yap Yong Hong 31899412
+
+
+Individual work breakdown:
+1. Yong Liang Herr
+UML class diagram and design rationale:
+* Requirement 1: Player and Estus Flask
+* Requirement 4: Enemies
+* Requirement 8: Vendor
+
+
+2.William Ho Swee Chiong
+UML class diagram and design rationale:
+* Requirement 2 : Bonfire and Firelink Shrink
+* Requirement 5 : Terrains
+* Requirement 6 : Soft Reset or Dying 
+
+
+3. Yap Yong Hong
+UML class diagram and design rationale:
+* Requirement 1: Estus Flask
+* Requirement 3: Souls
+* Requirement 7: Weapon
+
+
+Group work:
+Sequence diagram 1: Player buy item action from vendor
+Design rationale for sequence diagram 1: Player buy item action from vendor
+
+
+Sequence diagram 2: Storm Ruler attack action
+Design rationale for sequence diagram 2: Storm Ruler attack action
+
+
+Agreement for work breakdown:
+1. I, Yong Liang Herr, agree with the above work breakdown. 
+2.
+3.
