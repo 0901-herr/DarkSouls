@@ -61,6 +61,5 @@ public class Application {
 			// FIXME: the Undead should be generated from the Cemetery
 			gameMap.at(32, 7).addActor(new Undead("Undead"));
 			world.run();
-
 	}
 }

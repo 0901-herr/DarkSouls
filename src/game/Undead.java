@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * An undead minion.
  */
-public class Undead extends Actor {
+public class Undead extends Enemy {
 	// Will need to change this to a collection if Undeads gets additional Behaviours.
 	private ArrayList<Behaviour> behaviours = new ArrayList<>();
 
@@ -27,6 +27,7 @@ public class Undead extends Actor {
 	public Undead(String name) {
 		super(name, 'u', 50);
 		behaviours.add(new WanderBehaviour());
+		addCapability(Status.HOSTILE_TO_ENEMY);
 	}
 
 	/**
@@ -56,6 +57,11 @@ public class Undead extends Actor {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// loop through all behaviours
+
+		// Added by Philippe
+		// 1. If actions has AttackAction, return that
+		// 2. If action has FollowBehaviour
+
 		for(Behaviour Behaviour : behaviours) {
 			Action action = Behaviour.getAction(this, map);
 			if (action != null)

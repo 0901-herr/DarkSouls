@@ -76,6 +76,7 @@ public class World {
 
 			// Process all the actors.
 			for (Actor actor : actorLocations) {
+				System.out.println("Actor: " + actor.name);
 				if (stillRunning())
 					processActorTurn(actor);
 			}
