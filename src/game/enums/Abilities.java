@@ -5,5 +5,7 @@ package game.enums;
  */
 public enum Abilities {
     REST,
-    REVIVE_FOR_ONCE
+    REVIVE_FOR_ONCE,
+    CRITICAL_STRIKE,
+    RAGE_MODE
 }

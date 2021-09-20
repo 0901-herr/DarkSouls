@@ -1,8 +1,15 @@
 package game;
 
 import edu.monash.fit2099.engine.WeaponItem;
+import game.enums.Abilities;
+
+import java.util.Random;
 
 public class MeleeWeapon extends WeaponItem {
+
+    protected Random rand;
+    protected  int criticalStrikeRate;
+
     /**
      * Constructor.
      *
@@ -14,6 +21,32 @@ public class MeleeWeapon extends WeaponItem {
      */
     public MeleeWeapon(String name, char displayChar, int damage, String verb, int hitRate) {
         super(name, displayChar, damage, verb, hitRate);
+        this.portable = false;
+
+    }
+
+    @Override
+    public int damage(){
+        int damage = this.damage;
+
+        if (this.hasCapability(Abilities.CRITICAL_STRIKE)){
+            if (rand.nextInt(100) <= criticalStrikeRate){
+                damage = this.damage * 2;
+            }
+        }
+
+        return damage;
+    }
+
+    @Override
+    public int chanceToHit(){
+        int hitRate = this.hitRate;
+
+        if (this.hasCapability(Abilities.RAGE_MODE)){
+            hitRate += 30;
+        }
+
+        return hitRate;
     }
 
     //TODO: please figure out how to disable dropping item action.
