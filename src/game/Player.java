@@ -16,6 +16,7 @@ import game.interfaces.Soul;
 public class Player extends Actor implements Soul {
 
 	private final Menu menu = new Menu();
+	private int souls = 0;
 
 	/**
 	 * Constructor.
@@ -43,6 +44,32 @@ public class Player extends Actor implements Soul {
 	@Override
 	public void transferSouls(Soul soulObject) {
 		//TODO: transfer Player's souls to another Soul's instance.
+	}
+
+	@Override
+	public boolean addSouls(int souls) {
+		boolean isSuccess = false;
+		if (souls > 0) {
+			this.souls += souls;
+			isSuccess = true;
+		}
+		else {
+			isSuccess = false;
+		}
+		return isSuccess;
+	}
+
+	@Override
+	public boolean subtractSouls(int souls) {
+		boolean isSuccess = false;
+		if (souls > 0) {
+			this.souls -= souls;
+			isSuccess = true;
+		}
+		else {
+			isSuccess = false;
+		}
+		return isSuccess;
 	}
 
 	// Added by Philippe

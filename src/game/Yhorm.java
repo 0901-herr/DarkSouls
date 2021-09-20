@@ -70,10 +70,6 @@ public class Yhorm extends LordOfCinder {
         return new DoNothingAction();
     }
 
-    public void addWeaponToInventory() {
-
-    }
-
     public void addEnrageBehaviour() {
         boolean enrageAvailable = getHitPoints() < (getMaxHitPoints()*0.5);
 

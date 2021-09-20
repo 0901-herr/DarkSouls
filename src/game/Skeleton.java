@@ -30,6 +30,7 @@ public class Skeleton extends Enemy {
         super(name, 's', 100);
         behaviours.add(new WanderBehaviour());
         addCapability(Status.HOSTILE_TO_ENEMY);
+        addRandomizeWeapon();
     }
 
     /**
@@ -72,17 +73,14 @@ public class Skeleton extends Enemy {
         return new DoNothingAction();
     }
 
-    public void revive() {
-
-    }
-
-    public void addWeaponToInventory() {
-        // TODO: Add Broadsword or GiantAxe at random
-    }
-
     @Override
     public void transferSouls(Soul soulObject) {
         soulObject.addSouls(souls);
         subtractSouls(souls);
+    }
+
+    public void addRandomizeWeapon() {
+//        WeaponItem giantAxe, broadSwoard;
+//        addItemToInventory();
     }
 }

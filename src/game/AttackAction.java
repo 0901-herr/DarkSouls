@@ -56,8 +56,9 @@ public class AttackAction extends Action {
 			// Added by Philippe
 			// Check if Actor is Skeleton
 			// If yes, revive it with Revive Action
+			// TODO: Find better implementation, currently we are using downcasting
 			if (actor.hasCapability(Abilities.REVIVE_FOR_ONCE)) {
-				// TODO: Revive actor
+				actor.heal(((Enemy) actor).getMaxHitPoints());
 
 				// Remove ability
 				actor.removeCapability(Abilities.REVIVE_FOR_ONCE);
@@ -72,6 +73,7 @@ public class AttackAction extends Action {
 				drop.execute(target, map);
 
 			// TODO: Transfer souls
+			System.out.println(actor + " transferring Souls to " + target);
 			actor.asSoul().transferSouls(target.asSoul());
 
 			// remove actor

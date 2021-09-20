@@ -1,12 +1,7 @@
 package game;
 
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.DoNothingAction;
-import edu.monash.fit2099.engine.GameMap;
+import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 import game.interfaces.Behaviour;
 import game.interfaces.Soul;
@@ -59,7 +54,6 @@ public class Undead extends Enemy {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// loop through all behaviours
-		boolean attackActionIsFound = false;
 
 		// Added by Philippe
 		addBehaviours(actions, this.behaviours);
@@ -72,13 +66,14 @@ public class Undead extends Enemy {
 		return new DoNothingAction();
 	}
 
-	public void addWeaponToInventory() {
-
-	}
-
 	@Override
 	public void transferSouls(Soul soulObject) {
 		soulObject.addSouls(souls);
 		subtractSouls(souls);
+	}
+
+	@Override
+	protected IntrinsicWeapon getIntrinsicWeapon() {
+		return new IntrinsicWeapon(20, "thwacks");
 	}
 }

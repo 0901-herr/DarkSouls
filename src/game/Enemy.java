@@ -65,9 +65,6 @@ public abstract class Enemy extends Actor implements Soul {
     @Override
     public abstract void transferSouls(Soul soulObject);
 
-    // Adding weapon to inventory
-    public abstract void addWeaponToInventory();
-
     public void setPlayer(Actor player) {
         this.player = player;
     }
