@@ -68,6 +68,7 @@ public class Application {
 			gameMap.at(35, 15).addActor(new Skeleton("Skeleton"));
 			// Place Bonfire at the center of the map
 			gameMap.at(38,11).setGround(new Bonfire());
+			// run the game
 			world.run();
 	}
 }
