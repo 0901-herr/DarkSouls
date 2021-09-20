@@ -59,11 +59,15 @@ public class Application {
 
 			// Place a Hollow in the the map
 			// FIXME: the Undead should be generated from the Cemetery
-			gameMap.at(32, 7).addActor(new Undead("Undead"));
-
+			gameMap.at(32, 7).setGround(new Cementery());
+			gameMap.at(27, 14).setGround(new Cementery());
+			gameMap.at(49, 12).setGround(new Cementery());
+			gameMap.at(58, 5).setGround(new Cementery());
+			gameMap.at(36, 20).setGround(new Cementery());
 			// Place a Skeleton
 			gameMap.at(35, 15).addActor(new Skeleton("Skeleton"));
-
+			// Place Bonfire at the center of the map
+			gameMap.at(38,11).setGround(new Bonfire());
 			world.run();
 	}
 }

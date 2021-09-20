@@ -17,6 +17,8 @@ public class Player extends Actor implements Soul {
 
 	private final Menu menu = new Menu();
 	private int souls = 0;
+	private int maxHp;
+
 
 	/**
 	 * Constructor.
@@ -27,8 +29,12 @@ public class Player extends Actor implements Soul {
 	 */
 	public Player(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints);
+		this.maxHp=hitPoints;
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
 		this.addCapability(Abilities.REST);
+		this.addItemToInventory(new EstusFlask(this));
+		this.addItemToInventory(new EstusFlask(this));
+		this.addItemToInventory(new EstusFlask(this));
 	}
 
 	@Override
@@ -36,6 +42,9 @@ public class Player extends Actor implements Soul {
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
+
+		display.println("Player:"+name+" Hitpoint:"+hitPoints);
+
 
 		// return/print the console menu
 		return menu.showMenu(this, actions, display);
@@ -92,4 +101,8 @@ public class Player extends Actor implements Soul {
 		System.out.println("Player send AttackAction to " + otherActor);
 		return actions;
 	}
+	public int getMaxHp() {
+		return maxHp;
+	}
+
 }
