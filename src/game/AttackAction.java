@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Item;
 import edu.monash.fit2099.engine.Weapon;
+import game.enums.Abilities;
 
 /**
  * Special Action for attacking other Actors.
@@ -41,7 +42,6 @@ public class AttackAction extends Action {
 
 	@Override
 	public String execute(Actor actor, GameMap map) {
-
 		Weapon weapon = actor.getWeapon();
 
 		if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
@@ -52,12 +52,30 @@ public class AttackAction extends Action {
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 		target.hurt(damage);
 		if (!target.isConscious()) {
+
+			// Added by Philippe
+			// Check if Actor is Skeleton
+			// If yes, revive it with Revive Action
+			// TODO: Find better implementation, currently we are using downcasting
+			if (actor.hasCapability(Abilities.REVIVE_FOR_ONCE)) {
+				actor.heal(((Enemy) actor).getMaxHitPoints());
+
+				// Remove ability
+				actor.removeCapability(Abilities.REVIVE_FOR_ONCE);
+				return result;
+			}
+
 			Actions dropActions = new Actions();
 			// drop all items
 			for (Item item : target.getInventory())
 				dropActions.add(item.getDropAction(actor));
 			for (Action drop : dropActions)
 				drop.execute(target, map);
+
+			// TODO: Transfer souls
+			System.out.println(actor + " transferring Souls to " + target);
+			actor.asSoul().transferSouls(target.asSoul());
+
 			// remove actor
 			//TODO: In A1 scenario, you must not remove a Player from the game yet. What to do, then?
 			map.removeActor(target);

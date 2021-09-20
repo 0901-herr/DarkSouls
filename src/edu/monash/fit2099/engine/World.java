@@ -73,7 +73,6 @@ public class World {
 		while (stillRunning()) {
 			GameMap playersMap = actorLocations.locationOf(player).map();
 			playersMap.draw(display);
-
 			// Process all the actors.
 			for (Actor actor : actorLocations) {
 				if (stillRunning())
