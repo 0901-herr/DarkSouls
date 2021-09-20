@@ -17,7 +17,9 @@ public class Cementery extends Ground {
     public void tick(Location location){
         Random rand= new Random();
         if (rand.nextInt(100)<=25){
-            location.map().addActor(new Undead("Undead"),location);
+            if (!location.containsAnActor()){
+                location.map().addActor(new Undead("Undead"),location);
+            }
         }
     }
 }
