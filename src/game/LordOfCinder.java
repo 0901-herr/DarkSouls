@@ -1,18 +1,26 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.interfaces.Soul;
 
 /**
  * The boss of Design o' Souls
  * FIXME: This boss is Boring. It does nothing. You need to implement features here.
  * TODO: Could it be an abstract class? If so, why and how?
  */
-public class LordOfCinder extends Actor {
+public abstract class LordOfCinder extends Enemy {
     /**
      * Constructor.
      */
     public LordOfCinder(String name, char displayChar, int hitPoints) {
-        super(name, displayChar, hitPoints );
+        super(name, displayChar, hitPoints);
+    }
+    private int souls = 5000;
+
+    @Override
+    public void transferSouls(Soul soulObject) {
+        soulObject.addSouls(souls);
+        subtractSouls(souls);
     }
 
     /**
@@ -26,4 +34,6 @@ public class LordOfCinder extends Actor {
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         return new DoNothingAction();
     }
+
+    public abstract void addWeaponToInventory();
 }

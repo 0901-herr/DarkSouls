@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.DoNothingAction;
 import edu.monash.fit2099.engine.GameMap;
 import game.enums.Status;
 import game.interfaces.Behaviour;
+import game.interfaces.Soul;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class Undead extends Enemy {
 	// Will need to change this to a collection if Undeads gets additional Behaviours.
 	private ArrayList<Behaviour> behaviours = new ArrayList<>();
+	private int souls = 50;
 
 	/** 
 	 * Constructor.
@@ -57,10 +59,10 @@ public class Undead extends Enemy {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// loop through all behaviours
+		boolean attackActionIsFound = false;
 
 		// Added by Philippe
-		// 1. If actions has AttackAction, return that
-		// 2. If action has FollowBehaviour
+		addBehaviours(actions, this.behaviours);
 
 		for(Behaviour Behaviour : behaviours) {
 			Action action = Behaviour.getAction(this, map);
@@ -70,4 +72,13 @@ public class Undead extends Enemy {
 		return new DoNothingAction();
 	}
 
+	public void addWeaponToInventory() {
+
+	}
+
+	@Override
+	public void transferSouls(Soul soulObject) {
+		soulObject.addSouls(souls);
+		subtractSouls(souls);
+	}
 }

@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.DoNothingAction;
 import edu.monash.fit2099.engine.GameMap;
 import game.enums.Status;
 import game.interfaces.Behaviour;
+import game.interfaces.Soul;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class Skeleton extends Enemy {
     // Will need to change this to a collection if Undeads gets additional Behaviours.
     private ArrayList<Behaviour> behaviours = new ArrayList<>();
+    private int souls = 250;
 
     /**
      * Constructor.
@@ -25,8 +27,9 @@ public class Skeleton extends Enemy {
      * @param name the name of this Undead
      */
     public Skeleton(String name) {
-        super(name, 'u', 50);
+        super(name, 's', 100);
         behaviours.add(new WanderBehaviour());
+        addCapability(Status.HOSTILE_TO_ENEMY);
     }
 
     /**
@@ -56,11 +59,30 @@ public class Skeleton extends Enemy {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         // loop through all behaviours
+
+        // Added by Philippe
+        addBehaviours(actions, this.behaviours);
+
         for(Behaviour Behaviour : behaviours) {
             Action action = Behaviour.getAction(this, map);
             if (action != null)
                 return action;
         }
+
         return new DoNothingAction();
+    }
+
+    public void revive() {
+
+    }
+
+    public void addWeaponToInventory() {
+        // TODO: Add Broadsword or GiantAxe at random
+    }
+
+    @Override
+    public void transferSouls(Soul soulObject) {
+        soulObject.addSouls(souls);
+        subtractSouls(souls);
     }
 }

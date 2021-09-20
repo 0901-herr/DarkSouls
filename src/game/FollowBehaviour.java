@@ -27,7 +27,7 @@ public class FollowBehaviour implements Behaviour {
 		
 		Location here = map.locationOf(actor);
 		Location there = map.locationOf(target);
-
+		System.out.println(actor + " Following Player");
 		int currentDistance = distance(here, there);
 		for (Exit exit : here.getExits()) {
 			Location destination = exit.getDestination();

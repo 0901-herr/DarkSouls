@@ -62,6 +62,7 @@ public class Player extends Actor implements Soul {
 		if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
 			actions.add(new AttackAction(this,direction));
 		}
+		System.out.println("Player send AttackAction to " + otherActor);
 		return actions;
 	}
 }
