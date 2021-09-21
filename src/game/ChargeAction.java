@@ -6,9 +6,9 @@ import edu.monash.fit2099.engine.WeaponAction;
 import edu.monash.fit2099.engine.WeaponItem;
 
 
-public class Charge extends WeaponAction{
+public class ChargeAction extends WeaponAction{
 
-    public Charge(WeaponItem weaponItem){
+    public ChargeAction(WeaponItem weaponItem){
         super(weaponItem);
     }
 
@@ -16,7 +16,7 @@ public class Charge extends WeaponAction{
     // disarmed (wait)
     @Override
     public String execute(Actor actor, GameMap map){
-        String result = actor + "charges";
+        String result = actor + "charges" + weapon;
         if (((StormRuler)this.weapon).numberOfCharge <  ((StormRuler)this.weapon).maxNumberOfCharge){
             ((StormRuler) this.weapon).numberOfCharge += 1;
         }
@@ -25,7 +25,7 @@ public class Charge extends WeaponAction{
 
     @Override
     public String menuDescription(Actor actor){
-        return actor + " charges " + weapon;
+        return actor + " activates " + this;
     }
 
 }

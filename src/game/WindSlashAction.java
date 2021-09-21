@@ -2,19 +2,20 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 
-public class WindSlash extends WeaponAction {
+public class WindSlashAction extends WeaponAction {
 
     protected Actor target;
     protected String direction;
 
-    public WindSlash(WeaponItem weaponItem, Actor target, String direction){
+    public WindSlashAction(WeaponItem weaponItem, Actor target, String direction){
         super(weaponItem);
         this.target = target;
         this.direction = direction;
     }
 
     // x2 damage
-    // 100% hit rate
+    // 100% hit rate (wait)
+    // reset charge (wait)
     // stun (wait)
     @Override
     public String execute(Actor actor, GameMap map){
@@ -40,7 +41,8 @@ public class WindSlash extends WeaponAction {
 
     @Override
     public String menuDescription(Actor actor){
-        return actor + " uses Wind Slash on " + target + " at " + direction;
+        return actor + " activates " + this;
     }
+
 }
 

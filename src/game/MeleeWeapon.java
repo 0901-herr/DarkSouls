@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class MeleeWeapon extends WeaponItem {
 
-    protected Random rand;
+    protected Random rand = new Random();
     protected  int criticalStrikeRate;
 
     /**
@@ -36,17 +36,6 @@ public class MeleeWeapon extends WeaponItem {
         }
 
         return damage;
-    }
-
-    @Override
-    public int chanceToHit(){
-        int hitRate = this.hitRate;
-
-        if (this.hasCapability(Abilities.RAGE_MODE)){
-            hitRate += 30;
-        }
-
-        return hitRate;
     }
 
     //TODO: please figure out how to disable dropping item action.
