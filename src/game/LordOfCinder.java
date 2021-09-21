@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Abilities;
 import game.interfaces.Soul;
 
 /**
@@ -14,14 +15,14 @@ public abstract class LordOfCinder extends Enemy {
      */
     public LordOfCinder(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
+        this.addCapability(Abilities.IS_YHORM);
+        try {
+            addItemToInventory(new GreatMachete(this));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
     private int souls = 5000;
-
-    @Override
-    public void transferSouls(Soul soulObject) {
-        soulObject.addSouls(souls);
-        subtractSouls(souls);
-    }
 
     /**
      * @param actions    collection of possible Actions for this Actor
@@ -33,5 +34,16 @@ public abstract class LordOfCinder extends Enemy {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         return new DoNothingAction();
+    }
+
+    @Override
+    public void transferSouls(Soul soulObject) {
+        soulObject.addSouls(getSouls());
+        subtractSouls(getSouls());
+    }
+
+    @Override
+    public int getSouls() {
+        return souls;
     }
 }

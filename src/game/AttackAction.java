@@ -53,11 +53,10 @@ public class AttackAction extends Action {
 		target.hurt(damage);
 		if (!target.isConscious()) {
 
-			// Added by Philippe
 			// Check if Actor is Skeleton
 			// If yes, revive it with Revive Action
 			// TODO: Find better implementation, currently we are using downcasting
-			if (actor.hasCapability(Abilities.REVIVE_FOR_ONCE)) {
+			if (actor.hasCapability(Abilities.REVIVE_FOR_ONCE) && rand.nextBoolean()) {
 				actor.heal(((Enemy) actor).getMaxHitPoints());
 
 				// Remove ability
@@ -72,9 +71,9 @@ public class AttackAction extends Action {
 			for (Action drop : dropActions)
 				drop.execute(target, map);
 
-			// TODO: Transfer souls
-			System.out.println(actor + " transferring Souls to " + target);
-			actor.asSoul().transferSouls(target.asSoul());
+			// Transfer souls
+			System.out.println(target + " transferring Souls to " + actor);
+			target.asSoul().transferSouls(actor.asSoul());
 
 			// remove actor
 			//TODO: In A1 scenario, you must not remove a Player from the game yet. What to do, then?

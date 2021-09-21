@@ -8,7 +8,6 @@ import edu.monash.fit2099.engine.addons.DesignOSoulsAddOn;
  * @see DesignOSoulsAddOn
  */
 public interface Soul {
-
     /**
      * Transfer current instance's souls to another Soul instance.
      * @param soulObject a target souls.
@@ -35,4 +34,9 @@ public interface Soul {
      */
     default boolean subtractSouls(int souls){ return false;}
 
+    default void setRequiredSouls(int requiredSouls) {}
+
+    void setSouls(int souls);
+
+    int getSouls();
 }

@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Item;
 import edu.monash.fit2099.engine.Weapon;
+import game.enums.Status;
 import game.interfaces.Behaviour;
 import game.interfaces.Soul;
 
@@ -14,9 +15,11 @@ import java.util.ArrayList;
 public abstract class Enemy extends Actor implements Soul {
     private Actor player;
     private Boolean attackBehaviourIsAdded = false;
+    private int souls;
 
     public Enemy(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
+        addCapability(Status.HOSTILE_TO_PLAYER);
     }
 
     // Add behaviour to each enemy
@@ -34,6 +37,7 @@ public abstract class Enemy extends Actor implements Soul {
                 attackActionIsFound = true;
                 attackBehaviourIsAdded = true;
 
+                // Setting the player
                 setPlayer(((AttackAction) action).target);
                 break;
             }
@@ -50,20 +54,54 @@ public abstract class Enemy extends Actor implements Soul {
         }
     }
 
+    // Souls
+
     @Override
-    public String toString() {
-        String hitPointsStatus = "(" + this.hitPoints + "/" + this.maxHitPoints + ")";
-        String weaponStatus = "";
-        return (name + hitPointsStatus + weaponStatus);
+    public abstract void transferSouls(Soul soulObject);
+
+    @Override
+    public boolean addSouls(int souls) {
+        boolean isSuccess = false;
+        if (souls > 0) {
+            this.souls += souls;
+            isSuccess = true;
+        }
+        else {
+            isSuccess = false;
+        }
+        return isSuccess;
     }
 
     @Override
     public boolean subtractSouls(int souls) {
-        return false;
+        boolean isSuccess = false;
+        if (souls > 0) {
+            this.souls -= souls;
+            isSuccess = true;
+        }
+        else {
+            isSuccess = false;
+        }
+        return isSuccess;
     }
 
     @Override
-    public abstract void transferSouls(Soul soulObject);
+    public void setSouls(int souls) {
+        this.souls = souls;
+    }
+
+    @Override
+    public int getSouls() {
+        return souls;
+    }
+
+    @Override
+    public String toString() {
+        String hitPointsStatus = "(" + this.hitPoints + "/" + this.maxHitPoints + ")";
+        String weaponStatus = getWeapon()==null ? "no weapon" : getWeapon().toString();
+        String weaponStatusMessage = " (" +weaponStatus + ")";
+        return (name + hitPointsStatus + weaponStatusMessage);
+    }
 
     public void setPlayer(Actor player) {
         this.player = player;

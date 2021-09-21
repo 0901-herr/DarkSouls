@@ -6,11 +6,14 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.DoNothingAction;
 import edu.monash.fit2099.engine.GameMap;
+import edu.monash.fit2099.engine.WeaponItem;
+
 import game.enums.Status;
 import game.interfaces.Behaviour;
 import game.interfaces.Soul;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * An skeleton minion.
@@ -29,7 +32,6 @@ public class Skeleton extends Enemy {
     public Skeleton(String name) {
         super(name, 's', 100);
         behaviours.add(new WanderBehaviour());
-        addCapability(Status.HOSTILE_TO_ENEMY);
         addRandomizeWeapon();
     }
 
@@ -54,7 +56,6 @@ public class Skeleton extends Enemy {
 
     /**
      * Figure out what to do next.
-     * FIXME: An Skeleton wanders around at random and it cannot attack anyone. Also, figure out how to spawn this creature.
      * @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
      */
     @Override
@@ -75,12 +76,28 @@ public class Skeleton extends Enemy {
 
     @Override
     public void transferSouls(Soul soulObject) {
-        soulObject.addSouls(souls);
-        subtractSouls(souls);
+        soulObject.addSouls(getSouls());
+        subtractSouls(getSouls());
+    }
+
+    @Override
+    public int getSouls() {
+        return souls;
     }
 
     public void addRandomizeWeapon() {
-//        WeaponItem giantAxe, broadSwoard;
-//        addItemToInventory();
+        Random rand = new Random();
+        WeaponItem weapon;
+        WeaponItem broadSword = new BroadSword();
+        WeaponItem giantAxe = new GiantAxe();
+
+        if (rand.nextBoolean()) {
+            weapon = broadSword;
+        }
+        else {
+            weapon = giantAxe;
+        }
+
+        addItemToInventory(weapon);
     }
 }

@@ -12,16 +12,16 @@ public class StormRuler extends MeleeWeapon {
     protected final int maxNumberOfCharge = 3;
 
     // constructor
-    public StormRuler(Actor actor) throws Exception{
+    public StormRuler(Actor actor) {//throws Exception{
         super("Storm Ruler", '7', 70, "strikes", 60);
         if (actor.hasCapability(Abilities.IS_PLAYER)) {
             this.addCapability(Abilities.CRITICAL_STRIKE);
             this.criticalStrikeRate = 20;
             this.numberOfCharge = 0;
         }
-        else{
-            throw new Exception("Incorrect user");
-        }
+//        else{
+//            throw new Exception("Incorrect user");
+//        }
     }
 
     @Override

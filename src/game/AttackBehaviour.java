@@ -22,7 +22,6 @@ public class AttackBehaviour implements Behaviour {
 
     @Override
     public Action getAction(Actor actor, GameMap map) {
-        System.out.println(actor + " Attack Player");
         return attackAction;
     }
 }

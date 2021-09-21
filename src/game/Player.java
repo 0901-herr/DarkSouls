@@ -17,8 +17,8 @@ public class Player extends Actor implements Soul {
 
 	private final Menu menu = new Menu();
 	private int souls = 0;
+	private int requiredSouls = 0;
 	private int maxHp;
-
 
 	/**
 	 * Constructor.
@@ -31,7 +31,12 @@ public class Player extends Actor implements Soul {
 		super(name, displayChar, hitPoints);
 		this.maxHp=hitPoints;
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
+		this.addCapability(Status.ABLE_TO_BUY);
 		this.addCapability(Abilities.REST);
+
+		this.addItemToInventory(new BroadSword());
+//		this.addItemToInventory(new GiantAxe());
+
 		this.addItemToInventory(new EstusFlask(this));
 		this.addItemToInventory(new EstusFlask(this));
 		this.addItemToInventory(new EstusFlask(this));
@@ -43,16 +48,31 @@ public class Player extends Actor implements Soul {
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
 
-		display.println("Player:"+name+" Hitpoint:"+hitPoints);
+		// TODO: Change weapon name
+		String holdWeaponMessage = ", holding " + getWeapon();
+		String soulCountMessage = ", " + getSouls() + " souls";
 
+		display.println(name + " (" + hitPoints + "/" + getMaxHp() + ")" + holdWeaponMessage + soulCountMessage);
 
 		// return/print the console menu
 		return menu.showMenu(this, actions, display);
 	}
 
 	@Override
+	public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
+		Actions actions = new Actions();
+		// it can be attacked only by the HOSTILE opponent.
+		if(otherActor.hasCapability(Status.HOSTILE_TO_PLAYER)) {
+			actions.add(new AttackAction(this,direction));
+			System.out.println("Player send AttackAction to " + otherActor);
+		}
+		return actions;
+	}
+
+	@Override
 	public void transferSouls(Soul soulObject) {
-		//TODO: transfer Player's souls to another Soul's instance.
+		soulObject.addSouls(requiredSouls);
+		subtractSouls(requiredSouls);
 	}
 
 	@Override
@@ -81,28 +101,22 @@ public class Player extends Actor implements Soul {
 		return isSuccess;
 	}
 
-	// Added by Philippe
-	/**
-	 * At the moment, we only make it can be attacked by enemy that has HOSTILE capability
-	 * You can do something else with this method.
-	 * @param otherActor the Actor that might be performing attack
-	 * @param direction  String representing the direction of the other Actor
-	 * @param map        current GameMap
-	 * @return list of actions
-	 * @see Status#HOSTILE_TO_ENEMY
-	 */
 	@Override
-	public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
-		Actions actions = new Actions();
-		// it can be attacked only by the HOSTILE opponent.
-		if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-			actions.add(new AttackAction(this,direction));
-		}
-		System.out.println("Player send AttackAction to " + otherActor);
-		return actions;
+	public void setRequiredSouls(int requiredSouls) {
+		this.requiredSouls = requiredSouls;
 	}
+
+	@Override
+	public void setSouls(int souls) {
+		this.souls = souls;
+	}
+
+	@Override
+	public int getSouls() {
+		return souls;
+	}
+
 	public int getMaxHp() {
 		return maxHp;
 	}
-
 }

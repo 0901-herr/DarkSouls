@@ -25,7 +25,6 @@ public class Yhorm extends LordOfCinder {
      */
     public Yhorm(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
-        addCapability(Status.HOSTILE_TO_ENEMY);
     }
 
     /**
@@ -80,4 +79,5 @@ public class Yhorm extends LordOfCinder {
 
         enrageCount += 1;
     }
+
 }

@@ -39,7 +39,7 @@ public class SpinAttackAction extends WeaponAction {
 
     @Override
     public String menuDescription(Actor actor){
-        return actor + " activates " + this;
+        return actor + " activates " + this.weapon.toString();
     }
 
 }

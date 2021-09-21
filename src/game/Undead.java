@@ -24,7 +24,6 @@ public class Undead extends Enemy {
 	public Undead(String name) {
 		super(name, 'u', 50);
 		behaviours.add(new WanderBehaviour());
-		addCapability(Status.HOSTILE_TO_ENEMY);
 	}
 
 	/**
@@ -41,6 +40,7 @@ public class Undead extends Enemy {
 		Actions actions = new Actions();
 		// it can be attacked only by the HOSTILE opponent, and this action will not attack the HOSTILE enemy back.
 		if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+			System.out.println("Undead send AttackAction to " + otherActor);
 			actions.add(new AttackAction(this,direction));
 		}
 		return actions;
@@ -68,8 +68,13 @@ public class Undead extends Enemy {
 
 	@Override
 	public void transferSouls(Soul soulObject) {
-		soulObject.addSouls(souls);
-		subtractSouls(souls);
+		soulObject.addSouls(getSouls());
+		subtractSouls(getSouls());
+	}
+
+	@Override
+	public int getSouls() {
+		return souls;
 	}
 
 	@Override

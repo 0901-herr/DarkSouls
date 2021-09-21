@@ -14,7 +14,9 @@ public class EnrageBehaviour implements Behaviour {
      *
 //     * @param attackAction the AttackAction
      */
-    public EnrageBehaviour() {}
+    public EnrageBehaviour() {
+        // need to pass in EmberForm weapon action
+    }
 
     @Override
     public Action getAction(Actor actor, GameMap map) {
