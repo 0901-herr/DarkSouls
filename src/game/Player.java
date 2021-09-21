@@ -8,12 +8,13 @@ import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Menu;
 import game.enums.Abilities;
 import game.enums.Status;
+import game.interfaces.Resettable;
 import game.interfaces.Soul;
 
 /**
  * Class representing the Player.
  */
-public class Player extends Actor implements Soul {
+public class Player extends Actor implements Soul, Resettable {
 
 	private final Menu menu = new Menu();
 	private int souls = 0;
@@ -44,6 +45,11 @@ public class Player extends Actor implements Soul {
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+		if (!isConscious()){
+			registerInstance();
+			System.out.println("I'm Dead");
+			ResetManager.getInstance().run();
+		}
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
@@ -118,5 +124,16 @@ public class Player extends Actor implements Soul {
 
 	public int getMaxHp() {
 		return maxHp;
+	}
+
+	@Override
+	public void resetInstance() {
+		this.hitPoints=100;
+
+	}
+
+	@Override
+	public boolean isExist() {
+		return true;
 	}
 }

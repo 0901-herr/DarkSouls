@@ -48,7 +48,15 @@ public class ResetManager {
      * FIXME: it does nothing, you need to implement it :)
      */
     public void run(){
-
+        for(Resettable reset:resettableList){
+            if (reset.isExist()){
+                reset.resetInstance();
+            }
+            else{
+                reset.resetInstance();
+                resettableList.remove(reset);
+            }
+        }
     }
 
     /**
@@ -57,7 +65,7 @@ public class ResetManager {
      * @param resettable the interface instance
      */
     public void appendResetInstance(Resettable resettable){
-
+        resettableList.add(resettable);
     }
 
     /**

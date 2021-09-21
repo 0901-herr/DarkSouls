@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Item;
 import edu.monash.fit2099.engine.Weapon;
 import game.enums.Abilities;
+import game.enums.Status;
 
 /**
  * Special Action for attacking other Actors.
@@ -77,7 +78,9 @@ public class AttackAction extends Action {
 
 			// remove actor
 			//TODO: In A1 scenario, you must not remove a Player from the game yet. What to do, then?
-			map.removeActor(target);
+			if (target.hasCapability(Status.HOSTILE_TO_PLAYER)) {
+				map.removeActor(target);
+			}
 			result += System.lineSeparator() + target + " is killed.";
 		}
 
