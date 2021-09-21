@@ -47,8 +47,7 @@ public class Player extends Actor implements Soul, Resettable {
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		if (!isConscious()){
 			registerInstance();
-			System.out.println("I'm Dead");
-			ResetManager.getInstance().run();
+			return new DyingAction(this);
 		}
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
