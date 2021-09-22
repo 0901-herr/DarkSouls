@@ -7,14 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstusFlask extends Item {
-    Player player;
-    int charge;
-    DrinkEstusFlaskAction drinkEstusFlaskAction;
+    private Player player;
+    private int MAX_CHARGE=3;
+    private int charge;
+    private DrinkEstusFlaskAction drinkEstusFlaskAction;
+
     public EstusFlask(Player player) {
         super("EstusFlask", 'e', false);
         this.player=player;
-        this.charge=3;
-        drinkEstusFlaskAction = new DrinkEstusFlaskAction();
+        this.charge=MAX_CHARGE;
+        drinkEstusFlaskAction = new DrinkEstusFlaskAction(this);
     }
 
     @Override
@@ -23,13 +25,14 @@ public class EstusFlask extends Item {
         drink.add(drinkEstusFlaskAction);
         return drink;
     }
+    public int getMAX_CHARGE(){
+        return MAX_CHARGE;
+    }
+    public int getCharge() {
+        return charge;
+    }
 
-    public void heal(){
-        player.heal((int)(player.getMaxHp()*0.4));
-        charge-=1;
-        if (charge<=0){
-            player.removeItemFromInventory(this);
-        }
-        }
-
+    public void setCharge(int charge) {
+        this.charge = charge;
+    }
 }

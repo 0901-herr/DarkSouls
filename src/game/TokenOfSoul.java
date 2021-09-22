@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TokenOfSoul extends Item implements Soul {
-    Actor actor;
-    int soul;
+    private Actor actor;
+    private int soul;
 
     public TokenOfSoul(String name, char displayChar, boolean portable, Actor actor) {
         super(name, displayChar, portable);

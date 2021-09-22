@@ -1,11 +1,6 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.Menu;
+import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
 import game.enums.Status;
 import game.interfaces.Resettable;
@@ -20,6 +15,7 @@ public class Player extends Actor implements Soul, Resettable {
 	private int souls = 100;
 	private int requiredSouls = 0;
 	private int maxHp;
+	private Location previousLocation;
 
 	/**
 	 * Constructor.
@@ -40,16 +36,16 @@ public class Player extends Actor implements Soul, Resettable {
 //		this.addItemToInventory(new GiantAxe());
 
 		this.addItemToInventory(new EstusFlask(this));
-		this.addItemToInventory(new EstusFlask(this));
-		this.addItemToInventory(new EstusFlask(this));
+
 	}
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		if (!isConscious()){
 			registerInstance();
-			return new DyingAction(this,map.locationOf(this),souls);
+			return new DyingAction(map.locationOf(this),souls,previousLocation);
 		}
+		this.previousLocation=map.locationOf(this);
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();

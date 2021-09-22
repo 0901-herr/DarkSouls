@@ -6,11 +6,13 @@ import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Location;
 
 public class DyingAction extends Action {
-    Actor actor;
-    Location location;
-    int soul;
-    public DyingAction( Actor actor,Location location,int soul){
-        this.actor=actor;
+//    Actor actor;
+    private Location location;
+    private int soul;
+    private Location previousLocation;
+    public DyingAction(Location location,int soul,Location previousLocation){
+//        this.actor=actor;
+        this.previousLocation=previousLocation;
         this.location=location;
         this.soul=soul;
     }
@@ -20,7 +22,12 @@ public class DyingAction extends Action {
         map.moveActor(actor,map.at(38, 12));
         TokenOfSoul ts=new TokenOfSoul("Token Of Soul",'$',false,actor);
         ts.setSouls(soul);
-        location.addItem(ts);
+        if (location.getGround() instanceof Valley){
+            previousLocation.addItem(ts);
+        }
+        else{
+            location.addItem(ts);
+        }
         ResetManager.getInstance().run();
         return null;
     }

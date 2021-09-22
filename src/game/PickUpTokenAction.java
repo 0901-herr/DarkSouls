@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 
 public class PickUpTokenAction extends Action {
-    TokenOfSoul tokenOfSoul;
+    private TokenOfSoul tokenOfSoul;
     public PickUpTokenAction(TokenOfSoul tokenOfSoul) {
         this.tokenOfSoul=tokenOfSoul;
     }
@@ -19,6 +19,6 @@ public class PickUpTokenAction extends Action {
 
     @Override
     public String menuDescription(Actor actor) {
-        return "Pick up Token of Soul.";
+        return actor.toString()+" pick up Token of Soul.";
     }
 }
