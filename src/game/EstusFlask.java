@@ -8,10 +8,12 @@ import java.util.List;
 
 public class EstusFlask extends Item {
     Player player;
+    int charge;
     DrinkEstusFlaskAction drinkEstusFlaskAction;
     public EstusFlask(Player player) {
         super("EstusFlask", 'e', false);
         this.player=player;
+        this.charge=3;
         drinkEstusFlaskAction = new DrinkEstusFlaskAction();
     }
 
@@ -24,7 +26,10 @@ public class EstusFlask extends Item {
 
     public void heal(){
         player.heal((int)(player.getMaxHp()*0.4));
-        drinkEstusFlaskAction=null;
-    }
+        charge-=1;
+        if (charge<=0){
+            player.removeItemFromInventory(this);
+        }
+        }
 
 }

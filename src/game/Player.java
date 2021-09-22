@@ -17,7 +17,7 @@ import game.interfaces.Soul;
 public class Player extends Actor implements Soul, Resettable {
 
 	private final Menu menu = new Menu();
-	private int souls = 0;
+	private int souls = 100;
 	private int requiredSouls = 0;
 	private int maxHp;
 
@@ -31,6 +31,7 @@ public class Player extends Actor implements Soul, Resettable {
 	public Player(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints);
 		this.maxHp=hitPoints;
+		this.addCapability(Abilities.IS_PLAYER);
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
 		this.addCapability(Status.ABLE_TO_BUY);
 		this.addCapability(Abilities.REST);
@@ -47,7 +48,7 @@ public class Player extends Actor implements Soul, Resettable {
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		if (!isConscious()){
 			registerInstance();
-			return new DyingAction(this);
+			return new DyingAction(this,map.locationOf(this),souls);
 		}
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
@@ -128,6 +129,7 @@ public class Player extends Actor implements Soul, Resettable {
 	@Override
 	public void resetInstance() {
 		this.hitPoints=100;
+		this.souls=0;
 
 	}
 

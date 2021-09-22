@@ -49,14 +49,9 @@ public class ResetManager {
      */
     public void run(){
         for(Resettable reset:resettableList){
-            if (reset.isExist()){
-                reset.resetInstance();
-            }
-            else{
-                reset.resetInstance();
-                resettableList.remove(reset);
-            }
+            reset.resetInstance();
         }
+        cleanUp();
     }
 
     /**
@@ -73,6 +68,10 @@ public class ResetManager {
      * FIXME: it does nothing, you need to implement it :)
      */
     private void cleanUp(){
-
+        for(Resettable reset:resettableList){
+            if(!reset.isExist()){
+                resettableList.remove(reset);
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ package game;
 import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 import game.interfaces.Behaviour;
+import game.interfaces.Resettable;
 import game.interfaces.Soul;
 
 import java.util.ArrayList;
@@ -11,19 +12,22 @@ import java.util.ArrayList;
 /**
  * An undead minion.
  */
-public class Undead extends Enemy {
+public class Undead extends Enemy implements Resettable {
 	// Will need to change this to a collection if Undeads gets additional Behaviours.
 	private ArrayList<Behaviour> behaviours = new ArrayList<>();
 	private int souls = 50;
+	private Location location;
 
 	/** 
 	 * Constructor.
 	 * All Undeads are represented by an 'u' and have 30 hit points.
 	 * @param name the name of this Undead
 	 */
-	public Undead(String name) {
+	public Undead(String name,Location location) {
 		super(name, 'u', 50);
 		behaviours.add(new WanderBehaviour());
+		this.location=location;
+		registerInstance();
 	}
 
 	/**
@@ -54,7 +58,6 @@ public class Undead extends Enemy {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// loop through all behaviours
-
 		// Added by Philippe
 		addBehaviours(actions, this.behaviours);
 
@@ -80,5 +83,17 @@ public class Undead extends Enemy {
 	@Override
 	protected IntrinsicWeapon getIntrinsicWeapon() {
 		return new IntrinsicWeapon(20, "thwacks");
+	}
+
+
+	@Override
+	public void resetInstance() {
+		location.map().removeActor(this);
+
+	}
+
+	@Override
+	public boolean isExist() {
+		return true;
 	}
 }
