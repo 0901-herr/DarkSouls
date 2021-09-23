@@ -7,6 +7,11 @@ package game.enums;
 public enum Status {
     HOSTILE_TO_ENEMY, // use this capability to be hostile towards something (e.g., to be attacked by enemy)
     HOSTILE_TO_PLAYER,
+    IS_PLAYER,
+    IS_YHORM,
     ABLE_TO_BUY,
-    RAGE_MODE
+    RAGE_MODE,
+    DISARMED,
+    STUNNED,
+    IMMUNE_TO_BURN,
 }

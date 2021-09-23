@@ -2,6 +2,7 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
+import game.enums.Status;
 import game.interfaces.Soul;
 
 /**
@@ -15,7 +16,7 @@ public abstract class LordOfCinder extends Enemy {
      */
     public LordOfCinder(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
-        this.addCapability(Abilities.IS_YHORM);
+        this.addCapability(Status.IS_YHORM);
         try {
             addItemToInventory(new GreatMachete(this));
         } catch (Exception e) {

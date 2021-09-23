@@ -1,36 +1,76 @@
 package game;
 
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.WeaponAction;
-import game.enums.Abilities;
+import edu.monash.fit2099.engine.*;
+import game.enums.*;
+import game.interfaces.Chargeable;
+
+import java.util.List;
 
 
-public class StormRuler extends MeleeWeapon {
+public class StormRuler extends MeleeWeapon implements Chargeable {
 
-    protected Actor actor;
-    protected int numberOfCharge;
-    protected final int maxNumberOfCharge = 3;
+    private int numberOfCharge;
+    private final int maxNumberOfCharge = 3;
+    public boolean isPickedUp;
 
     // constructor
-    public StormRuler(Actor actor) {//throws Exception{
+    public StormRuler() {
         super("Storm Ruler", '7', 70, "strikes", 60);
-        if (actor.hasCapability(Abilities.IS_PLAYER)) {
-            this.addCapability(Abilities.CRITICAL_STRIKE);
-            this.criticalStrikeRate = 20;
-            this.numberOfCharge = 0;
-        }
-//        else{
-//            throw new Exception("Incorrect user");
-//        }
+        this.addCapability(Abilities.CRITICAL_STRIKE);
+        this.criticalStrikeRate = 20;
+        this.numberOfCharge = 0;
+        this.isPickedUp = false;
     }
 
     @Override
-    public WeaponAction getActiveSkill(Actor target, String direction){
-        if (this.numberOfCharge == this.maxNumberOfCharge){
-            return new WindSlashAction(this, target, direction);
+    public List<Action> getAllowableActions() {
+        Actions allowableActions = new Actions();
+        if (isPickedUp) {
+            if (numberOfCharge < maxNumberOfCharge) {
+                allowableActions.add(new ChargeAction(this));
+            } else if (numberOfCharge == maxNumberOfCharge) {
+                allowableActions.add(new WindSlashAction(this));
+            }
         }
-        return new ChargeAction(this);
+        return allowableActions.getUnmodifiableActionList();
     }
 
+    @Override
+    public PickUpItemAction getPickUpAction(Actor actor) {
+        if(actor.hasCapability(Status.IS_PLAYER)) {
+            return new SwapWeaponAction(this);
+        }
+        return null;
+    }
+
+    @Override
+    public int numberOfCharge() {
+        return numberOfCharge;
+    }
+
+    @Override
+    public int maxNumberOfCharge() {
+        return maxNumberOfCharge;
+    }
+
+    @Override
+    public void add(int number) {
+        numberOfCharge += number;
+    }
+
+    @Override
+    public void subtract(int number) {
+        numberOfCharge += number;
+    }
+
+    @Override
+    public void resetCharge(){
+        numberOfCharge = 0;
+    }
+
+    @Override
+    public String toString(){
+        return name + " (" + numberOfCharge + "/" + maxNumberOfCharge + ") ";
+    }
 }
 

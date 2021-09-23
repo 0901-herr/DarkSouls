@@ -33,9 +33,11 @@ public class SwapWeaponAction extends PickUpItemAction {
             }
         }
 
+        // FIXME: Downcasting
         // if the ground has item, remove that item.
         // additionally, add new weapon to the inventory (equip).
         super.execute(actor, map);
+        ((StormRuler) item).isPickedUp = true;
         return actor + " swaps " + currentWeapon + " with " + item;
     }
 
