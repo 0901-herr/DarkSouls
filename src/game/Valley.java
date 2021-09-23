@@ -14,6 +14,7 @@ public class Valley extends Ground {
 
 	public Valley() {
 		super('+');
+		this.addCapability(Abilities.IS_VALLEY);
 	}
 	/**
 	 * FIXME: At the moment, the Player cannot enter it. It is boring.

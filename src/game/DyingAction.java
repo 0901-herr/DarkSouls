@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Location;
+import game.enums.Abilities;
 
 public class DyingAction extends Action {
 //    Actor actor;
@@ -22,7 +23,7 @@ public class DyingAction extends Action {
         map.moveActor(actor,map.at(38, 12));
         TokenOfSoul ts=new TokenOfSoul("Token Of Soul",'$',false,actor);
         ts.setSouls(soul);
-        if (location.getGround() instanceof Valley){
+        if (location.getGround().hasCapability(Abilities.IS_VALLEY)){
             previousLocation.addItem(ts);
         }
         else{

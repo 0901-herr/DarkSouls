@@ -9,5 +9,6 @@ public enum Abilities {
     CRITICAL_STRIKE,
     BURN,
     IS_YHORM,
-    IS_PLAYER
+    IS_PLAYER,
+    IS_VALLEY
 }
