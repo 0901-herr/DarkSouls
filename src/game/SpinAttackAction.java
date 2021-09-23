@@ -22,18 +22,8 @@ public class SpinAttackAction extends WeaponAction {
                 Actor target = destination.getActor();
                 target.hurt(damage);
                 if (!target.isConscious()) {
-                    Actions dropActions = new Actions();
-                    // drop all items
-                    for (Item item : target.getInventory())
-                        dropActions.add(item.getDropAction(actor));
-                    for (Action drop : dropActions)
-                        drop.execute(target, map);
-                    // transfer souls
-                    target.asSoul().transferSouls(actor.asSoul());
-                    // remove player
-                    if (target.hasCapability(Status.HOSTILE_TO_PLAYER)) {
-                        map.removeActor(target);
-                    }
+                    DyingAction dyingAction = new DyingAction(map.locationOf(actor),actor.asSoul().getSouls(),null,target);
+                    dyingAction.execute(actor,map);
                     result += System.lineSeparator() + target + " is killed.";
                 }
             }

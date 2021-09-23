@@ -9,4 +9,5 @@ public class Bonfire extends Ground {
         this.addCapability(Abilities.REST);
     }
 
+
 }

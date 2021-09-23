@@ -29,16 +29,8 @@ public class WindSlashAction extends WeaponAction {
                     target.hurt(damage);
                     result = actor + " uses Wind Slash on " + target + " for " + damage + " damage.";
                     if (!target.isConscious()) {
-                        Actions dropActions = new Actions();
-                        // drop all items
-                        for (Item item : target.getInventory())
-                            dropActions.add(item.getDropAction(actor));
-                        for (Action drop : dropActions)
-                            drop.execute(target, map);
-                        // transfer souls
-                        target.asSoul().transferSouls(actor.asSoul());
-                        // remove actor
-                        map.removeActor(target);
+                        DyingAction dyingAction = new DyingAction(map.locationOf(actor),actor.asSoul().getSouls(),null,target);
+                        dyingAction.execute(actor,map);
                         result += System.lineSeparator() + target + " is killed.";
                     }
                     // stun

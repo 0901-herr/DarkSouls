@@ -54,24 +54,8 @@ public class AttackAction extends Action {
 		target.hurt(damage);
 
 		if (!target.isConscious()) {
-			Actions dropActions = new Actions();
-			// drop all items
-			for (Item item : target.getInventory())
-				dropActions.add(item.getDropAction(actor));
-			for (Action drop : dropActions)
-				drop.execute(target, map);
-
-			// Transfer souls
-			// System.out.println(target + " transferring Souls to " + actor);
-			if (target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-				target.asSoul().transferSouls(actor.asSoul());
-				System.out.println(target + " transferring soul to " + actor);
-			}
-
-			// remove actor
-			if (target.hasCapability(Status.HOSTILE_TO_PLAYER) || target.hasCapability(Status.IS_YHORM)) {
-				map.removeActor(target);
-			}
+			DyingAction dyingAction = new DyingAction(map.locationOf(actor),actor.asSoul().getSouls(),null,target);
+			dyingAction.execute(actor,map);
 			result += System.lineSeparator() + target + " is killed.";
 		}
 

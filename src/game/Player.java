@@ -42,7 +42,7 @@ public class Player extends Actor implements Soul, Resettable {
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		if (!isConscious()){
 			registerInstance();
-			return new DyingAction(map.locationOf(this),souls,previousLocation);
+			return new DyingAction(map.locationOf(this),souls,previousLocation,null);
 		}
 		this.previousLocation=map.locationOf(this);
 		// Handle multi-turn Actions
