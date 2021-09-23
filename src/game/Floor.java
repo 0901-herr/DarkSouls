@@ -3,6 +3,7 @@ package game;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.Ground;
 import game.enums.Abilities;
+import game.enums.Status;
 
 /**
  * A class that represents the floor inside a building.
@@ -15,7 +16,7 @@ public class Floor extends Ground {
 
 	@Override
 	public boolean canActorEnter(Actor actor) {
-		if(actor.hasCapability(Abilities.IS_PLAYER)){
+		if(actor.hasCapability(Status.IS_PLAYER)){
 			return true;
 		}
 		else{

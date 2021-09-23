@@ -33,7 +33,7 @@ public class AttackAction extends Action {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param target the Actor to attack
 	 */
 	public AttackAction(Actor target, String direction) {
@@ -52,19 +52,8 @@ public class AttackAction extends Action {
 		int damage = weapon.damage();
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 		target.hurt(damage);
+
 		if (!target.isConscious()) {
-
-			// Check if Actor is Skeleton
-			// If yes, revive it with Revive Action
-			// TODO: Find better implementation, currently we are using downcasting
-			if (actor.hasCapability(Abilities.REVIVE_FOR_ONCE) && rand.nextBoolean()) {
-				actor.heal(((Enemy) actor).getMaxHitPoints());
-
-				// Remove ability
-				actor.removeCapability(Abilities.REVIVE_FOR_ONCE);
-				return result;
-			}
-
 			Actions dropActions = new Actions();
 			// drop all items
 			for (Item item : target.getInventory())
@@ -73,12 +62,14 @@ public class AttackAction extends Action {
 				drop.execute(target, map);
 
 			// Transfer souls
-			System.out.println(target + " transferring Souls to " + actor);
-			target.asSoul().transferSouls(actor.asSoul());
+			// System.out.println(target + " transferring Souls to " + actor);
+			if (target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+				target.asSoul().transferSouls(actor.asSoul());
+				System.out.println(target + " transferring soul to " + actor);
+			}
 
 			// remove actor
-			//TODO: In A1 scenario, you must not remove a Player from the game yet. What to do, then?
-			if (target.hasCapability(Status.HOSTILE_TO_PLAYER)) {
+			if (target.hasCapability(Status.HOSTILE_TO_PLAYER) || target.hasCapability(Status.IS_YHORM)) {
 				map.removeActor(target);
 			}
 			result += System.lineSeparator() + target + " is killed.";

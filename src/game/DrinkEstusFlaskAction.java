@@ -6,8 +6,11 @@ import edu.monash.fit2099.engine.GameMap;
 
 public class DrinkEstusFlaskAction extends Action {
     EstusFlask ef;
-    public DrinkEstusFlaskAction(EstusFlask ef) {
+    int healValue;
+
+    public DrinkEstusFlaskAction(EstusFlask ef, int healValue) {
         this.ef=ef;
+        this.healValue = healValue;
     }
 
     @Override
@@ -16,7 +19,7 @@ public class DrinkEstusFlaskAction extends Action {
         return null;
         }
         else{
-            actor.heal(40);
+            actor.heal(this.healValue);
             ef.setCharge(ef.getCharge()-1);
             return actor.toString()+" drank Estus Flask";
         }

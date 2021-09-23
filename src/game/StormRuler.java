@@ -25,12 +25,11 @@ public class StormRuler extends MeleeWeapon implements Chargeable {
     @Override
     public List<Action> getAllowableActions() {
         Actions allowableActions = new Actions();
-        if (isPickedUp) {
-            if (numberOfCharge < maxNumberOfCharge) {
-                allowableActions.add(new ChargeAction(this));
-            } else if (numberOfCharge == maxNumberOfCharge) {
-                allowableActions.add(new WindSlashAction(this));
-            }
+        // check if inventory has this weapon
+        if (numberOfCharge < maxNumberOfCharge) {
+            allowableActions.add(new ChargeAction(this));
+        } else if (numberOfCharge == maxNumberOfCharge) {
+            allowableActions.add(new WindSlashAction(this));
         }
         return allowableActions.getUnmodifiableActionList();
     }

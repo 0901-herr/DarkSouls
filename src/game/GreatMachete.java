@@ -21,19 +21,18 @@ public class GreatMachete extends MeleeWeapon{
     public int chanceToHit(){
         int hitRate = this.hitRate;
         if (actor.hasCapability(Status.RAGE_MODE)){
+            System.out.println("Hit rate INCREASE!!!");
             hitRate += 30;
         }
         return hitRate;
     }
 
-    @Override
-    public List<Action> getAllowableActions() {
-        Actions allowableActions = new Actions();
-        if (actor.hasCapability(Status.RAGE_MODE)) {
-            allowableActions.add(new BurnGroundAction(this));
-        }
-        return allowableActions.getUnmodifiableActionList();
-    }
+//    @Override
+//    public List<Action> getAllowableActions() {
+//        Actions allowableActions = new Actions();
+//        allowableActions.add(new BurnGroundAction(this));
+//        return allowableActions.getUnmodifiableActionList();
+//    }
 
     @Override
     public WeaponAction getActiveSkill(Actor target, String direction){

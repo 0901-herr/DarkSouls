@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.Weapon;
 import game.enums.Abilities;
 import edu.monash.fit2099.engine.WeaponItem;
 import edu.monash.fit2099.engine.Ground;
+import game.enums.Status;
 
 /**
  * Special Action for Buying items from Vendor.
@@ -21,9 +22,9 @@ public class BuyItemAction extends Action {
      * The Actor that is to be attacked
      */
     protected Actor vendor;
-    private WeaponItem weapon;
-//    private boolean increaseMaxHp = false;
+    private WeaponItem weaponItem;
     private int requiredSouls;
+    private SwapWeaponAction swapWeaponAction;
 
     /**
      * Constructor.
@@ -36,14 +37,18 @@ public class BuyItemAction extends Action {
         setRequiredSouls(souls);
     }
 
+    public BuyItemAction(Actor vendor, int souls) {
+        this.vendor = vendor;
+        setRequiredSouls(souls);
+    }
+
     @Override
     public String execute(Actor actor, GameMap map) {
         String result;
 
         // check if buyer has enough souls
-        // TODO: Should be using transferSouls()
         if (actor.asSoul().getSouls() < getRequiredSouls()) {
-            result = actor + " does not have enough souls";
+            result = actor + " does not have enough souls to buy " + weaponItem;
             return result;
         }
         else {
@@ -52,15 +57,9 @@ public class BuyItemAction extends Action {
         }
 
         // get current equip weapon and remove it
-        for (Item item: actor.getInventory()) {
-            Weapon weapon = actor.getWeapon();
-            if (weapon == item) {
-                actor.removeItemFromInventory(item);
-            }
-        }
 
-        // add bought weapon to inventory and equip it
-        actor.addItemToInventory(this.weapon);
+        swapWeaponAction = new SwapWeaponAction(weaponItem);
+        swapWeaponAction.execute(actor, map);
 
         result = vendor + " sold " + getWeapon() + " to " + actor;
 
@@ -73,7 +72,7 @@ public class BuyItemAction extends Action {
     }
 
     public void setWeapon(WeaponItem weapon) {
-        this.weapon = weapon;
+        this.weaponItem = weapon;
     }
 
     public void setRequiredSouls(int souls) {
@@ -81,7 +80,7 @@ public class BuyItemAction extends Action {
     }
 
     public WeaponItem getWeapon() {
-        return weapon;
+        return weaponItem;
     }
 
     public int getRequiredSouls() {

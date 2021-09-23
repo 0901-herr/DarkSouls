@@ -12,9 +12,8 @@ import game.interfaces.Soul;
 public class Player extends Actor implements Soul, Resettable {
 
 	private final Menu menu = new Menu();
-	private int souls = 100;
+	private int souls = 1500;
 	private int requiredSouls = 0;
-	private int maxHp;
 	private Location previousLocation;
 
 	/**
@@ -26,8 +25,8 @@ public class Player extends Actor implements Soul, Resettable {
 	 */
 	public Player(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints);
-		this.maxHp=hitPoints;
-		this.addCapability(Abilities.IS_PLAYER);
+		this.maxHitPoints = hitPoints;
+		this.addCapability(Status.IS_PLAYER);
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
 		this.addCapability(Status.ABLE_TO_BUY);
 		this.addCapability(Abilities.REST);
@@ -66,7 +65,6 @@ public class Player extends Actor implements Soul, Resettable {
 		// it can be attacked only by the HOSTILE opponent.
 		if(otherActor.hasCapability(Status.HOSTILE_TO_PLAYER)) {
 			actions.add(new AttackAction(this,direction));
-			System.out.println("Player send AttackAction to " + otherActor);
 		}
 		return actions;
 	}
@@ -119,7 +117,7 @@ public class Player extends Actor implements Soul, Resettable {
 	}
 
 	public int getMaxHp() {
-		return maxHp;
+		return maxHitPoints;
 	}
 
 	@Override

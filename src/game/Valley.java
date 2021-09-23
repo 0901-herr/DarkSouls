@@ -14,7 +14,7 @@ public class Valley extends Ground {
 
 	public Valley() {
 		super('+');
-		this.addCapability(Abilities.IS_VALLEY);
+		this.addCapability(Status.IS_VALLEY);
 	}
 	/**
 	 * FIXME: At the moment, the Player cannot enter it. It is boring.
@@ -24,7 +24,7 @@ public class Valley extends Ground {
 
 	@Override
 	public boolean canActorEnter(Actor actor){
-		if (actor.hasCapability(Status.HOSTILE_TO_ENEMY)){
+		if (actor.hasCapability(Status.IS_PLAYER)){
 			return true;
 		}
 		else{

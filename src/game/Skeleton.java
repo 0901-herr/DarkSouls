@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.DoNothingAction;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.WeaponItem;
 
+import game.enums.Abilities;
 import game.enums.Status;
 import game.interfaces.Behaviour;
 import game.interfaces.Soul;
@@ -21,8 +22,8 @@ import java.util.Random;
 
 public class Skeleton extends Enemy {
     // Will need to change this to a collection if Undeads gets additional Behaviours.
-    private ArrayList<Behaviour> behaviours = new ArrayList<>();
     private int souls = 250;
+    Random rand = new Random();
 
     /**
      * Constructor.
@@ -31,7 +32,7 @@ public class Skeleton extends Enemy {
      */
     public Skeleton(String name) {
         super(name, 's', 100);
-        behaviours.add(new WanderBehaviour());
+        getBehaviours().add(new WanderBehaviour());
         addRandomizeWeapon();
     }
 
@@ -46,13 +47,22 @@ public class Skeleton extends Enemy {
      */
     @Override
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
+        // create follow behaviour here
+        // add followbehaviour in behaviour list
         Actions actions = new Actions();
+
         // it can be attacked only by the HOSTILE opponent, and this action will not attack the HOSTILE enemy back.
         if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            actions.add(new AttackAction(this,direction));
+            // add behaviours for Undead
+            addBehaviour(otherActor);
+
+            // AttackAction to Player
+            actions.add(new AttackAction(this, direction));
         }
+
         return actions;
     }
+
 
     /**
      * Figure out what to do next.
@@ -60,12 +70,19 @@ public class Skeleton extends Enemy {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+        // Revive it Skeleton
+        if (!isConscious() && this.hasCapability(Abilities.REVIVE_FOR_ONCE) && rand.nextBoolean()) {
+            System.out.println("Skeleton is Revived");
+            this.heal(getMaxHitPoints());
+
+            // Remove ability
+            this.removeCapability(Abilities.REVIVE_FOR_ONCE);
+            return new DoNothingAction();
+        }
+
         // loop through all behaviours
 
-        // Added by Philippe
-        addBehaviours(actions, this.behaviours);
-
-        for(Behaviour Behaviour : behaviours) {
+        for(Behaviour Behaviour : getBehaviours()) {
             Action action = Behaviour.getAction(this, map);
             if (action != null)
                 return action;
@@ -92,10 +109,10 @@ public class Skeleton extends Enemy {
         WeaponItem giantAxe = new GiantAxe();
 
         if (rand.nextBoolean()) {
-            weapon = broadSword;
+            weapon = giantAxe;
         }
         else {
-            weapon = giantAxe;
+            weapon = broadSword;
         }
 
         addItemToInventory(weapon);

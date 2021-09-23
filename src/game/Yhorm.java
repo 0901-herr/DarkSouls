@@ -1,13 +1,9 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.DoNothingAction;
-import edu.monash.fit2099.engine.GameMap;
+import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 import game.interfaces.Behaviour;
+import game.interfaces.Soul;
 
 import java.util.ArrayList;
 
@@ -15,9 +11,8 @@ import java.util.ArrayList;
  * An undead minion.
  */
 public class Yhorm extends LordOfCinder {
-    // Will need to change this to a collection if Undeads gets additional Behaviours.
-    private ArrayList<Behaviour> behaviours = new ArrayList<>();
-    private int enrageCount = 0;
+    private boolean isEnraged = false;
+    private int souls = 5000;
 
     /**
      * Constructor.
@@ -39,10 +34,16 @@ public class Yhorm extends LordOfCinder {
     @Override
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
         Actions actions = new Actions();
+
         // it can be attacked only by the HOSTILE opponent, and this action will not attack the HOSTILE enemy back.
         if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            actions.add(new AttackAction(this,direction));
+            // add behaviours for Undead
+            addBehaviour(otherActor);
+
+            // AttackAction to Player
+            actions.add(new AttackAction(this, direction));
         }
+
         return actions;
     }
 
@@ -54,14 +55,25 @@ public class Yhorm extends LordOfCinder {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         // loop through all behaviours
+        if (!isConscious()) {
+            System.out.println(ANSI_YELLOW+
+                    "----           --------   -----------  ----------          --------   ------------      ------------ --------  ----    ---- ----------   ------------ -----------\n"+
+                    "          **  **  **       **  **      ** **  **    ** ** **\n"+
+                    "----         ----    ---- ----    ---  --        --      ----    ---- ----              ---            ----    ------  ---- --        -- ----         ----    ---\n"+
+                    "**                **                         **                  **    **          ** **\n"+
+                    "----         ---      --- ---------    --        --      ---      --- ------------      ---            ----    ------------ --        -- ------------ ---------\n"+
+                    "**                              **              *                  **                     \n"+
+                    "------------  ----------  ----   ----  ------------       ----------  ----              ------------ --------  ----   ----- ------------ ------------ ----   ----\n"+
+                    "**   **        **          **                 ** **       **   **     \n"+ANSI_RESET);
+        }
 
-        // when Yhorm hp < 50% max hp
-        // add EnrageBehaviour
-        addBehaviours(actions, behaviours);
+        // when Yhorm hp < 50% max hp add EnrageBehaviour
+        if (getHitPoints() < (getMaxHitPoints()*0.5)) {
+            this.addCapability(Status.RAGE_MODE);
+            addEnrageBehaviour();
+        }
 
-        addEnrageBehaviour();
-
-        for(Behaviour Behaviour : behaviours) {
+        for(Behaviour Behaviour : getBehaviours()) {
             Action action = Behaviour.getAction(this, map);
             if (action != null)
                 return action;
@@ -70,14 +82,20 @@ public class Yhorm extends LordOfCinder {
     }
 
     public void addEnrageBehaviour() {
-        boolean enrageAvailable = getHitPoints() < (getMaxHitPoints()*0.5);
-
-        if (enrageAvailable && enrageCount<3) {
-            System.out.println("Yhorm Add EnrageBehaviour");
-            this.behaviours.add(0, new EnrageBehaviour());
+        if (!isEnraged) {
+            isEnraged = true;
+            getBehaviours().add(0, new EnrageBehaviour(isEnraged));
         }
-
-        enrageCount += 1;
     }
 
+    @Override
+    public void transferSouls(Soul soulObject) {
+        soulObject.addSouls(getSouls());
+        subtractSouls(getSouls());
+    }
+
+    @Override
+    public int getSouls() {
+        return souls;
+    }
 }

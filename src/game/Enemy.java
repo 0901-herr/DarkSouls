@@ -1,11 +1,6 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.Item;
-import edu.monash.fit2099.engine.Weapon;
+import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 import game.interfaces.Behaviour;
 import game.interfaces.Soul;
@@ -13,45 +8,41 @@ import game.interfaces.Soul;
 import java.util.ArrayList;
 
 public abstract class Enemy extends Actor implements Soul {
-    private Actor player;
-    private Boolean attackBehaviourIsAdded = false;
     private int souls;
+    private ArrayList<Behaviour> behaviours = new ArrayList<>();
+    private FollowBehaviour followBehaviour;
 
     public Enemy(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
         addCapability(Status.HOSTILE_TO_PLAYER);
     }
 
-    // Add behaviour to each enemy
-    public void addBehaviours(Actions actions, ArrayList<Behaviour> behaviours) {
-        boolean attackActionIsFound = false;
-
-        // Added by Philippe
-        // Search for AttackAction
-        for (Action action : actions) {
-            if (action instanceof AttackAction) {
-                if (attackBehaviourIsAdded) {
-                    behaviours.remove(0);
-                }
-                behaviours.add(0, new AttackBehaviour(action));
-                attackActionIsFound = true;
-                attackBehaviourIsAdded = true;
-
-                // Setting the player
-                setPlayer(((AttackAction) action).target);
-                break;
-            }
+    @Override
+    public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+        // loop through all behaviours
+        for(Behaviour Behaviour : behaviours) {
+            Action action = Behaviour.getAction(this, map);
+            if (action != null)
+                return action;
         }
+        return new DoNothingAction();
+    }
 
-        // If Player has an AttackBehaviour but not in Undead exit
-        // Remove AttackBehaviour and add FollowBehaviour
-        if (attackBehaviourIsAdded && !attackActionIsFound) {
-            behaviours.remove(0);
-            attackBehaviourIsAdded = false;
+    public void addBehaviour(Actor otherActor) {
+        if (followBehaviour == null) {
+            // Add AttackBehaviour
+            System.out.println(this + " AttackBehaviour added");
+            behaviours.add(0, new AttackBehaviour());
 
-            behaviours.add(0, new FollowBehaviour(getPlayer()));
-            System.out.println("Skeleton Call FollowBehaviour");
+            // add FollowBehaviour
+            System.out.println(this + " FollowBehaviour added");
+            followBehaviour = new FollowBehaviour(otherActor);
+            behaviours.add(1, followBehaviour);
         }
+    }
+
+    public ArrayList<Behaviour> getBehaviours() {
+        return behaviours;
     }
 
     // Souls
@@ -98,17 +89,9 @@ public abstract class Enemy extends Actor implements Soul {
     @Override
     public String toString() {
         String hitPointsStatus = "(" + this.hitPoints + "/" + this.maxHitPoints + ")";
-        String weaponStatus = getWeapon()==null ? "no weapon" : getWeapon().toString();
-        String weaponStatusMessage = " (" +weaponStatus + ")";
+        String weaponStatus = getWeapon().toString();
+        String weaponStatusMessage = " (" + weaponStatus + ")";
         return (name + hitPointsStatus + weaponStatusMessage);
-    }
-
-    public void setPlayer(Actor player) {
-        this.player = player;
-    }
-
-    public Actor getPlayer() {
-        return this.player;
     }
 
     public int getHitPoints() {

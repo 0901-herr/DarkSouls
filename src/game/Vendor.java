@@ -31,6 +31,7 @@ public class Vendor extends Actor implements Soul {
         if (otherActor.hasCapability(Status.ABLE_TO_BUY)) {
             actions.add(new BuyBroadSwordAction(this));
             actions.add(new BuyGiantAxeAction(this));
+            actions.add(new BuyIncreaseMaxHPAction(this));
         }
         return actions;
     }

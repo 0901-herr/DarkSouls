@@ -16,7 +16,7 @@ public class EstusFlask extends Item {
         super("EstusFlask", 'e', false);
         this.player=player;
         this.charge=MAX_CHARGE;
-        drinkEstusFlaskAction = new DrinkEstusFlaskAction(this);
+        drinkEstusFlaskAction = new DrinkEstusFlaskAction(this, (int)(player.getMaxHp()*0.4));
     }
 
     @Override

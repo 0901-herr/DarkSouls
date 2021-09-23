@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Status;
 import game.interfaces.Behaviour;
 
 
@@ -9,27 +10,45 @@ import game.interfaces.Behaviour;
  *
  */
 public class EnrageBehaviour implements Behaviour {
+    private Actions actions = new Actions();
+    private Actor target;
+    private String direction;
+    private boolean isEnraged;
+    private boolean isActivate;
+
     /**
      * Constructor.
      *
-//     * @param attackAction the AttackAction
+     //   * @param attackAction the AttackAction
      */
-    public EnrageBehaviour() {
-        // need to pass in EmberForm weapon action
+    public EnrageBehaviour(boolean isEnraged) {
+        this.isEnraged = isEnraged;
+        this.isActivate = false;
     }
 
     @Override
     public Action getAction(Actor actor, GameMap map) {
-        System.out.println("Yhorm Call EnrageBehaviour");
+        if (isEnraged && !isActivate) {
+            System.out.println("Yhorm Call EnrageBehaviour");
+            Location here = map.locationOf(actor);
 
-        // Call EmberForm action (Weapon)
+//            for (Item item: actor.getInventory()) {
+//                if (item.asWeapon() != null) {
+//                    return item.getAllowableActions().get(0);
+//                }
+//            }
 
-        // Call burn ground action
-        // Change surroundings to fire "v"
-        // "v" is only called in Dirt
-        // "v" should call AttackAction on the Player
+            for (Exit exit : here.getExits()) {
+                Location destination = exit.getDestination();
+                if (destination.containsAnActor() && destination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
+                    target = destination.getActor();
+                    direction = exit.getName();
+                }
+            }
+            isActivate = true;
+            return actor.getWeapon().getActiveSkill(target, direction);
+        }
 
-        // Return EmberFormAction
-        return new DoNothingAction();
+        return null;
     }
 }

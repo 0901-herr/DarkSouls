@@ -1,7 +1,10 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Status;
 import game.interfaces.Behaviour;
+
+import java.util.Random;
 
 
 /**
@@ -9,19 +12,40 @@ import game.interfaces.Behaviour;
  * closer to a target Actor.
  */
 public class AttackBehaviour implements Behaviour {
-    Action attackAction;
+    private Actor target;
+    private Actions actions = new Actions();
+    Random rand = new Random();
 
     /**
      * Constructor.
      *
-     * @param attackAction the AttackAction
      */
-    public AttackBehaviour(Action attackAction) {
-        this.attackAction = attackAction;
-    }
+    public AttackBehaviour() {}
 
     @Override
     public Action getAction(Actor actor, GameMap map) {
-        return attackAction;
+        Location here = map.locationOf(actor);
+
+        for (Exit exit : here.getExits()) {
+            Location destination = exit.getDestination();
+
+            if (destination.containsAnActor() && destination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
+                target = destination.getActor();
+                actions.add(new AttackAction(target, exit.getName()));
+                // System.out.println(target + " gives AttackAction to " + actor);
+
+                // get inventory of enemy
+                for (Item item : actor.getInventory()) {
+                    actions.add(item.getAllowableActions());
+                }
+
+                // randomly selects actions of the enemy
+                int randInt = rand.nextInt(actions.size());
+
+                return actions.get(randInt);
+            }
+        }
+
+        return null;
     }
 }

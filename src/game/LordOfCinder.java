@@ -11,6 +11,18 @@ import game.interfaces.Soul;
  * TODO: Could it be an abstract class? If so, why and how?
  */
 public abstract class LordOfCinder extends Enemy {
+    private int souls = 5000;
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
     /**
      * Constructor.
      */
@@ -23,7 +35,6 @@ public abstract class LordOfCinder extends Enemy {
             System.out.println(e);
         }
     }
-    private int souls = 5000;
 
     /**
      * @param actions    collection of possible Actions for this Actor

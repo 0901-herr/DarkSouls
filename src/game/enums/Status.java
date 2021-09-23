@@ -9,6 +9,7 @@ public enum Status {
     HOSTILE_TO_PLAYER,
     IS_PLAYER,
     IS_YHORM,
+    IS_VALLEY,
     ABLE_TO_BUY,
     RAGE_MODE,
     DISARMED,
