@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Abilities;
 import game.interfaces.Soul;
 
 import java.util.ArrayList;
@@ -9,10 +10,12 @@ import java.util.List;
 public class TokenOfSoul extends Item implements Soul {
     private Actor actor;
     private int soul;
+    private Location location;
 
     public TokenOfSoul(String name, char displayChar, boolean portable, Actor actor) {
         super(name, displayChar, portable);
         this.actor = actor;
+        addCapability(Abilities.DROP);
     }
 
     @Override
@@ -48,5 +51,13 @@ public class TokenOfSoul extends Item implements Soul {
     @Override
     public int getSouls() {
         return soul;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

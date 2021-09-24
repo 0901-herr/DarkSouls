@@ -68,9 +68,10 @@ public class ResetManager {
      * FIXME: it does nothing, you need to implement it :)
      */
     private void cleanUp(){
-        for(Resettable reset:resettableList){
-            if(!reset.isExist()){
-                resettableList.remove(reset);
+        for (int i=0;i<resettableList.size();i++){
+            Resettable reset=resettableList.get(i);
+            if(reset.isExist()){
+                resettableList.remove(i);
             }
         }
     }

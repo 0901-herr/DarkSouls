@@ -15,6 +15,8 @@ public class Player extends Actor implements Soul, Resettable {
 	private int souls = 1500;
 	private int requiredSouls = 0;
 	private Location previousLocation;
+	private TokenOfSoul previousTokenOfSoul;
+	private TokenOfSoul ts;
 
 	/**
 	 * Constructor.
@@ -36,14 +38,17 @@ public class Player extends Actor implements Soul, Resettable {
 
 		this.addItemToInventory(new EstusFlask(this));
 
+		registerInstance();
+
 	}
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		if (!isConscious()){
-			registerInstance();
-			return new DyingAction(map.locationOf(this),souls,previousLocation,null);
+			ts= new TokenOfSoul("Token of Soul",'$',false,this);
+			return new DyingAction(map.locationOf(this),souls,previousLocation,null,ts,previousTokenOfSoul);
 		}
+		this.previousTokenOfSoul=ts;
 		this.previousLocation=map.locationOf(this);
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)

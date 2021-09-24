@@ -7,5 +7,6 @@ public enum Abilities {
     REST,
     REVIVE_FOR_ONCE,
     CRITICAL_STRIKE,
-    BURN
+    BURN,
+    DROP
 }

@@ -2,11 +2,12 @@ package game;
 
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Item;
+import game.interfaces.Resettable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EstusFlask extends Item {
+public class EstusFlask extends Item implements Resettable {
     private Player player;
     private int MAX_CHARGE=3;
     private int charge;
@@ -17,6 +18,7 @@ public class EstusFlask extends Item {
         this.player=player;
         this.charge=MAX_CHARGE;
         drinkEstusFlaskAction = new DrinkEstusFlaskAction(this, (int)(player.getMaxHp()*0.4));
+        registerInstance();
     }
 
     @Override
@@ -34,5 +36,15 @@ public class EstusFlask extends Item {
 
     public void setCharge(int charge) {
         this.charge = charge;
+    }
+
+    @Override
+    public void resetInstance() {
+        this.charge=3;
+    }
+
+    @Override
+    public boolean isExist() {
+        return true;
     }
 }

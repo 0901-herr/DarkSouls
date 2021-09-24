@@ -55,14 +55,14 @@ public class Undead extends Enemy {
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-		if (getIsReset()) {
-			setReset(false);
-			return new DoNothingAction();
-		}
-		// 10% chance to die
-		else if (rand.nextInt(10) == 1) {
-			map.removeActor(this);
-		}
+//		if (getIsReset()) {
+//			setReset(false);
+//			return new DoNothingAction();
+//		}
+//		// 10% chance to die
+//		else if (rand.nextInt(10) == 1) {
+//			map.removeActor(this);
+//		}
 
 		// loop through all behaviours
 		for(game.interfaces.Behaviour Behaviour : getBehaviours()) {

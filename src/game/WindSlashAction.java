@@ -29,7 +29,7 @@ public class WindSlashAction extends WeaponAction {
                     target.hurt(damage);
                     result = actor + " uses Wind Slash on " + target + " for " + damage + " damage.";
                     if (!target.isConscious()) {
-                        DyingAction dyingAction = new DyingAction(map.locationOf(actor),actor.asSoul().getSouls(),null,target);
+                        DyingAction dyingAction = new DyingAction(map.locationOf(actor),actor.asSoul().getSouls(),null,target,null,null);
                         dyingAction.execute(actor,map);
                         result += System.lineSeparator() + target + " is killed.";
                     }

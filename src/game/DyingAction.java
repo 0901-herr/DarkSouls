@@ -9,10 +9,14 @@ public class DyingAction extends Action {
     private int soul;
     private Actor target;
     private Location previousLocation;
-    public DyingAction(Location location,int soul,Location previousLocation,Actor target){
+    private TokenOfSoul tokenOfSoul;
+    private TokenOfSoul previousTokenOfSoul;
+    public DyingAction(Location location,int soul,Location previousLocation,Actor target,TokenOfSoul tokenOfSoul,TokenOfSoul previousTokenOfSoul){
         this.previousLocation=previousLocation;
         this.location=location;
         this.soul=soul;
+        this.tokenOfSoul=tokenOfSoul;
+        this.previousTokenOfSoul=previousTokenOfSoul;
         this.target=target;
     }
     @Override
@@ -22,14 +26,19 @@ public class DyingAction extends Action {
         if(target==null){
             System.out.println("I'm Dead");
             map.moveActor(actor,map.at(38, 12));
-            TokenOfSoul ts=new TokenOfSoul("Token Of Soul",'$',false,actor);
-            ts.setSouls(soul);
-            if (location.getGround().hasCapability(Status.IS_VALLEY)){
-                previousLocation.addItem(ts);
-            }
-            else{
-                location.addItem(ts);
-            }
+                if (previousTokenOfSoul!=null) {
+                    previousTokenOfSoul.getLocation().removeItem(previousTokenOfSoul);
+                }
+                tokenOfSoul.setSouls(soul);
+                if (location.getGround().hasCapability(Status.IS_VALLEY)){
+                    tokenOfSoul.setLocation(previousLocation);
+                    previousLocation.addItem(tokenOfSoul);
+                }
+                else{
+                    tokenOfSoul.setLocation(location);
+                    location.addItem(tokenOfSoul);
+                }
+
         ResetManager.getInstance().run();
         }
         else{
