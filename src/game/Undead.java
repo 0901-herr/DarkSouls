@@ -3,19 +3,17 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 import game.enums.Status;
-import game.interfaces.Behaviour;
-import game.interfaces.Resettable;
-import game.interfaces.Soul;
 
-import java.util.ArrayList;
+import java.util.Random;
+
 
 /**
  * An undead minion.
  */
-public class Undead extends Enemy implements Resettable {
-	// Will need to change this to a collection if Undeads gets additional Behaviours.
-	private int souls = 50;
+public class Undead extends Enemy {
 	private Location location;
+	int souls = 50;
+	Random rand = new Random();
 
 	/**
 	 * Constructor.
@@ -23,10 +21,11 @@ public class Undead extends Enemy implements Resettable {
 	 * @param name the name of this Undead
 	 */
 	public Undead(String name, Location location) {
-		super(name, 'u', 50);
+		super(name, 'u', 50, location);
 		getBehaviours().add(new WanderBehaviour());
 		registerInstance();
 		this.location = location;
+		setSouls(this.souls);
 	}
 
 	/**
@@ -40,8 +39,6 @@ public class Undead extends Enemy implements Resettable {
 	 */
 	@Override
 	public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
-		// create follow behaviour here
-		// add followbehaviour in behaviour list
 		Actions actions = new Actions();
 
 		// it can be attacked only by the HOSTILE opponent, and this action will not attack the HOSTILE enemy back.
@@ -49,7 +46,7 @@ public class Undead extends Enemy implements Resettable {
 			// add behaviours for Undead
 			addBehaviour(otherActor);
 
-			// AttackAction to Player
+			// add AttackAction for Player
 			actions.add(new AttackAction(this, direction));
 		}
 
@@ -57,14 +54,40 @@ public class Undead extends Enemy implements Resettable {
 	}
 
 	@Override
-	public void transferSouls(Soul soulObject) {
-		soulObject.addSouls(getSouls());
-		subtractSouls(getSouls());
+	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+		if (getIsReset()) {
+			setReset(false);
+			return new DoNothingAction();
+		}
+		// 10% chance to die
+		else if (rand.nextInt(10) == 1) {
+			map.removeActor(this);
+		}
+
+		// loop through all behaviours
+		for(game.interfaces.Behaviour Behaviour : getBehaviours()) {
+			Action action = Behaviour.getAction(this, map);
+			if (action != null)
+				return action;
+		}
+		return new DoNothingAction();
 	}
 
 	@Override
-	public int getSouls() {
-		return souls;
+	public void addBehaviour(Actor otherActor) {
+		if (getFollowBehaviour() == null) {
+			// Add AttackBehaviour
+			getBehaviours().add(0, new AttackBehaviour());
+
+			// add FollowBehaviour
+			setFollowBehaviour(new FollowBehaviour(otherActor));
+			getBehaviours().add(1, getFollowBehaviour());
+		}
+	}
+
+	@Override
+	public void resetInstance() {
+		location.map().removeActor(this);
 	}
 
 	@Override
@@ -76,19 +99,10 @@ public class Undead extends Enemy implements Resettable {
 	public String toString() {
 		String hitPointsStatus = "(" + getHitPoints() + "/" + getMaxHitPoints() + ")";
 		String weaponStatus = "no weapon";
-		String weaponStatusMessage = " (" +weaponStatus + ")";
+		String weaponStatusMessage = " (" + weaponStatus + ")";
 		return (name + hitPointsStatus + weaponStatusMessage);
 	}
 
-	@Override
-	public void resetInstance() {
-		location.map().removeActor(this);
-	}
-
-	@Override
-	public boolean isExist() {
-		return true;
-	}
 }
 
 

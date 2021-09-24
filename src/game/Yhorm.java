@@ -12,14 +12,40 @@ import java.util.ArrayList;
  */
 public class Yhorm extends LordOfCinder {
     private boolean isEnraged = false;
-    private int souls = 5000;
 
     /**
      * Constructor.
      * @param name the name of Yhorm
      */
-    public Yhorm(String name, char displayChar, int hitPoints) {
-        super(name, displayChar, hitPoints);
+    public Yhorm(String name, char displayChar, int hitPoints, Location initialLocation) {
+        super(name, displayChar, hitPoints, initialLocation);
+        registerInstance();
+    }
+
+    /**
+     * Figure out what to do next.
+     * @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
+     */
+    @Override
+    public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+        if (getIsReset()) {
+            setReset(false);
+            return new DoNothingAction();
+        }
+
+        // when Yhorm hp < 50% max hp add EnrageBehaviour
+        if (getHitPoints() < (getMaxHitPoints()*0.5)) {
+            this.addCapability(Status.RAGE_MODE);
+            addEnrageBehaviour();
+        }
+
+        // loop through all behaviours
+        for(Behaviour Behaviour : getBehaviours()) {
+            Action action = Behaviour.getAction(this, map);
+            if (action != null)
+                return action;
+        }
+        return new DoNothingAction();
     }
 
     /**
@@ -47,38 +73,15 @@ public class Yhorm extends LordOfCinder {
         return actions;
     }
 
-    /**
-     * Figure out what to do next.
-     * FIXME: An Undead wanders around at random and it cannot attack anyone. Also, figure out how to spawn this creature.
-     * @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
-     */
-    @Override
-    public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        // loop through all behaviours
-        if (!isConscious()) {
-            System.out.println(ANSI_YELLOW+
-                    "----           --------   -----------  ----------          --------   ------------      ------------ --------  ----    ---- ----------   ------------ -----------\n"+
-                    "          **  **  **       **  **      ** **  **    ** ** **\n"+
-                    "----         ----    ---- ----    ---  --        --      ----    ---- ----              ---            ----    ------  ---- --        -- ----         ----    ---\n"+
-                    "**                **                         **                  **    **          ** **\n"+
-                    "----         ---      --- ---------    --        --      ---      --- ------------      ---            ----    ------------ --        -- ------------ ---------\n"+
-                    "**                              **              *                  **                     \n"+
-                    "------------  ----------  ----   ----  ------------       ----------  ----              ------------ --------  ----   ----- ------------ ------------ ----   ----\n"+
-                    "**   **        **          **                 ** **       **   **     \n"+ANSI_RESET);
-        }
+    public void addBehaviour(Actor otherActor) {
+        if (getFollowBehaviour() == null) {
+            // Add AttackBehaviour
+            getBehaviours().add(0, new AttackBehaviour());
 
-        // when Yhorm hp < 50% max hp add EnrageBehaviour
-        if (getHitPoints() < (getMaxHitPoints()*0.5)) {
-            this.addCapability(Status.RAGE_MODE);
-            addEnrageBehaviour();
+            // add FollowBehaviour
+            setFollowBehaviour(new FollowBehaviour(otherActor));
+            getBehaviours().add(1, getFollowBehaviour());
         }
-
-        for(Behaviour Behaviour : getBehaviours()) {
-            Action action = Behaviour.getAction(this, map);
-            if (action != null)
-                return action;
-        }
-        return new DoNothingAction();
     }
 
     public void addEnrageBehaviour() {
@@ -89,13 +92,15 @@ public class Yhorm extends LordOfCinder {
     }
 
     @Override
-    public void transferSouls(Soul soulObject) {
-        soulObject.addSouls(getSouls());
-        subtractSouls(getSouls());
-    }
+    public void resetInstance() {
+        // remove FollowBehaviour
+        setFollowBehaviour(null);
 
-    @Override
-    public int getSouls() {
-        return souls;
+        // reset location
+        getInitialLocation().map().moveActor(this, getInitialLocation());
+        this.hitPoints = getMaxHitPoints();
+
+        // reset burn action
+        isEnraged = false;
     }
 }

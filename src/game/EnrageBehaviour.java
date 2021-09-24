@@ -48,6 +48,12 @@ public class EnrageBehaviour implements Behaviour {
             isActivate = true;
             return actor.getWeapon().getActiveSkill(target, direction);
         }
+        else if (!isEnraged) {
+            // if Yhorm is reset
+            // isEnrage is reset to false
+            // isActivate is also reset to false
+            isActivate = false;
+        }
 
         return null;
     }

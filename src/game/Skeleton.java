@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.DoNothingAction;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.WeaponItem;
+import edu.monash.fit2099.engine.Location;
 
 import game.enums.Abilities;
 import game.enums.Status;
@@ -22,18 +23,20 @@ import java.util.Random;
 
 public class Skeleton extends Enemy {
     // Will need to change this to a collection if Undeads gets additional Behaviours.
-    private int souls = 250;
     Random rand = new Random();
+    int souls = 250;
 
     /**
      * Constructor.
      * All Undeads are represented by an 'u' and have 30 hit points.
      * @param name the name of this Undead
      */
-    public Skeleton(String name) {
-        super(name, 's', 100);
+    public Skeleton(String name, Location initialLocation) {
+        super(name, 's', 100, initialLocation);
         getBehaviours().add(new WanderBehaviour());
         addRandomizeWeapon();
+        setSouls(this.souls);
+        setInitialLocation(initialLocation);
     }
 
     /**
@@ -71,6 +74,11 @@ public class Skeleton extends Enemy {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         // Revive it Skeleton
+        if (getIsReset()) {
+            setReset(false);
+            return new DoNothingAction();
+        }
+
         if (!isConscious() && this.hasCapability(Abilities.REVIVE_FOR_ONCE) && rand.nextBoolean()) {
             System.out.println("Skeleton is Revived");
             this.heal(getMaxHitPoints());
@@ -81,7 +89,6 @@ public class Skeleton extends Enemy {
         }
 
         // loop through all behaviours
-
         for(Behaviour Behaviour : getBehaviours()) {
             Action action = Behaviour.getAction(this, map);
             if (action != null)
@@ -92,14 +99,15 @@ public class Skeleton extends Enemy {
     }
 
     @Override
-    public void transferSouls(Soul soulObject) {
-        soulObject.addSouls(getSouls());
-        subtractSouls(getSouls());
-    }
+    public void addBehaviour(Actor otherActor) {
+        if (getFollowBehaviour() == null) {
+            // Add AttackBehaviour
+            getBehaviours().add(0, new AttackBehaviour());
 
-    @Override
-    public int getSouls() {
-        return souls;
+            // add FollowBehaviour
+            setFollowBehaviour(new FollowBehaviour(otherActor));
+            getBehaviours().add(1, getFollowBehaviour());
+        }
     }
 
     public void addRandomizeWeapon() {
