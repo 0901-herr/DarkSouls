@@ -2,20 +2,20 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 import game.enums.Status;
-import game.interfaces.Behaviour;
-import game.interfaces.Soul;
-
-import java.util.ArrayList;
 
 /**
- * An undead minion.
+ * The Yhorm boss.
  */
 public class Yhorm extends LordOfCinder {
     private EnrageBehaviour enrageBehaviour;
 
     /**
      * Constructor.
-     * @param name the name of Yhorm
+     *
+     * @param name name of Yhorm
+     * @param displayChar character representing Yhorm
+     * @param hitPoints the hitpoints of Yhorm
+     * @param initialLocation the initial location of Yhorm
      */
     public Yhorm(String name, char displayChar, int hitPoints, Location initialLocation) {
         super(name, displayChar, hitPoints, initialLocation, 5000);
@@ -26,12 +26,18 @@ public class Yhorm extends LordOfCinder {
     }
 
     /**
-     * Figure out what to do next.
-     * @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
+     * Figure out what to do next, including invoking enrage behaviour,
+     * being stunned etc.
+     *
+     * @param actions    the available options of actions
+     * @param lastAction the last action performed
+     * @param map        the map containing Yhorm
+     * @param display    the I/O object to which messages may be written
+     * @return do nothing action
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        // when Yhorm hp < 50% max hp add EnrageBehaviour
+        // when Yhorm hp < 50% max hp, add EnrageBehaviour
         if (getHitPoints() < (getMaxHitPoints()*0.5)) {
             this.addCapability(Status.RAGE_MODE);
             addEnrageBehaviour();
@@ -47,6 +53,10 @@ public class Yhorm extends LordOfCinder {
         return super.playTurn(actions, lastAction, map, display);
     }
 
+    /**
+     * Adding Yhorm's enrage behaviour to the behaviours list
+     *
+     */
     public void addEnrageBehaviour() {
         if (enrageBehaviour == null) {
             this.setEnrageBehaviour(new EnrageBehaviour());
@@ -54,6 +64,10 @@ public class Yhorm extends LordOfCinder {
         }
     }
 
+    /**
+     * Resetting Yhorm
+     *
+     */
     @Override
     public void resetInstance() {
         this.getBehaviours().clear();
@@ -70,6 +84,11 @@ public class Yhorm extends LordOfCinder {
         this.hitPoints = this.getMaxHitPoints();
     }
 
+    /**
+     * Setting Yhorm's enrage behaviour
+     *
+     * @param enrageBehaviour
+     */
     public void setEnrageBehaviour(EnrageBehaviour enrageBehaviour) {
         this.enrageBehaviour = enrageBehaviour;
     }

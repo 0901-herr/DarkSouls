@@ -8,8 +8,8 @@ import java.util.Random;
 
 
 /**
- * A class that figures out a MoveAction that will move the actor one step
- * closer to a target Actor.
+ * A class that figures out which AttackAction or WeaponAction of to
+ * the actor to perform.
  */
 public class AttackBehaviour implements Behaviour {
     private Actor target;
@@ -17,15 +17,17 @@ public class AttackBehaviour implements Behaviour {
     Random rand = new Random();
 
     /**
-     * Constructor.
+     * Getting the actions of the actor that can perform attack
      *
+     * @param actor the Actor acting
+     * @param map the GameMap containing the Actor
+     * @return an Action that actor can perform, or null if actor can't do this.
      */
-    public AttackBehaviour() {}
-
     @Override
     public Action getAction(Actor actor, GameMap map) {
         Location here = map.locationOf(actor);
 
+        // search exits of the actor to find the target
         for (Exit exit : here.getExits()) {
             Location destination = exit.getDestination();
 
@@ -33,12 +35,12 @@ public class AttackBehaviour implements Behaviour {
                 target = destination.getActor();
                 actions.add(new AttackAction(target, exit.getName()));
 
-                // get inventory of enemy
+                // add actions from the item of the inventory
                 for (Item item : actor.getInventory()) {
                     actions.add(item.getAllowableActions());
                 }
 
-                // randomly selects actions of the enemy
+                // randomly selects a action to return
                 int randInt = rand.nextInt(actions.size());
 
                 return actions.get(randInt);

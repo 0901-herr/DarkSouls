@@ -6,7 +6,7 @@ import game.interfaces.Behaviour;
 
 
 /**
- * A Behaviour that is called when Yhorm HP < 50%
+ * A Behaviour that is called when Yhorm's HP < 50%
  *
  */
 public class EnrageBehaviour implements Behaviour {
@@ -17,17 +17,24 @@ public class EnrageBehaviour implements Behaviour {
     /**
      * Constructor.
      *
-     //   * @param attackAction the AttackAction
      */
     public EnrageBehaviour() {
         this.isActivate = false;
     }
 
+    /**
+     * Getting the action Yhorm is performing when enrage mode is activated
+     *
+     * @param actor the Actor acting
+     * @param map the GameMap containing the Actor
+     * @return The available action of his weapon
+     */
     @Override
     public Action getAction(Actor actor, GameMap map) {
         if (!isActivate) {
             Location here = map.locationOf(actor);
 
+            // search Player from exits
             for (Exit exit : here.getExits()) {
                 Location destination = exit.getDestination();
                 if (destination.containsAnActor() && destination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {

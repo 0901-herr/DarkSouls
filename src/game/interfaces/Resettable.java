@@ -18,7 +18,6 @@ public interface Resettable {
 
     /**
      * a default interface method that register current instance to the Singleton manager.
-     * TODO: Use this method at the constructor of `this` instance.
      */
     default void registerInstance(){
         ResetManager.getInstance().appendResetInstance(this);

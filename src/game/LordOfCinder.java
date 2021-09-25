@@ -19,7 +19,7 @@ public abstract class LordOfCinder extends Enemy {
 
     /**
      * @param actions    collection of possible Actions for this Actor
-     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
+     * @param lastAction The Action this Actor took last turn.
      * @param map        the map containing the Actor
      * @param display    the I/O object to which messages may be written
      * @return DoNothingAction
@@ -29,5 +29,8 @@ public abstract class LordOfCinder extends Enemy {
         return super.playTurn(actions, lastAction, map, display);
     }
 
+    /**
+     * An abstract method for all subclass to add enrage behaviour
+     */
     public abstract void addEnrageBehaviour();
 }

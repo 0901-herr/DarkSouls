@@ -8,12 +8,26 @@ import game.interfaces.Soul;
 
 import java.util.ArrayList;
 
+/**
+ * The Enemy class that covers all basic methods the enemy should have
+ *
+ */
 public abstract class Enemy extends Actor implements Soul, Resettable {
     protected ArrayList<Behaviour> behaviours;
     private int souls;
     private FollowBehaviour followBehaviour;
     private Location initialLocation;
 
+    /**
+     *
+     * A default constructor for each Enemy
+     *
+     * @param name The name of the enemy
+     * @param displayChar The character representation of the enemy
+     * @param hitPoints The hitpoints of the enemy
+     * @param initialLocation The initial location of the enemy
+     * @param souls The number of souls of the enemy
+     */
     public Enemy(String name, char displayChar, int hitPoints, Location initialLocation, int souls) {
         super(name, displayChar, hitPoints);
         this.addCapability(Status.HOSTILE_TO_PLAYER);
@@ -23,6 +37,15 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
         this.behaviours = new ArrayList<>();
     }
 
+    /**
+     * Select and return an action to perform on the current turn of the enemy.
+     *
+     * @param actions    Collection of possible Actions for this Enemy
+     * @param lastAction The Action this Enemy took last turn.
+     * @param map        The map containing the Enemy
+     * @param display    The I/O object to which messages may be written
+     * @return the Action to be performed by the Enemy
+     */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         // loop through all behaviours
@@ -35,13 +58,14 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     }
 
     /**
-     * At the moment, we only make it can be attacked by enemy that has HOSTILE capability
-     * You can do something else with this method.
+     * Available actions that other actor can do to this enemy
+     *
      * @param otherActor the Actor that might be performing attack
      * @param direction  String representing the direction of the other Actor
      * @param map        current GameMap
      * @return list of actions
      * @see Status#HOSTILE_TO_ENEMY
+     * @see Status#DISARMED
      */
     @Override
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
@@ -64,6 +88,11 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
         return actions;
     }
 
+    /**
+     * Add all behaviour an enemy should have
+     *
+     * @param otherActor The actor that the action should be performing on
+     */
     public void addBehaviour(Actor otherActor) {
         if (getFollowBehaviour() == null) {
             // Add AttackBehaviour
@@ -75,7 +104,10 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
         }
     }
 
-    // Reset
+    /**
+     * Resetting the enemy
+     *
+     */
     @Override
     public void resetInstance() {
         // remove FollowBehaviour
@@ -87,18 +119,33 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
         this.hitPoints = getMaxHitPoints();
     }
 
-    // Souls
+    /**
+     * Transfer souls to the other soul object
+     *
+     * @param soulObject a target souls.
+     */
     @Override
     public void transferSouls(Soul soulObject) {
         soulObject.addSouls(getSouls());
         this.subtractSouls(getSouls());
     }
 
+    /**
+     * Check the existence ot this enemy in the game
+     *
+     * @return the existence of the instance in the game.
+     */
     @Override
     public boolean isExist() {
         return true;
     }
 
+    /**
+     * Subtracting souls from this enemy
+     *
+     * @param souls number souls to be deducted
+     * @return Whether the process it successful
+     */
     @Override
     public boolean subtractSouls(int souls) {
         boolean isSuccess = false;
@@ -112,48 +159,103 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
         return isSuccess;
     }
 
+    /**
+     * Setting the number of souls of this enemy
+     *
+     * @param souls The number of souls
+     */
     @Override
     public void setSouls(int souls) {
         this.souls = souls;
     }
 
+    /**
+     * Getting the number of souls of this enemy
+     *
+     * @return The number of souls
+     */
     @Override
     public int getSouls() {
         return this.souls;
     }
 
+    /**
+     * Getting all behaviours of this enemy
+     *
+     * @return A list of behaviours
+     */
     public ArrayList<Behaviour> getBehaviours() {
         return behaviours;
     }
 
+    /**
+     * Setting the hitPoints of this enemy
+     *
+     * @param hitPoints The hitPoints of this enemy
+     */
     public void setHitPoints(int hitPoints) {
         this.hitPoints = hitPoints;
     }
 
+    /**
+     * Getting the hitPoints of this enemy
+     *
+     * @return The hitPoints of this enemy
+     */
     public int getHitPoints() {
         return this.hitPoints;
     }
 
+    /**
+     * Getting the maximum hitPoints of this enemy
+     *
+     * @return The maximum hitPoints of this enemy
+     */
     public int getMaxHitPoints() {
         return this.maxHitPoints;
     }
 
+    /**
+     * Getting the initial location of this enemy
+     *
+     * @return The initial location of this enemy
+     */
     public Location getInitialLocation() {
         return initialLocation;
     }
 
+    /**
+     * Setting the initial location of this enemy
+     *
+     * @param initialLocation The initial location of this enemy
+     */
     public void setInitialLocation(Location initialLocation) {
         this.initialLocation = initialLocation;
     }
 
+    /**
+     * Getting the follow behaviour of this enemy
+     *
+     * @return The follow behaviour of this enemy
+     */
     public FollowBehaviour getFollowBehaviour() {
         return followBehaviour;
     }
 
+    /**
+     * Setting the follow behaviour of this enemy
+     *
+     * @param followBehaviour The follow behaviour of this enemy
+     */
     public void setFollowBehaviour(FollowBehaviour followBehaviour) {
         this.followBehaviour = followBehaviour;
     }
 
+    /**
+     * Output details of this enemy
+     *
+     * @return A string of details of this enemy
+     */
     @Override
     public String toString() {
         String hitPointsStatus = "(" + this.hitPoints + "/" + this.maxHitPoints + ")";

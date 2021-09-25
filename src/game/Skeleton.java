@@ -2,23 +2,17 @@ package game;
 
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.DoNothingAction;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.WeaponItem;
 import edu.monash.fit2099.engine.Location;
-
 import game.enums.Abilities;
-import game.enums.Status;
-import game.interfaces.Behaviour;
-import game.interfaces.Soul;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * An skeleton minion.
+ * An Skeleton minion.
  */
 
 public class Skeleton extends Enemy {
@@ -26,8 +20,9 @@ public class Skeleton extends Enemy {
 
     /**
      * Constructor.
-     * All Undeads are represented by an 'u' and have 30 hit points.
-     * @param name the name of this Undead
+     * All Skeleton are represented by an 's' and have 250 hit points.
+     * @param name the name of this Skeleton
+     * @param initialLocation the initial location of this Skeleton
      */
     public Skeleton(String name, Location initialLocation) {
         super(name, 's', 100, initialLocation, 250);
@@ -38,8 +33,13 @@ public class Skeleton extends Enemy {
     }
 
     /**
-     * Figure out what to do next.
-     * @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
+     * Select and return an action to perform on the current turn of the Skeleton.
+     *
+     * @param actions    Collection of possible Actions for this Skeleton
+     * @param lastAction The Action this Skeleton took last turn.
+     * @param map        The map containing the Skeleton
+     * @param display    The I/O object to which messages may be written
+     * @return the Action to be performed by the Skeleton
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
@@ -57,6 +57,10 @@ public class Skeleton extends Enemy {
         return super.playTurn(actions, lastAction, map, display);
     }
 
+    /**
+     * Resetting the Skeleton
+     *
+     */
     @Override
     public void resetInstance() {
         super.resetInstance();
@@ -65,6 +69,11 @@ public class Skeleton extends Enemy {
         this.getBehaviours().add(new WanderBehaviour());
     }
 
+    /**
+     * Adding randomize weapon (broad sword or giant axe) to
+     * this Skeleton
+     *
+     */
     public void addRandomizeWeapon() {
         WeaponItem weapon;
         WeaponItem broadSword = new BroadSword();

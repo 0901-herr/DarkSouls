@@ -20,6 +20,13 @@ public class FollowBehaviour implements Behaviour {
 		this.target = subject;
 	}
 
+	/**
+	 * Get the action of moving towards the enemy
+	 *
+	 * @param actor the Actor to be followed
+	 * @param map the GameMap containing the Actor
+	 * @return The action to be performed to move towards the enemy
+	 */
 	@Override
 	public Action getAction(Actor actor, GameMap map) {
 		if(!map.contains(target) || !map.contains(actor))

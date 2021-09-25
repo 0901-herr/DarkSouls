@@ -23,6 +23,15 @@ public class Undead extends Enemy {
 		this.setInitialLocation(initialLocation);
 	}
 
+	/**
+	 * Select and return an action to perform on the current turn of the Undead.
+	 *
+	 * @param actions    Collection of possible Actions for this Undead
+	 * @param lastAction The Action this Undead took last turn.
+	 * @param map        The map containing the Undead
+	 * @param display    The I/O object to which messages may be written
+	 * @return the Action to be performed by the Undead
+	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// 10% chance to die

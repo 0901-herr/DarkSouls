@@ -52,9 +52,8 @@ public class Application {
 			GameMap gameMap = new GameMap(groundFactory, map);
 			world.addGameMap(gameMap);
 
-			Actor player = new Player("Unkindled (Player)", '@', 1000);
-//			world.addPlayer(player, gameMap.at(38, 12));
-			world.addPlayer(player, gameMap.at(8, 25));
+			Actor player = new Player("Unkindled (Player)", '@', 100);
+			world.addPlayer(player, gameMap.at(38, 12));
 
 			//Place Yhorm the Giant/boss in the map
 			Location YhormInitialLocation = new Location(gameMap, 6, 25);

@@ -36,6 +36,13 @@ public class AttackAction extends Action {
 		this.direction = direction;
 	}
 
+	/**
+	 * Perform the AttackAction.
+	 *
+	 * @param actor The actor performing the action.
+	 * @param map The map the actor is on.
+	 * @return a description of what happened after attacking.
+	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
 		Weapon weapon = actor.getWeapon();
@@ -48,6 +55,7 @@ public class AttackAction extends Action {
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 		target.hurt(damage);
 
+		// when the attack target is dead
 		if (!target.isConscious() && (!target.hasCapability(Status.IS_PLAYER)) && (!target.hasCapability(Abilities.REVIVE_FOR_ONCE))) {
 			DyingAction dyingAction = new DyingAction(map.locationOf(actor),actor.asSoul().getSouls(),null,target,null,null, false);
 			dyingAction.execute(actor,map);
@@ -57,6 +65,11 @@ public class AttackAction extends Action {
 		return result;
 	}
 
+	/**
+	 * Returns a descriptive string
+	 * @param actor The actor performing the action.
+	 * @return the text we put on the menu
+	 */
 	@Override
 	public String menuDescription(Actor actor) {
 		return actor + " attacks " + target + " at " + direction;
