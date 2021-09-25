@@ -21,7 +21,7 @@ public class SpinAttackAction extends WeaponAction {
             if (destination.containsAnActor()) {
                 Actor target = destination.getActor();
                 target.hurt(damage);
-                if (!target.isConscious()) {
+                if (!target.isConscious()&&!target.hasCapability(Status.IS_PLAYER)) {
                     DyingAction dyingAction = new DyingAction(map.locationOf(actor),actor.asSoul().getSouls(),null,target,null,null);
                     dyingAction.execute(actor,map);
                     result += System.lineSeparator() + target + " is killed.";
