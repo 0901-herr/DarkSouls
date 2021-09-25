@@ -1,4 +1,4 @@
-﻿Work Breakdown Agreement Lab 02 Team 6
+Work Breakdown Agreement Lab 02 Team 6
 
 
 Group members:
@@ -37,4 +37,4 @@ Code implementation, UML class diagram and design rationale of:
 Agreement for work breakdown:
 1. I, Yong Liang Herr, agree with the above work breakdown. 
 2. I, William Ho Swee Chiong, agree with the above work breakdown.
-3.
+3. I, Yap Yong Hong, agree with the above work breakdown.
