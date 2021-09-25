@@ -22,13 +22,14 @@ public class Undead extends Enemy {
 		this.getBehaviours().add(new WanderBehaviour());
 		this.setInitialLocation(initialLocation);
 	}
-
+	
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// 10% chance to die
-//		if (rand.nextInt(10)==1){
-//			resetInstance();
-//		}
+		if (rand.nextInt(10)==1){
+			this.getBehaviours().clear();
+			return new DyingAction(map.locationOf(this),0,null,null,null,null,true);
+		}
 
 		// loop through all behaviours
 		return super.playTurn(actions, lastAction, map, display);

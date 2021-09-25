@@ -21,8 +21,7 @@ public class BuyIncreaseMaxHPAction extends BuyItemAction {
             return result;
         }
         else {
-            actor.asSoul().setRequiredSouls(getRequiredSouls());
-            actor.asSoul().transferSouls(vendor.asSoul());
+            actor.asSoul().transferSouls(vendor.asSoul(), this.getRequiredSouls());
         }
 
         actor.increaseMaxHp(25);

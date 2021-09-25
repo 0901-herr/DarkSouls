@@ -12,7 +12,9 @@ public interface Soul {
      * Transfer current instance's souls to another Soul instance.
      * @param soulObject a target souls.
      */
-    void transferSouls(Soul soulObject);
+    default void transferSouls(Soul soulObject) {};
+
+    default void transferSouls(Soul soulObject, int souls) {}
 
     /**
      * Increase souls to current instance's souls.
@@ -33,8 +35,6 @@ public interface Soul {
      * @return transaction status. True if subtraction successful, otherwise False.
      */
     default boolean subtractSouls(int souls){ return false;}
-
-    default void setRequiredSouls(int requiredSouls) {}
 
     default void setSouls(int souls) {}
 

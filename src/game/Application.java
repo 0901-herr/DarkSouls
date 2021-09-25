@@ -52,12 +52,13 @@ public class Application {
 			GameMap gameMap = new GameMap(groundFactory, map);
 			world.addGameMap(gameMap);
 
-			Actor player = new Player("Unkindled (Player)", '@', 100);
-			world.addPlayer(player, gameMap.at(38, 12));
+			Actor player = new Player("Unkindled (Player)", '@', 1000);
+//			world.addPlayer(player, gameMap.at(38, 12));
+			world.addPlayer(player, gameMap.at(8, 25));
 
-			 //Place Yhorm the Giant/boss in the map
+			//Place Yhorm the Giant/boss in the map
 			Location YhormInitialLocation = new Location(gameMap, 6, 25);
-			Enemy Yhorm = new Yhorm("Yhorm the Giant", 'Y', 150, YhormInitialLocation);
+			Enemy Yhorm = new Yhorm("Yhorm the Giant", 'Y', 300, YhormInitialLocation);
 			gameMap.at(6, 25).addActor(Yhorm);
 			YhormInitialLocation.setGround(gameMap.locationOf(Yhorm).getGround());
 
@@ -72,35 +73,29 @@ public class Application {
 			gameMap.at(36, 15).setGround(new Cementery());
 
 			// Place Skeleton
-			Location skeleton1InitialLocation = new Location(gameMap, 50, 15);
+			Location skeleton1InitialLocation = gameMap.at(50, 15);
 			Enemy skeleton1 = new Skeleton("Skeleton", skeleton1InitialLocation);
-			gameMap.at(50, 15).addActor(skeleton1);
-			skeleton1InitialLocation.setGround(gameMap.locationOf(skeleton1).getGround());
+			skeleton1InitialLocation.addActor(skeleton1);
 
-			Location skeleton2InitialLocation = new Location(gameMap, 20, 4);
+			Location skeleton2InitialLocation = gameMap.at(20, 4);
 			Enemy skeleton2 = new Skeleton("Skeleton", skeleton2InitialLocation);
-			gameMap.at(20, 4).addActor(skeleton2);
-			skeleton2InitialLocation.setGround(gameMap.locationOf(skeleton2).getGround());
+			skeleton2InitialLocation.addActor(skeleton2);
 
-			Location skeleton3InitialLocation = new Location(gameMap, 45, 18);
+			Location skeleton3InitialLocation = gameMap.at(45, 18);
 			Enemy skeleton3 = new Skeleton("Skeleton", skeleton3InitialLocation);
-			gameMap.at(45, 18).addActor(skeleton3);
-			skeleton3InitialLocation.setGround(gameMap.locationOf(skeleton3).getGround());
+			skeleton3InitialLocation.addActor(skeleton3);
 
-			Location skeleton4InitialLocation = new Location(gameMap, 22, 16);
+			Location skeleton4InitialLocation = gameMap.at(22, 16);
 			Enemy skeleton4 = new Skeleton("Skeleton", skeleton4InitialLocation);
-			gameMap.at(22, 16).addActor(skeleton4);
-			skeleton4InitialLocation.setGround(gameMap.locationOf(skeleton4).getGround());
+			skeleton4InitialLocation.addActor(skeleton4);
 
-			Location skeleton5InitialLocation = new Location(gameMap, 44, 8);
+			Location skeleton5InitialLocation = gameMap.at(44, 8);
 			Enemy skeleton5 = new Skeleton("Skeleton", skeleton5InitialLocation);
-			gameMap.at(44, 8).addActor(skeleton5);
-			skeleton5InitialLocation.setGround(gameMap.locationOf(skeleton5).getGround());
+			skeleton5InitialLocation.addActor(skeleton5);
 
-			Location skeleton6InitialLocation = new Location(gameMap, 34, 6);
+			Location skeleton6InitialLocation = gameMap.at(34, 6);
 			Enemy skeleton6 = new Skeleton("Skeleton", skeleton6InitialLocation);
-			gameMap.at(34, 6).addActor(skeleton6);
-			skeleton6InitialLocation.setGround(gameMap.locationOf(skeleton6).getGround());
+			skeleton6InitialLocation.addActor(skeleton6);
 
 			// Place Bonfire at the center of the map
 			gameMap.at(38,11).setGround(new Bonfire());

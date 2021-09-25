@@ -45,20 +45,16 @@ public class ResetManager {
     /**
      * Reset the game by traversing through all the list
      * By doing this way, it will avoid using `instanceof` all over the place.
-     * FIXME: it does nothing, you need to implement it :)
      */
     public void run(){
-        System.out.println("Resetting");
         for(Resettable reset:resettableList){
             reset.resetInstance();
         }
         cleanUp();
-        System.out.println("It's clean");
     }
 
     /**
      * Add the Resettable instance to the list
-     * FIXME: it does nothing, you need to implement it :)
      * @param resettable the interface instance
      */
     public void appendResetInstance(Resettable resettable){

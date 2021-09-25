@@ -31,6 +31,7 @@ public class Skeleton extends Enemy {
      */
     public Skeleton(String name, Location initialLocation) {
         super(name, 's', 100, initialLocation, 250);
+        this.addCapability(Abilities.REVIVE_FOR_ONCE);
         this.setInitialLocation(initialLocation);
         this.getBehaviours().add(new WanderBehaviour());
         this.addRandomizeWeapon();
@@ -45,7 +46,7 @@ public class Skeleton extends Enemy {
 
         // Skeleton has 50% chance to revive once
         if (!isConscious() && this.hasCapability(Abilities.REVIVE_FOR_ONCE) && rand.nextBoolean()) {
-            this.heal(getMaxHitPoints());
+            this.setHitPoints(getMaxHitPoints());
 
             // Remove ability
             this.removeCapability(Abilities.REVIVE_FOR_ONCE);
@@ -58,17 +59,10 @@ public class Skeleton extends Enemy {
 
     @Override
     public void resetInstance() {
-        this.getInitialLocation().map().removeActor(this);
+        super.resetInstance();
 
-        this.getBehaviours().clear();
+        // add back wander behaviour
         this.getBehaviours().add(new WanderBehaviour());
-
-        // remove FollowBehaviour
-        this.setFollowBehaviour(null);
-
-        // reset location
-        this.getInitialLocation().map().moveActor(this, getInitialLocation());
-        this.hitPoints = getMaxHitPoints();
     }
 
     public void addRandomizeWeapon() {

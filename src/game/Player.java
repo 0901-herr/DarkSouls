@@ -12,8 +12,7 @@ import game.interfaces.Soul;
 public class Player extends Actor implements Soul, Resettable {
 
 	private final Menu menu = new Menu();
-	private int souls = 1500;
-	private int requiredSouls = 0;
+	private int souls;
 	private Location previousLocation;
 	private TokenOfSoul previousTokenOfSoul;
 	private TokenOfSoul ts;
@@ -33,6 +32,7 @@ public class Player extends Actor implements Soul, Resettable {
 		this.addCapability(Abilities.REST);
 		this.addCapability(Abilities.DRINK);
 
+		this.setSouls(2000);
 		this.addItemToInventory(new BroadSword());
 		this.addItemToInventory(new EstusFlask(this.getMaximumHitPoints()));
 
@@ -52,9 +52,8 @@ public class Player extends Actor implements Soul, Resettable {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		if (!isConscious()) {
-			System.out.println("dead");
 			ts = new TokenOfSoul("Token of Soul", '$', false, this);
-			return new DyingAction(map.locationOf(this), souls, previousLocation, this, ts, previousTokenOfSoul);
+			return new DyingAction(map.locationOf(this), souls, previousLocation, this, ts, previousTokenOfSoul, false);
 		}
 		this.previousTokenOfSoul = ts;
 		this.previousLocation = map.locationOf(this);
@@ -87,9 +86,9 @@ public class Player extends Actor implements Soul, Resettable {
 	 * @param soulObject a target souls.
 	 */
 	@Override
-	public void transferSouls(Soul soulObject) {
-		soulObject.addSouls(requiredSouls);
-		subtractSouls(requiredSouls);
+	public void transferSouls(Soul soulObject, int souls) {
+		soulObject.addSouls(souls);
+		subtractSouls(souls);
 	}
 
 	/**
@@ -128,14 +127,6 @@ public class Player extends Actor implements Soul, Resettable {
 		}
 
 		return isSuccess;
-	}
-
-	/**
-	 * @param requiredSouls
-	 */
-	@Override
-	public void setRequiredSouls(int requiredSouls) {
-		this.requiredSouls = requiredSouls;
 	}
 
 	/**
@@ -187,8 +178,7 @@ public class Player extends Actor implements Soul, Resettable {
 	 */
 	@Override
 	public void resetInstance() {
-		this.hitPoints = 100;
-
+		this.hitPoints = this.getMaximumHitPoints();
 	}
 
 	/**

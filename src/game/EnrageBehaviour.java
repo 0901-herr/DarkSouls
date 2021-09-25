@@ -10,7 +10,8 @@ import game.interfaces.Behaviour;
  *
  */
 public class EnrageBehaviour implements Behaviour {
-
+    private Actor target;
+    private String direction;
     private boolean isActivate;
 
     /**
@@ -24,19 +25,20 @@ public class EnrageBehaviour implements Behaviour {
 
     @Override
     public Action getAction(Actor actor, GameMap map) {
-        Actions actions = new Actions();
         if (!isActivate) {
+            Location here = map.locationOf(actor);
 
-            // add WeaponAction
-            for (Item item : actor.getInventory()) {
-                if (item.asWeapon() != null) {
-                    actions.add(item.getAllowableActions());
+            for (Exit exit : here.getExits()) {
+                Location destination = exit.getDestination();
+                if (destination.containsAnActor() && destination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
+                    target = destination.getActor();
+                    direction = exit.getName();
                 }
             }
-
             isActivate = true;
-            return actions.get(0);
+            return actor.getWeapon().getActiveSkill(target, direction);
         }
+
         return null;
     }
 }

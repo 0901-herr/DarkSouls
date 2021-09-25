@@ -8,20 +8,32 @@ import game.enums.Status;
  * The class that handles the action when the Actor is dying.
  */
 public class DyingAction extends Action {
-    private Display display;
     private Location location;
     private int soul;
     private Actor target;
     private Location previousLocation;
     private TokenOfSoul tokenOfSoul;
     private TokenOfSoul previousTokenOfSoul;
-    public DyingAction(Location location,int soul,Location previousLocation,Actor target,TokenOfSoul tokenOfSoul,TokenOfSoul previousTokenOfSoul){
+    private Boolean UndeadRandomDead;
+
+    /**
+     *
+     * @param location
+     * @param soul
+     * @param previousLocation
+     * @param target
+     * @param tokenOfSoul
+     * @param previousTokenOfSoul
+     * Bind all the parameter with the class variable
+     */
+    public DyingAction(Location location,int soul,Location previousLocation,Actor target,TokenOfSoul tokenOfSoul,TokenOfSoul previousTokenOfSoul,Boolean UndeadRandomDead){
         this.previousLocation=previousLocation;
         this.location=location;
         this.soul=soul;
         this.tokenOfSoul=tokenOfSoul;
         this.previousTokenOfSoul=previousTokenOfSoul;
         this.target=target;
+        this.UndeadRandomDead=UndeadRandomDead;
     }
 
 
@@ -31,12 +43,17 @@ public class DyingAction extends Action {
         final String ANSI_BLUE = "\u001B[34m";
         final String ANSI_YELLOW = "\u001B[33m";
         final String ANSI_RED = "\u001B[31m";
-//        map.moveActor(actor, map.at(38, 12));
-//        System.out.println(actor);
-//        System.out.println(target);
+
+        Display display = new Display();
+        String res = actor + " is dead";
+
+        if (UndeadRandomDead) {
+            map.removeActor(actor);
+            return actor.toString() + " died instantly by chance";
+        }
 
         if(actor.hasCapability(Status.IS_PLAYER) && target.hasCapability(Status.IS_PLAYER)) {
-            System.out.println(ANSI_RED+
+            display.println(ANSI_RED+
                     "------------    ------      ********   ------------        --------   ---    ---  ------------ -----------\n"+ANSI_RESET+
                     ANSI_BLUE+"************   ********    ----------  ************       **********  ***    ***  ************ ***********\n"+ANSI_RESET+
                     ANSI_BLUE+"----          ----------  ************ ----              ----    ---- ---    ---  ----         ----    ---\n"+ANSI_RESET+
@@ -44,8 +61,7 @@ public class DyingAction extends Action {
                     ANSI_RED+"----  ------ ------------ ***  **  *** ------------      ---      --- ---    ---  ------------ ---------\n"+ANSI_RESET+
                     ANSI_BLUE+"****    **** ************ ---  --  --- ****              ****    ****  ********   ****         ****  ****\n"+ANSI_RESET+
                     ANSI_BLUE+"------------ ----    ---- ***  **  *** ------------       ----------    ------    ------------ ----   ----\n"+ANSI_RESET+
-                    ANSI_RED+"************ ****    **** ---      --- ************        ********      ****     ************ ****    ****"+ANSI_RESET
-            );
+                    ANSI_RED+"************ ****    **** ---      --- ************        ********      ****     ************ ****    ****"+ANSI_RESET);
             map.moveActor(actor, map.at(38, 12));
             if (previousTokenOfSoul != null) {
                 previousTokenOfSoul.getLocation().removeItem(previousTokenOfSoul);
@@ -70,11 +86,9 @@ public class DyingAction extends Action {
                 dropActions.add(item.getDropAction(actor));
             for (Action drop : dropActions)
                 drop.execute(target, map);
-//            System.out.println(target + " transferring soul to " + actor);
             map.removeActor(target);
             if (target.hasCapability(Status.IS_YHORM)){
-
-                System.out.println(ANSI_YELLOW+
+                display.println(ANSI_YELLOW+
                         "----           --------   -----------  ----------          --------   ------------      ------------ --------  ----    ---- ----------   ------------ -----------\n"+
                         "****          **********  ***********  ************       **********  ************      ************ ********  *****   **** ************ ************ ***********\n"+
                         "----         ----    ---- ----    ---  --        --      ----    ---- ----              ---            ----    ------  ---- --        -- ----         ----    ---\n"+
@@ -83,11 +97,10 @@ public class DyingAction extends Action {
                         "************ ****    **** ****  ****   **        **      ****    **** ****              ***            ****    ****  ****** **        ** ****         ****  ****\n"+
                         "------------  ----------  ----   ----  ------------       ----------  ----              ------------ --------  ----   ----- ------------ ------------ ----   ----\n"+
                         "************   ********   ****    **** **********          ********   ****              ************ ********  ****    **** **********   ************ ****    ****\n"+ANSI_RESET);
-
             }
-            }
+        }
 
-        return "dead";
+        return res;
     }
 
     @Override

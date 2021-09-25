@@ -35,11 +35,13 @@ public class Vendor extends Actor implements Soul {
 
         // check if actor can buy items
         if (otherActor.hasCapability(Status.ABLE_TO_BUY)) {
+
+            // get available weapons to buy
             for (HashMap.Entry<Item, Integer> item: this.getItems().entrySet()){
                 actions.add(new BuyItemAction(this, item.getKey(), item.getValue()));
             }
 
-            // buy increase maximum hp
+            // add action tp buy increase maximum hp
             actions.add(new BuyIncreaseMaxHPAction(this));
         }
 
@@ -49,9 +51,6 @@ public class Vendor extends Actor implements Soul {
     public HashMap<Item, Integer> getItems() {
         return items;
     }
-
-    @Override
-    public void transferSouls(Soul soulObject) {}
 
     @Override
     public boolean addSouls(int souls) {

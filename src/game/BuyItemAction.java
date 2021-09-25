@@ -45,23 +45,12 @@ public class BuyItemAction extends Action {
         }
         else {
             // set required souls to transfer
-            actor.asSoul().setRequiredSouls(this.getRequiredSouls());
-            actor.asSoul().transferSouls(this.getVendor().asSoul());
+            actor.asSoul().transferSouls(this.getVendor().asSoul(), requiredSouls);
         }
 
-        // check if bought item is a weapon
-        if (getItem().asWeapon() != null) {
-
-            // get current equip weapon and remove it
-            for (Item item : actor.getInventory()) {
-                if (item.asWeapon() != null) {
-                    actor.removeItemFromInventory(item);
-                }
-            }
-
-            // add bought weapon
-            actor.addItemToInventory(item);
-        }
+        // swapping bought weapon with current weapon
+        SwapWeaponAction swapWeaponAction = new SwapWeaponAction(item);
+        swapWeaponAction.execute(actor, map);
 
         result = vendor + " sold " + getItem() + " to " + actor;
 
@@ -70,7 +59,7 @@ public class BuyItemAction extends Action {
 
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " buys " + getItem() + " (" + getRequiredSouls() + " souls)";
+        return actor + " buys " + this.getItem() + " (" + this.getRequiredSouls() + " souls)";
     }
 
     public void setVendor(Actor vendor) {

@@ -9,8 +9,8 @@ import game.interfaces.Soul;
 import java.util.ArrayList;
 
 public abstract class Enemy extends Actor implements Soul, Resettable {
+    protected ArrayList<Behaviour> behaviours;
     private int souls;
-    private ArrayList<Behaviour> behaviours;
     private FollowBehaviour followBehaviour;
     private Location initialLocation;
 
@@ -70,12 +70,9 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
             this.getBehaviours().add(0, new AttackBehaviour());
 
             // add FollowBehaviour
-            this.getBehaviours().add(1, new FollowBehaviour(otherActor));
+            this.setFollowBehaviour(new FollowBehaviour(otherActor));
+            this.getBehaviours().add(1, this.getFollowBehaviour());
         }
-    }
-
-    public ArrayList<Behaviour> getBehaviours() {
-        return behaviours;
     }
 
     // Reset
@@ -94,7 +91,7 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     @Override
     public void transferSouls(Soul soulObject) {
         soulObject.addSouls(getSouls());
-        subtractSouls(getSouls());
+        this.subtractSouls(getSouls());
     }
 
     @Override
@@ -123,6 +120,14 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     @Override
     public int getSouls() {
         return this.souls;
+    }
+
+    public ArrayList<Behaviour> getBehaviours() {
+        return behaviours;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
     }
 
     public int getHitPoints() {

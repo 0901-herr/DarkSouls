@@ -48,8 +48,8 @@ public class AttackAction extends Action {
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 		target.hurt(damage);
 
-		if (!target.isConscious() && !target.hasCapability(Status.IS_PLAYER)) {
-			DyingAction dyingAction = new DyingAction(map.locationOf(actor),actor.asSoul().getSouls(),null,target,null,null);
+		if (!target.isConscious() && (!target.hasCapability(Status.IS_PLAYER)) && (!target.hasCapability(Abilities.REVIVE_FOR_ONCE))) {
+			DyingAction dyingAction = new DyingAction(map.locationOf(actor),actor.asSoul().getSouls(),null,target,null,null, false);
 			dyingAction.execute(actor,map);
 			result += System.lineSeparator() + target + " is killed.";
 		}
