@@ -36,5 +36,5 @@ Code implementation, UML class diagram and design rationale of:
 
 Agreement for work breakdown:
 1. I, Yong Liang Herr, agree with the above work breakdown. 
-2. 
+2. I, William Ho Swee Chiong, agree with the above work breakdown.
 3.
