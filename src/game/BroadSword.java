@@ -4,7 +4,9 @@ import game.enums.Abilities;
 
 public class BroadSword extends MeleeWeapon{
 
-    //constructor
+    /**
+     * Constructor
+     */
     public BroadSword() {
         super("Broadsword", 'B', 30, "slashes", 80);
         this.addCapability(Abilities.CRITICAL_STRIKE);

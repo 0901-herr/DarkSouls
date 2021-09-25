@@ -8,12 +8,27 @@ public class WindSlashAction extends WeaponAction {
     protected StormRuler weapon;
     protected Actor target;
 
+    /**
+     * Constructor.
+     * @param stormRuler the weapon item that will activate WindSlashAction.
+     * @param target the actor to attack.
+     */
     public WindSlashAction(StormRuler stormRuler, Actor target){
         super(stormRuler);
         this.weapon = stormRuler;
         this.target = target;
     }
 
+    /**
+     * Perform the WindSlashAction.
+     * Stun the target.
+     * Double the damage.
+     * Hit rate increased to 100%.
+     *
+     * @param actor The actor performing the action.
+     * @param map The map the actor is on.
+     * @return a description of what happened that can be displayed to the user.
+     */
     @Override
     public String execute(Actor actor, GameMap map){
         int damage = weapon.damage() * 2;
@@ -34,6 +49,11 @@ public class WindSlashAction extends WeaponAction {
         return result;
     }
 
+    /**
+     * Returns a descriptive string
+     * @param actor The actor performing the action.
+     * @return the text we put on the menu
+     */
     @Override
     public String menuDescription(Actor actor){
         return actor + " activates Wind Slash";

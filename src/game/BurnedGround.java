@@ -10,12 +10,22 @@ public class BurnedGround extends Ground {
     private int round;
     private Ground previousGround;
 
+    /**
+     * Constructor.
+     * @param previousGround previous ground before it was burned.
+     */
     public BurnedGround(Ground previousGround){
         super('v');
         this.previousGround = previousGround;
         this.round = 0;
     }
 
+    /**
+     * Hurt the actor that stand on this ground.
+     * Last for three rounds.
+     *
+     * @param location The location of the Ground
+     */
     @Override
     public void tick(Location location){
         super.tick(location);

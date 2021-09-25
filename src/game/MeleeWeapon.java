@@ -27,6 +27,13 @@ public class MeleeWeapon extends WeaponItem {
         super(name, displayChar, damage, verb, hitRate);
     }
 
+    /**
+     * Accessor for damage done by this weapon.
+     *
+     * If this weapon has ability to hit critical strike, damage will be doubled
+     *
+     * @return the damage
+     */
     @Override
     public int damage(){
         int damage = this.damage;
@@ -39,7 +46,11 @@ public class MeleeWeapon extends WeaponItem {
         return damage;
     }
 
-    //TODO: please figure out how to disable dropping item action.
+    /**
+     * Disable the DropItemAction of weapon
+     * @param actor an actor that will interact with this item
+     * @return null
+     */
     @Override
     public DropItemAction getDropAction(Actor actor){
         return null;
