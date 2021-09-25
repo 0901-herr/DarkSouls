@@ -48,10 +48,12 @@ public class ResetManager {
      * FIXME: it does nothing, you need to implement it :)
      */
     public void run(){
+        System.out.println("Resetting");
         for(Resettable reset:resettableList){
             reset.resetInstance();
         }
         cleanUp();
+        System.out.println("It's clean");
     }
 
     /**
@@ -70,7 +72,7 @@ public class ResetManager {
     private void cleanUp(){
         for (int i=0;i<resettableList.size();i++){
             Resettable reset=resettableList.get(i);
-            if(reset.isExist()){
+            if(!reset.isExist()){
                 resettableList.remove(i);
             }
         }

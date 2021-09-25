@@ -55,10 +55,15 @@ public class Undead extends Enemy {
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-//		if (getIsReset()) {
-//			setReset(false);
-//			return new DoNothingAction();
-//		}
+		if (getIsReset()) {
+			setReset(false);
+			return new DoNothingAction();
+		}
+		Random rand= new Random();
+		if(this.hasCapability(Status.HOSTILE_TO_PLAYER)){
+			if (rand.nextInt(10)==1){
+				resetInstance();
+		}}
 //		// 10% chance to die
 //		else if (rand.nextInt(10) == 1) {
 //			map.removeActor(this);
@@ -87,7 +92,14 @@ public class Undead extends Enemy {
 
 	@Override
 	public void resetInstance() {
+		this.getBehaviours().clear();
+		this.setFollowBehaviour(null);
 		location.map().removeActor(this);
+	}
+
+	@Override
+	public boolean isExist() {
+		return true;
 	}
 
 	@Override

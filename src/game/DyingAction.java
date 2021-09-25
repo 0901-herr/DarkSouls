@@ -4,7 +4,11 @@ import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
 import game.enums.Status;
 
+/**
+ * The class that handles the action when the Actor is dying.
+ */
 public class DyingAction extends Action {
+    private Display display;
     private Location location;
     private int soul;
     private Actor target;
@@ -19,27 +23,44 @@ public class DyingAction extends Action {
         this.previousTokenOfSoul=previousTokenOfSoul;
         this.target=target;
     }
+
+
     @Override
     public String execute(Actor actor, GameMap map) {
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_BLUE = "\u001B[34m";
+        final String ANSI_YELLOW = "\u001B[33m";
+        final String ANSI_RED = "\u001B[31m";
+        map.moveActor(actor, map.at(38, 12));
         System.out.println(actor);
         System.out.println(target);
-        if(target==null){
-            System.out.println("I'm Dead");
-            map.moveActor(actor,map.at(38, 12));
-                if (previousTokenOfSoul!=null) {
-                    previousTokenOfSoul.getLocation().removeItem(previousTokenOfSoul);
-                }
-                tokenOfSoul.setSouls(soul);
-                if (location.getGround().hasCapability(Status.IS_VALLEY)){
-                    tokenOfSoul.setLocation(previousLocation);
-                    previousLocation.addItem(tokenOfSoul);
-                }
-                else{
-                    tokenOfSoul.setLocation(location);
-                    location.addItem(tokenOfSoul);
-                }
 
-        ResetManager.getInstance().run();
+        if(target.hasCapability(Status.IS_PLAYER)|| actor.hasCapability(Status.IS_PLAYER)) {
+            System.out.println(ANSI_RED+
+                    "------------    ------      ********   ------------        --------   ---    ---  ------------ -----------\n"+ANSI_RESET+
+                    ANSI_BLUE+"************   ********    ----------  ************       **********  ***    ***  ************ ***********\n"+ANSI_RESET+
+                    ANSI_BLUE+"----          ----------  ************ ----              ----    ---- ---    ---  ----         ----    ---\n"+ANSI_RESET+
+                    ANSI_RED+"****  ****** ****    **** ---  --  --- ************      ***      *** ***    ***  ************ *********\n"+ANSI_RESET+
+                    ANSI_RED+"----  ------ ------------ ***  **  *** ------------      ---      --- ---    ---  ------------ ---------\n"+ANSI_RESET+
+                    ANSI_BLUE+"****    **** ************ ---  --  --- ****              ****    ****  ********   ****         ****  ****\n"+ANSI_RESET+
+                    ANSI_BLUE+"------------ ----    ---- ***  **  *** ------------       ----------    ------    ------------ ----   ----\n"+ANSI_RESET+
+                    ANSI_RED+"************ ****    **** ---      --- ************        ********      ****     ************ ****    ****"+ANSI_RESET
+            );
+            map.moveActor(target, map.at(38, 12));
+            if (previousTokenOfSoul != null) {
+                previousTokenOfSoul.getLocation().removeItem(previousTokenOfSoul);
+            }
+            tokenOfSoul.setSouls(soul);
+            if (location.getGround().hasCapability(Status.IS_VALLEY)) {
+                tokenOfSoul.setLocation(previousLocation);
+                previousLocation.addItem(tokenOfSoul);
+            } else {
+                tokenOfSoul.setLocation(location);
+                location.addItem(tokenOfSoul);
+            }
+            actor.asSoul().subtractSouls(soul);
+
+            ResetManager.getInstance().run();
         }
         else{
             target.asSoul().transferSouls(actor.asSoul());
@@ -52,8 +73,7 @@ public class DyingAction extends Action {
             System.out.println(target + " transferring soul to " + actor);
             map.removeActor(target);
             if (target.hasCapability(Status.IS_YHORM)){
-                final String ANSI_RESET = "\u001B[0m";
-                final String ANSI_YELLOW = "\u001B[33m";
+
                 System.out.println(ANSI_YELLOW+
                         "----           --------   -----------  ----------          --------   ------------      ------------ --------  ----    ---- ----------   ------------ -----------\n"+
                         "****          **********  ***********  ************       **********  ************      ************ ********  *****   **** ************ ************ ***********\n"+
@@ -67,7 +87,7 @@ public class DyingAction extends Action {
             }
             }
 
-        return null;
+        return "dead";
     }
 
     @Override
