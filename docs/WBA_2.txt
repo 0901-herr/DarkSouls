@@ -1,0 +1,40 @@
+﻿Work Breakdown Agreement Lab 02 Team 6
+
+
+Group members:
+1. Yong Liang Herr 31987850
+2. William Ho Swee Chiong 32579756
+3. Yap Yong Hong 31899412
+
+
+Individual work breakdown:
+1. Yong Liang Herr
+Code implementation, UML class diagram and design rationale:
+* Requirement 4: Enemies
+* Requirement 8: Vendor
+
+
+2.William Ho Swee Chiong
+Code implementation, UML class diagram and design rationale:
+* Requirement 2 : Bonfire and Firelink Shrink
+* Requirement 5 : Terrains
+* Requirement 6 : Soft Reset or Dying 
+
+
+3. Yap Yong Hong
+Code implementation, UML class diagram and design rationale:
+* Requirement 7: Weapon and WeaponAction
+
+
+Group work:
+Code implementation, UML class diagram and design rationale of:
+* Requirement 1: Player and Estus Flask
+* Requirement 3: Souls
+* Requirement 4: Enemies
+* Requirement 6: Soft Reset or Dying
+
+
+Agreement for work breakdown:
+1. I, Yong Liang Herr, agree with the above work breakdown. 
+2. 
+3.
