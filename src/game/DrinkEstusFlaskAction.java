@@ -3,24 +3,23 @@ package game;
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
+import game.enums.Abilities;
 
 /**
  * The action class to handle drinking of Estus Flask.
  * @see Action
  */
 public class DrinkEstusFlaskAction extends Action {
-    EstusFlask ef;
-    int healValue;
+
+    private EstusFlask estusFlask;
 
     /**
      * Constructor
-     * @param ef
-     * @param healValue
+     * @param estusFlask
      * Bind the parameter with the class variable.
      */
-    public DrinkEstusFlaskAction(EstusFlask ef, int healValue) {
-        this.ef=ef;
-        this.healValue = healValue;
+    public DrinkEstusFlaskAction(EstusFlask estusFlask) {
+        this.estusFlask = estusFlask;
     }
 
     /**
@@ -31,23 +30,27 @@ public class DrinkEstusFlaskAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        if (ef.getCharge()==0){
-        return null;
+        String result = actor + " cannot drink " + estusFlask;
+        if (actor.hasCapability(Abilities.DRINK)) {
+            if (estusFlask.getCharge() == 0) {
+                result = estusFlask + " has no charge";
+            }
+            else {
+                actor.heal((int)(estusFlask.getMaxHitPoints()*0.4));
+                estusFlask.subtractCharge(1);
+                result = actor + " drank " + estusFlask;
+            }
         }
-        else{
-            actor.heal(this.healValue);
-            ef.setCharge(ef.getCharge()-1);
-            return actor.toString()+" drank Estus Flask";
-        }
+        return result;
     }
 
     /**
-     * Menu Description method
+     * Estus Flask Menu Description method
      * @param actor The actor performing the action.
      * @return String that being show in the menu to allow user to choose.
      */
     @Override
     public String menuDescription(Actor actor) {
-        return String.format("%s drink Estus Flask (%d/%d)",actor.toString(),ef.getCharge(),ef.getMAX_CHARGE());
+        return actor + " drinks " + estusFlask;
     }
 }

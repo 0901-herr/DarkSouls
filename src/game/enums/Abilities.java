@@ -8,5 +8,6 @@ public enum Abilities {
     CRITICAL_STRIKE,
     BURN,
     DROP,
-    REST
+    REST,
+    DRINK
 }

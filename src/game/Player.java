@@ -31,9 +31,10 @@ public class Player extends Actor implements Soul, Resettable {
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
 		this.addCapability(Status.ABLE_TO_BUY);
 		this.addCapability(Abilities.REST);
+		this.addCapability(Abilities.DRINK);
 
 		this.addItemToInventory(new BroadSword());
-		this.addItemToInventory(new EstusFlask(this));
+		this.addItemToInventory(new EstusFlask(this.getMaximumHitPoints()));
 
 		registerInstance();
 

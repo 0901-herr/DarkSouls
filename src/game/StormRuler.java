@@ -9,7 +9,7 @@ import java.util.List;
 public class StormRuler extends MeleeWeapon {
 
     private int numberOfCharge;
-    private final int maxNumberOfCharge = 3;
+    private int MAX_NUMBER_OF_CHARGE = 3;
     private Actor actor;
 
     // constructor
@@ -58,7 +58,7 @@ public class StormRuler extends MeleeWeapon {
     public WeaponAction getActiveSkill(Actor target, String direction){
 
         // return WindSlashAction by Yhorm
-        if (target.hasCapability(Status.IS_YHORM) && numberOfCharge == maxNumberOfCharge){
+        if (target.hasCapability(Status.IS_YHORM) && numberOfCharge == MAX_NUMBER_OF_CHARGE){
             return new WindSlashAction(this, target);
         }
 
@@ -85,7 +85,7 @@ public class StormRuler extends MeleeWeapon {
     public void tick(Location currentLocation, Actor actor) {
         if (this.hasCapability(Status.CHARGING)){
             numberOfCharge += 1;
-            if (numberOfCharge == maxNumberOfCharge) {
+            if (numberOfCharge == MAX_NUMBER_OF_CHARGE) {
                 this.removeCapability(Status.CHARGING);
                 this.addCapability(Status.FULLY_CHARGED);
                 actor.removeCapability(Status.DISARMED);
@@ -96,11 +96,11 @@ public class StormRuler extends MeleeWeapon {
     @Override
     public String toString(){
         if (this.hasCapability(Status.CHARGING))
-            return name + " (" + numberOfCharge + "/" + maxNumberOfCharge + ") " + " (CHARGING) ";
+            return name + " (" + numberOfCharge + "/" + MAX_NUMBER_OF_CHARGE + ") " + " (CHARGING) ";
         else if (this.hasCapability(Status.FULLY_CHARGED))
-            return name + " (" + numberOfCharge + "/" + maxNumberOfCharge + ") " + " (FULLY_CHARGED) ";
+            return name + " (" + numberOfCharge + "/" + MAX_NUMBER_OF_CHARGE + ") " + " (FULLY_CHARGED) ";
         else
-            return name + " (" + numberOfCharge + "/" + maxNumberOfCharge + ") ";
+            return name + " (" + numberOfCharge + "/" + MAX_NUMBER_OF_CHARGE + ") ";
     }
 
     public void resetCharge(){

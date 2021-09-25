@@ -39,7 +39,6 @@ public class AttackAction extends Action {
 	@Override
 	public String execute(Actor actor, GameMap map) {
 		Weapon weapon = actor.getWeapon();
-		WeaponAction weaponAction = actor.getWeapon().getActiveSkill(target, direction);
 
 		if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
 			return actor + " misses " + target + ".";
