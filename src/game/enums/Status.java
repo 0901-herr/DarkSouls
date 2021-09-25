@@ -16,4 +16,7 @@ public enum Status {
     DISARMED,
     STUNNED,
     IMMUNE_TO_BURN,
+    IS_PICKED_UP,
+    CHARGING,
+    FULLY_CHARGED
 }

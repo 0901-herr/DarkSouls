@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Status;
 
 import java.util.List;
 
@@ -33,11 +34,10 @@ public class SwapWeaponAction extends PickUpItemAction {
             }
         }
 
-        // FIXME: Downcasting
         // if the ground has item, remove that item.
         // additionally, add new weapon to the inventory (equip).
         super.execute(actor, map);
-//        ((StormRuler) item).isPickedUp = true;
+        item.addCapability(Status.IS_PICKED_UP);
         return actor + " swaps " + currentWeapon + " with " + item;
     }
 

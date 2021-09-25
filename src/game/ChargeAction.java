@@ -5,24 +5,19 @@ import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.WeaponAction;
 import edu.monash.fit2099.engine.WeaponItem;
 import game.enums.Status;
-import game.interfaces.Chargeable;
-
 
 public class ChargeAction extends WeaponAction{
 
-    protected Chargeable weapon;
-
-    public ChargeAction(Chargeable chargeableWeapon){
-        super((WeaponItem) chargeableWeapon);
-        this.weapon = chargeableWeapon;
+    public ChargeAction(WeaponItem weaponItem){
+        super(weaponItem);
     }
-
 
     @Override
     public String execute(Actor actor, GameMap map){
-        weapon.add(1);
+        weapon.addCapability(Status.CHARGING);
         actor.addCapability(Status.DISARMED);
-        String result = actor + " charged " + weapon + ".";
+
+        String result = actor + " charging " + weapon + ".";
         return result;
     }
 
@@ -30,5 +25,4 @@ public class ChargeAction extends WeaponAction{
     public String menuDescription(Actor actor){
         return actor + " charges " + weapon;
     }
-
 }

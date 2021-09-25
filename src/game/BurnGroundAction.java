@@ -14,7 +14,7 @@ public class BurnGroundAction extends WeaponAction {
         super(weaponItem);
     }
 
-    // FIXME: Downcasting
+
     @Override
     public String execute(Actor actor, GameMap map){
         String result = actor + " uses Burn Ground.";
@@ -24,9 +24,6 @@ public class BurnGroundAction extends WeaponAction {
 
             if (destination.getGround().hasCapability(Abilities.BURN)){
                 destination.setGround(new BurnedGround(destination.getGround()));
-            }
-            else if (destination.getGround() instanceof BurnedGround){
-                ((BurnedGround) destination.getGround()).resetRound();
             }
         }
 

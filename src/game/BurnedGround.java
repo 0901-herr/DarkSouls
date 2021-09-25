@@ -8,22 +8,24 @@ import game.enums.Status;
 
 public class BurnedGround extends Ground {
 
-    private int round = 0;
+    private int round;
     private Ground previousGround;
 
     public BurnedGround(Ground previousGround){
         super('v');
         this.previousGround = previousGround;
+        this.round = 0;
     }
 
     @Override
     public Actions allowableActions(Actor actor, Location location, String direction) {
+        Actions actions = new Actions();
         if (location.containsAnActor()){
             if (!actor.hasCapability(Status.IMMUNE_TO_BURN)){
                 actor.hurt(25);
             }
         }
-        return new Actions();
+        return actions;
     }
 
     @Override
@@ -34,9 +36,5 @@ public class BurnedGround extends Ground {
         if (round == 4){
             location.setGround(previousGround);
         }
-    }
-
-    public void resetRound(){
-        round = 0;
     }
 }

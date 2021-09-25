@@ -7,11 +7,10 @@ import game.interfaces.Chargeable;
 import java.util.List;
 
 
-public class StormRuler extends MeleeWeapon implements Chargeable {
+public class StormRuler extends MeleeWeapon {
 
     private int numberOfCharge;
     private final int maxNumberOfCharge = 3;
-    public boolean isPickedUp;
 
     // constructor
     public StormRuler() {
@@ -19,19 +18,45 @@ public class StormRuler extends MeleeWeapon implements Chargeable {
         this.addCapability(Abilities.CRITICAL_STRIKE);
         this.criticalStrikeRate = 20;
         this.numberOfCharge = 0;
-        this.isPickedUp = false;
     }
 
+    //TODO: disarmed, dullness
     @Override
     public List<Action> getAllowableActions() {
         Actions allowableActions = new Actions();
-        // check if inventory has this weapon
-        if (numberOfCharge < maxNumberOfCharge) {
-            allowableActions.add(new ChargeAction(this));
-        } else if (numberOfCharge == maxNumberOfCharge) {
-            allowableActions.add(new WindSlashAction(this));
+        if (this.hasCapability(Status.IS_PICKED_UP)) {
+            if (this.hasCapability(Status.CHARGING)){
+                if (numberOfCharge == maxNumberOfCharge) {
+                    this.removeCapability(Status.CHARGING);
+                    this.addCapability(Status.FULLY_CHARGED);
+                }
+                else {
+                    numberOfCharge += 1;
+                }
+            }
+            else if (!this.hasCapability(Status.FULLY_CHARGED)){
+                allowableActions.add(new ChargeAction(this));
+            }
         }
         return allowableActions.getUnmodifiableActionList();
+    }
+
+    @Override
+    /**
+     * Get an action or skill from the weapon that will be used against one target.
+     * This method allows weapon instance to interact with Actor class.
+     * It can be used to have actionable special attack, heal, silence, etc. to a target
+     *
+     * @see WeaponItem#allowableActions for a self-direction skill instead of using this method (recommendation)
+     * @param target the target actor
+     * @param direction the direction of target, e.g. "north"
+     * @return null by default because a weapon doesn't have any active skill. Otherwise, return a WeaponAction instance.
+     */
+    public WeaponAction getActiveSkill(Actor target, String direction){
+        if (target.hasCapability(Status.IS_YHORM) && numberOfCharge == maxNumberOfCharge){
+            return new WindSlashAction(this, target);
+        }
+        return null;
     }
 
     @Override
@@ -43,33 +68,12 @@ public class StormRuler extends MeleeWeapon implements Chargeable {
     }
 
     @Override
-    public int numberOfCharge() {
-        return numberOfCharge;
-    }
-
-    @Override
-    public int maxNumberOfCharge() {
-        return maxNumberOfCharge;
-    }
-
-    @Override
-    public void add(int number) {
-        numberOfCharge += number;
-    }
-
-    @Override
-    public void subtract(int number) {
-        numberOfCharge += number;
-    }
-
-    @Override
-    public void resetCharge(){
-        numberOfCharge = 0;
-    }
-
-    @Override
     public String toString(){
         return name + " (" + numberOfCharge + "/" + maxNumberOfCharge + ") ";
+    }
+
+    public void resetCharge(){
+        numberOfCharge = 0;
     }
 }
 

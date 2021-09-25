@@ -19,9 +19,4 @@ public class GiantAxe extends MeleeWeapon {
         allowableActions.add(new SpinAttackAction(this));
         return allowableActions.getUnmodifiableActionList();
     }
-
-    @Override
-    public WeaponAction getActiveSkill(Actor target, String direction){
-        return new SpinAttackAction(this);
-    }
 }
