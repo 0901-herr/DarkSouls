@@ -45,6 +45,7 @@ public class ResetManager {
     /**
      * Reset the game by traversing through all the list
      * By doing this way, it will avoid using `instanceof` all over the place.
+     * Loop through the resettableList and reset every single element in the list
      */
     public void run(){
         for(Resettable reset:resettableList){
@@ -63,7 +64,7 @@ public class ResetManager {
 
     /**
      * clean up instances (actor, item, or ground) that doesn't exist anymore in the map
-     * FIXME: it does nothing, you need to implement it :)
+     * Remove the instances from the resettablelist that had been removed from the map
      */
     private void cleanUp(){
         for (int i=0;i<resettableList.size();i++){

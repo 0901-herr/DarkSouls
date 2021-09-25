@@ -5,6 +5,9 @@ import edu.monash.fit2099.engine.Ground;
 import edu.monash.fit2099.engine.Location;
 import game.enums.Status;
 
+/**
+ * The class to handle the generation of the burned ground
+ */
 public class BurnedGround extends Ground {
 
     private int round;

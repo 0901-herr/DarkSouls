@@ -22,7 +22,6 @@ public class SpinAttackAction extends WeaponAction {
     /**
      * Perform the SpinAttackAction.
      * Attack the actor in adjacent squares.
-     *
      * @param actor The actor performing the action.
      * @param map The map the actor is on.
      * @return a description of what happened that can be displayed to the user.

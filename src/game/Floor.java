@@ -14,6 +14,11 @@ public class Floor extends Ground {
 		super('_');
 	}
 
+	/**
+	 * Method to check whether the actor can enter
+	 * @param actor the Actor to check
+	 * @return
+	 */
 	@Override
 	public boolean canActorEnter(Actor actor) {
 		if(actor.hasCapability(Status.IS_PLAYER)){

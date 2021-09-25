@@ -65,7 +65,7 @@ public class Application {
 			// Place Storm Ruler in the map
 			gameMap.at(7, 25).addItem(new StormRuler(player));
 
-			// Place a Hollow in the the map
+			// Place Cemeteries in the map
 			gameMap.at(32, 7).setGround(new Cementery());
 			gameMap.at(27, 14).setGround(new Cementery());
 			gameMap.at(49, 12).setGround(new Cementery());
@@ -98,7 +98,7 @@ public class Application {
 			skeleton6InitialLocation.addActor(skeleton6);
 
 			// Place Bonfire at the center of the map
-			gameMap.at(38,11).setGround(new Bonfire());
+			gameMap.at(38,11).setGround(new Bonfire("Firelink Shrine"));
 
 			// Place Fire Keeper (Vendor) besides Bonfire
 			gameMap.at(37,11).addActor(new Vendor());

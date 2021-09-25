@@ -22,7 +22,7 @@ public class Undead extends Enemy {
 		this.getBehaviours().add(new WanderBehaviour());
 		this.setInitialLocation(initialLocation);
 	}
-	
+
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// 10% chance to die
@@ -35,6 +35,11 @@ public class Undead extends Enemy {
 		return super.playTurn(actions, lastAction, map, display);
 	}
 
+	/**
+	 * When this method is called:
+	 * Behavior of Undead is cleared.
+	 * Undead is removed from map.
+	 */
 	@Override
 	public void resetInstance() {
 		this.getBehaviours().clear();
@@ -42,11 +47,19 @@ public class Undead extends Enemy {
 		this.getInitialLocation().map().removeActor(this);
 	}
 
+	/**
+	 * Getter for Intrinsic Weapon
+	 * @return IntrinsicWeapon object
+	 */
 	@Override
 	protected IntrinsicWeapon getIntrinsicWeapon() {
 		return new IntrinsicWeapon(20, "thwacks");
 	}
 
+	/**
+	 * toString method
+	 * @return toString
+	 */
 	@Override
 	public String toString() {
 		String hitPointsStatus = "(" + getHitPoints() + "/" + getMaxHitPoints() + ")";

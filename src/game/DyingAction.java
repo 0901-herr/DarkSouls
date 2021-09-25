@@ -36,7 +36,14 @@ public class DyingAction extends Action {
         this.UndeadRandomDead=UndeadRandomDead;
     }
 
-
+    /**
+     * Core of the class that handle few implementations of the dying mechanism:
+     * When player dies, it will remove from the map and drop tokenOfSoul and also reset.
+     * When enemy dies, it will transfer soul to the target(Player) and remove from map.
+     * @param actor The actor performing the action.
+     * @param map The map the actor is on.
+     * @return String indicate the current action.
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
         final String ANSI_RESET = "\u001B[0m";
@@ -102,7 +109,11 @@ public class DyingAction extends Action {
 
         return res;
     }
-
+    /**
+     * Menu Description method
+     * @param actor The actor performing the action.
+     * @return null
+     */
     @Override
     public String menuDescription(Actor actor) {
         return null;

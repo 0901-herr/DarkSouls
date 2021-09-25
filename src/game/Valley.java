@@ -11,15 +11,17 @@ import game.enums.Status;
  * The gorge or endless gap that is dangerous for the Player.
  */
 public class Valley extends Ground {
-
+	/**
+	 * Constructor
+	 */
 	public Valley() {
 		super('+');
 		this.addCapability(Status.IS_VALLEY);
 	}
 	/**
-	 * FIXME: At the moment, the Player cannot enter it. It is boring.
+	 * Method that check whether the actor is allow to enter valley.
 	 * @param actor the Actor to check
-	 * @return false or actor cannot enter.
+	 * @return true for player, else false
 	 */
 
 	@Override
@@ -32,6 +34,13 @@ public class Valley extends Ground {
 		}
 	}
 
+	/**
+	 * Allowable actions that will hurt actor when actor step on valley
+	 * @param actor the Actor acting
+	 * @param location the current Location
+	 * @param direction the direction of the Ground from the Actor
+	 * @return new Actions()
+	 */
 	@Override
 	public Actions allowableActions(Actor actor, Location location, String direction) {
 		if (location.containsAnActor()){

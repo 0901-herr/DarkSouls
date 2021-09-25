@@ -11,12 +11,14 @@ import game.enums.Abilities;
  * @see Ground
  */
 public class Bonfire extends Ground {
+    String name;
     /**
      * Constructor
      *
      */
-    public Bonfire(){
+    public Bonfire(String name){
         super('B');
+        this.name=name;
     }
 
     /**
@@ -29,7 +31,7 @@ public class Bonfire extends Ground {
     @Override
     public Actions allowableActions(Actor actor, Location location, String direction) {
         Actions actions=new Actions();
-        actions.add(new BonfireRestAction());
+        actions.add(new BonfireRestAction(name));
         return actions;
     }
 }

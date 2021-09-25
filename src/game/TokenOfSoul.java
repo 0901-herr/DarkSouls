@@ -7,17 +7,32 @@ import game.interfaces.Soul;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * Class for Token Of Soul
+ */
 public class TokenOfSoul extends Item implements Soul {
     private Actor actor;
     private int soul;
     private Location location;
 
+    /**
+     * Constructor
+     * @param name
+     * @param displayChar
+     * @param portable
+     * @param actor
+     * @see Abilities
+     */
     public TokenOfSoul(String name, char displayChar, boolean portable, Actor actor) {
         super(name, displayChar, portable);
         this.actor = actor;
         addCapability(Abilities.DROP);
     }
 
+    /**
+     * getAllowableAction to get the pick up action when player approach it.
+     * @return An action list the contain pick up Action
+     */
     @Override
     public List<Action> getAllowableActions() {
         List<Action> pickup= new ArrayList<Action>();
@@ -25,11 +40,21 @@ public class TokenOfSoul extends Item implements Soul {
         return pickup;
     }
 
+    /**
+     * This methos is use to manage the process of the transfer of soul between actor(souls)
+     * @param soulObject a target souls.
+     */
     @Override
     public void transferSouls(Soul soulObject) {
         soulObject.addSouls(getSouls());
         subtractSouls(getSouls());
     }
+
+    /**
+     * Substract soul method
+     * @param soul
+     * @return boolean that indicate whether the subtraction is successful.
+     */
     @Override
     public boolean subtractSouls(int soul) {
         boolean isSuccess = false;
@@ -43,20 +68,36 @@ public class TokenOfSoul extends Item implements Soul {
         return isSuccess;
     }
 
+    /**
+     * Setter
+     * @param souls
+     */
     @Override
     public void setSouls(int souls) {
         this.soul=souls;
     }
 
+    /**
+     * Getter
+     * @return soul
+     */
     @Override
     public int getSouls() {
         return soul;
     }
 
+    /**
+     * Location Getter
+     * @return location
+     */
     public Location getLocation() {
         return location;
     }
 
+    /**
+     * Location Setter
+     * @param location
+     */
     public void setLocation(Location location) {
         this.location = location;
     }

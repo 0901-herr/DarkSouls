@@ -130,6 +130,7 @@ public class Player extends Actor implements Soul, Resettable {
 	}
 
 	/**
+	 * Setter for soul
 	 * @param souls
 	 */
 	@Override
@@ -138,7 +139,8 @@ public class Player extends Actor implements Soul, Resettable {
 	}
 
 	/**
-	 * @return
+	 * Getter of soul
+	 * @return int soul
 	 */
 	@Override
 	public int getSouls() {
@@ -146,6 +148,7 @@ public class Player extends Actor implements Soul, Resettable {
 	}
 
 	/**
+	 * Setter for hitPoints
 	 * @param hitPoints
 	 */
 	public void setHitPoints(int hitPoints) {
@@ -153,7 +156,8 @@ public class Player extends Actor implements Soul, Resettable {
 	}
 
 	/**
-	 * @return
+	 * Getter for hitPoints
+	 * @return hitPoints
 	 */
 	public int getHitPoints() {
 		return this.hitPoints;

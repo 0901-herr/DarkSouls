@@ -7,6 +7,10 @@ import edu.monash.fit2099.engine.*;
  * @see Action
  */
 public class BonfireRestAction extends Action {
+    String name;
+    public BonfireRestAction(String name){
+        this.name=name;
+    }
     /**
      * Execute method that execute the rest action when the BonfireRestAction is called.
      * @param actor The actor performing the action.
@@ -26,6 +30,6 @@ public class BonfireRestAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor.toString()+ " rest";
+        return actor.toString()+ " rest in ";
     }
 }
