@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public abstract class Enemy extends Actor implements Soul, Resettable {
     private int souls;
-    private ArrayList<Behaviour> behaviours = new ArrayList<>();
+    private ArrayList<Behaviour> behaviours;
     private FollowBehaviour followBehaviour;
     private Location initialLocation;
 
@@ -20,6 +20,7 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
         this.setSouls(souls);
         this.setInitialLocation(initialLocation);
         this.registerInstance();
+        this.behaviours = new ArrayList<>();
     }
 
     @Override
@@ -51,10 +52,15 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
             // add behaviours for Undead
             this.addBehaviour(otherActor);
 
-            // AttackAction to Player
-            actions.add(new AttackAction(this, direction));
-        }
+            // check if player is in disarmed status
+            if (!otherActor.hasCapability(Status.DISARMED)) {
+                // add WeaponAction to Player
+                actions.add(otherActor.getWeapon().getActiveSkill(this, direction));
 
+                // add AttackAction to Player
+                actions.add(new AttackAction(this, direction));
+            }
+        }
         return actions;
     }
 
@@ -64,8 +70,7 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
             this.getBehaviours().add(0, new AttackBehaviour());
 
             // add FollowBehaviour
-            this.setFollowBehaviour(new FollowBehaviour(otherActor));
-            this.getBehaviours().add(1, this.getFollowBehaviour());
+            this.getBehaviours().add(1, new FollowBehaviour(otherActor));
         }
     }
 

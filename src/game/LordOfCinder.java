@@ -15,11 +15,6 @@ public abstract class LordOfCinder extends Enemy {
      */
     public LordOfCinder(String name, char displayChar, int hitPoints, Location initialLocation, int souls) {
         super(name, displayChar, hitPoints, initialLocation, souls);
-        try {
-            addItemToInventory(new GreatMachete(this));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
     }
 
     /**
@@ -31,7 +26,7 @@ public abstract class LordOfCinder extends Enemy {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        return new DoNothingAction();
+        return super.playTurn(actions, lastAction, map, display);
     }
 
     public abstract void addEnrageBehaviour();

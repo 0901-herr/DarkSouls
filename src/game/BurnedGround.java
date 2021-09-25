@@ -1,7 +1,6 @@
 package game;
 
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
+
 import edu.monash.fit2099.engine.Ground;
 import edu.monash.fit2099.engine.Location;
 import game.enums.Status;
@@ -18,19 +17,14 @@ public class BurnedGround extends Ground {
     }
 
     @Override
-    public Actions allowableActions(Actor actor, Location location, String direction) {
-        Actions actions = new Actions();
-        if (location.containsAnActor()){
-            if (!actor.hasCapability(Status.IMMUNE_TO_BURN)){
-                actor.hurt(25);
-            }
-        }
-        return actions;
-    }
-
-    @Override
     public void tick(Location location){
         super.tick(location);
+
+        if (location.containsAnActor()){
+            if (!location.getActor().hasCapability(Status.IMMUNE_TO_BURN)){
+                location.getActor().hurt(25);
+            }
+        }
 
         round++;
         if (round == 4){

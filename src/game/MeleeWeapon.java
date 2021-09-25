@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.DropItemAction;
 import edu.monash.fit2099.engine.WeaponItem;
 import game.enums.Abilities;
@@ -11,6 +12,7 @@ public class MeleeWeapon extends WeaponItem {
 
     protected Random rand = new Random();
     protected  int criticalStrikeRate;
+    protected Display display = new Display();
 
     /**
      * Constructor.
@@ -30,10 +32,10 @@ public class MeleeWeapon extends WeaponItem {
         int damage = this.damage;
         if (this.hasCapability(Abilities.CRITICAL_STRIKE)){
             if (rand.nextInt(100) <= criticalStrikeRate){
-                damage = this.damage * 2;
+                damage *= 2;
+                display.println("CRITICAL STRIKE !!!");
             }
         }
-
         return damage;
     }
 

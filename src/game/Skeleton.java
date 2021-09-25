@@ -53,13 +53,7 @@ public class Skeleton extends Enemy {
         }
 
         // loop through all behaviours
-        for(Behaviour Behaviour : getBehaviours()) {
-            Action action = Behaviour.getAction(this, map);
-            if (action != null)
-                return action;
-        }
-
-        return new DoNothingAction();
+        return super.playTurn(actions, lastAction, map, display);
     }
 
     @Override

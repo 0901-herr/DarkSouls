@@ -31,12 +31,7 @@ public class Undead extends Enemy {
 //		}
 
 		// loop through all behaviours
-		for(game.interfaces.Behaviour Behaviour : getBehaviours()) {
-			Action action = Behaviour.getAction(this, map);
-			if (action != null)
-				return action;
-		}
-		return new DoNothingAction();
+		return super.playTurn(actions, lastAction, map, display);
 	}
 
 	@Override

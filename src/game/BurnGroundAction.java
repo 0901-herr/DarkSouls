@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.Location;
 import edu.monash.fit2099.engine.WeaponAction;
 import edu.monash.fit2099.engine.WeaponItem;
 import game.enums.Abilities;
+import game.enums.Status;
 
 public class BurnGroundAction extends WeaponAction {
 
@@ -26,7 +27,6 @@ public class BurnGroundAction extends WeaponAction {
                 destination.setGround(new BurnedGround(destination.getGround()));
             }
         }
-
         return result;
     }
 

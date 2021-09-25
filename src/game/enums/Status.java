@@ -18,5 +18,8 @@ public enum Status {
     IMMUNE_TO_BURN,
     IS_PICKED_UP,
     CHARGING,
-    FULLY_CHARGED
+    FULLY_CHARGED,
+    DULLNESS,
+    WEAK_TO_STORMRULER,
+    IS_ACTIVATED
 }

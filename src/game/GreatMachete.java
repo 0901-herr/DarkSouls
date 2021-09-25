@@ -15,6 +15,9 @@ public class GreatMachete extends MeleeWeapon{
     public GreatMachete(Actor actor){
         super("Yhorm's Great Machete", 'M', 95, "smashes", 60);
         this.actor = actor;
+        if (!(actor.hasCapability(Status.IS_YHORM))){
+            display.println(actor + " cannot equip " + this);
+        }
     }
 
     @Override
@@ -26,16 +29,12 @@ public class GreatMachete extends MeleeWeapon{
         return hitRate;
     }
 
-//    @Override
-//    public List<Action> getAllowableActions() {
-//        Actions allowableActions = new Actions();
-//        allowableActions.add(new BurnGroundAction(this));
-//        return allowableActions.getUnmodifiableActionList();
-//    }
-
     @Override
-    public WeaponAction getActiveSkill(Actor target, String direction){
-        return new BurnGroundAction(this);
+    public List<Action> getAllowableActions() {
+        Actions allowableActions = new Actions();
+        if (actor.hasCapability(Status.RAGE_MODE)) {
+            allowableActions.add(new BurnGroundAction(this));
+        }
+        return allowableActions.getUnmodifiableActionList();
     }
-
 }

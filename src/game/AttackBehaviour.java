@@ -31,17 +31,26 @@ public class AttackBehaviour implements Behaviour {
 
             if (destination.containsAnActor() && destination.getActor().hasCapability(Status.IS_PLAYER)) {
                 target = destination.getActor();
+
+                // add AttackAction
                 actions.add(new AttackAction(target, exit.getName()));
 
-                // get inventory of enemy
+                // add WeaponAction
                 for (Item item : actor.getInventory()) {
-                    actions.add(item.getAllowableActions());
+                    if (item.asWeapon() != null) {
+                        actions.add(item.getAllowableActions());
+                    }
                 }
 
-                // randomly selects actions of the enemy
-                int randInt = rand.nextInt(actions.size());
+                if (actor.hasCapability(Status.IS_YHORM)){
+                    return actions.get(0);
+                }
+                else {
+                    // randomly selects actions of the enemy
+                    int randInt = rand.nextInt(actions.size());
 
-                return actions.get(randInt);
+                    return actions.get(randInt);
+                }
             }
         }
 
