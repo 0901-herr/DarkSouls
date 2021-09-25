@@ -4,11 +4,15 @@ import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 import game.interfaces.Soul;
 
+import java.util.HashMap;
+
 public class Vendor extends Actor implements Soul {
-    int souls = 0;
+    private HashMap<Item, Integer> items = new HashMap<>();
 
     public Vendor() {
         super("Fire Keeper", 'F', 0);
+        items.put(new BroadSword(), 500);
+        items.put(new GiantAxe(), 1000);
     }
 
     @Override
@@ -28,12 +32,22 @@ public class Vendor extends Actor implements Soul {
     @Override
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
         Actions actions = new Actions();
+
+        // check if actor can buy items
         if (otherActor.hasCapability(Status.ABLE_TO_BUY)) {
-            actions.add(new BuyBroadSwordAction(this));
-            actions.add(new BuyGiantAxeAction(this));
+            for (HashMap.Entry<Item, Integer> item: this.getItems().entrySet()){
+                actions.add(new BuyItemAction(this, item.getKey(), item.getValue()));
+            }
+
+            // buy increase maximum hp
             actions.add(new BuyIncreaseMaxHPAction(this));
         }
+
         return actions;
+    }
+
+    public HashMap<Item, Integer> getItems() {
+        return items;
     }
 
     @Override
@@ -50,15 +64,5 @@ public class Vendor extends Actor implements Soul {
             isSuccess = false;
         }
         return isSuccess;
-    }
-
-    @Override
-    public void setSouls(int souls) {
-        this.souls = souls;
-    }
-
-    @Override
-    public int getSouls() {
-        return souls;
     }
 }

@@ -29,10 +29,9 @@ public class AttackBehaviour implements Behaviour {
         for (Exit exit : here.getExits()) {
             Location destination = exit.getDestination();
 
-            if (destination.containsAnActor() && destination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
+            if (destination.containsAnActor() && destination.getActor().hasCapability(Status.IS_PLAYER)) {
                 target = destination.getActor();
                 actions.add(new AttackAction(target, exit.getName()));
-                // System.out.println(target + " gives AttackAction to " + actor);
 
                 // get inventory of enemy
                 for (Item item : actor.getInventory()) {

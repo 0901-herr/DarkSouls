@@ -31,11 +31,11 @@ public class DyingAction extends Action {
         final String ANSI_BLUE = "\u001B[34m";
         final String ANSI_YELLOW = "\u001B[33m";
         final String ANSI_RED = "\u001B[31m";
-        map.moveActor(actor, map.at(38, 12));
-        System.out.println(actor);
-        System.out.println(target);
+//        map.moveActor(actor, map.at(38, 12));
+//        System.out.println(actor);
+//        System.out.println(target);
 
-        if(target.hasCapability(Status.IS_PLAYER)|| actor.hasCapability(Status.IS_PLAYER)) {
+        if(actor.hasCapability(Status.IS_PLAYER) && target.hasCapability(Status.IS_PLAYER)) {
             System.out.println(ANSI_RED+
                     "------------    ------      ********   ------------        --------   ---    ---  ------------ -----------\n"+ANSI_RESET+
                     ANSI_BLUE+"************   ********    ----------  ************       **********  ***    ***  ************ ***********\n"+ANSI_RESET+
@@ -46,7 +46,7 @@ public class DyingAction extends Action {
                     ANSI_BLUE+"------------ ----    ---- ***  **  *** ------------       ----------    ------    ------------ ----   ----\n"+ANSI_RESET+
                     ANSI_RED+"************ ****    **** ---      --- ************        ********      ****     ************ ****    ****"+ANSI_RESET
             );
-            map.moveActor(target, map.at(38, 12));
+            map.moveActor(actor, map.at(38, 12));
             if (previousTokenOfSoul != null) {
                 previousTokenOfSoul.getLocation().removeItem(previousTokenOfSoul);
             }
@@ -70,7 +70,7 @@ public class DyingAction extends Action {
                 dropActions.add(item.getDropAction(actor));
             for (Action drop : dropActions)
                 drop.execute(target, map);
-            System.out.println(target + " transferring soul to " + actor);
+//            System.out.println(target + " transferring soul to " + actor);
             map.removeActor(target);
             if (target.hasCapability(Status.IS_YHORM)){
 

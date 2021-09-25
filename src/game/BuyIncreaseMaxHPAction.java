@@ -2,13 +2,12 @@ package game;
 
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.Ground;
 
 public class BuyIncreaseMaxHPAction extends BuyItemAction {
     private int increaseValue;
 
     public BuyIncreaseMaxHPAction(Actor vendor) {
-        super(vendor,200);
+        super(vendor, 200);
         setIncreaseValue(25);
     }
 
@@ -28,7 +27,6 @@ public class BuyIncreaseMaxHPAction extends BuyItemAction {
 
         actor.increaseMaxHp(25);
 
-//        actor.
         result = actor + " maximum HP increase by 25";
 
         return result;

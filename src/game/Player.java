@@ -27,22 +27,21 @@ public class Player extends Actor implements Soul, Resettable {
 	 */
 	public Player(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints);
-		this.maxHitPoints = hitPoints;
 		this.addCapability(Status.IS_PLAYER);
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
 		this.addCapability(Status.ABLE_TO_BUY);
 		this.addCapability(Abilities.REST);
 
 		this.addItemToInventory(new BroadSword());
-		this.addItemToInventory(new GiantAxe());
-
 		this.addItemToInventory(new EstusFlask(this));
+
 		registerInstance();
 
 	}
 
 	/**
 	 * Every single playturn will call this method to get the player's Action
+	 *
 	 * @param actions    collection of possible Actions for this Actor
 	 * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
 	 * @param map        the map containing the Actor
@@ -51,30 +50,27 @@ public class Player extends Actor implements Soul, Resettable {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-		if (!isConscious()){
+		if (!isConscious()) {
 			System.out.println("dead");
-			ts= new TokenOfSoul("Token of Soul",'$',false,this);
-			return new DyingAction(map.locationOf(this),souls,previousLocation,this,ts,previousTokenOfSoul);
+			ts = new TokenOfSoul("Token of Soul", '$', false, this);
+			return new DyingAction(map.locationOf(this), souls, previousLocation, this, ts, previousTokenOfSoul);
 		}
-		this.previousTokenOfSoul=ts;
-		this.previousLocation=map.locationOf(this);
+		this.previousTokenOfSoul = ts;
+		this.previousLocation = map.locationOf(this);
 		// Handle multi-turn Actions
 
 		if (lastAction.getNextAction() != null) {
 			return lastAction.getNextAction();
 		}
-		// TODO: Change weapon name
+
 		String holdWeaponMessage = ", holding " + getWeapon();
 		String soulCountMessage = ", " + getSouls() + " souls";
+		display.println(this + " (" + getHitPoints() + "/" + getMaximumHitPoints() + ")" + holdWeaponMessage + soulCountMessage);
 
-		display.println(name + " (" + hitPoints + "/" + getMaxHp() + ")" + holdWeaponMessage + soulCountMessage);
-
-		// return/print the console menu
 		return menu.showMenu(this, actions, display);
 	}
 
 	/**
-	 *
 	 * @param otherActor the Actor that might be performing attack
 	 * @param direction  String representing the direction of the other Actor
 	 * @param map        current GameMap
@@ -83,15 +79,10 @@ public class Player extends Actor implements Soul, Resettable {
 	@Override
 	public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
 		Actions actions = new Actions();
-		// it can be attacked only by the HOSTILE opponent.
-		if(otherActor.hasCapability(Status.HOSTILE_TO_PLAYER)) {
-			actions.add(new AttackAction(this,direction));
-		}
 		return actions;
 	}
 
 	/**
-	 *
 	 * @param soulObject a target souls.
 	 */
 	@Override
@@ -101,43 +92,44 @@ public class Player extends Actor implements Soul, Resettable {
 	}
 
 	/**
-	 *
 	 * @param souls number of souls to be incremented.
 	 * @return
 	 */
 	@Override
 	public boolean addSouls(int souls) {
 		boolean isSuccess = false;
+
 		if (souls > 0) {
-			this.souls += souls;
+			this.setSouls(this.getSouls()+souls);
 			isSuccess = true;
 		}
 		else {
 			isSuccess = false;
 		}
+
 		return isSuccess;
 	}
 
 	/**
-	 *
 	 * @param souls number souls to be deducted
 	 * @return
 	 */
 	@Override
 	public boolean subtractSouls(int souls) {
 		boolean isSuccess = false;
-		if (souls > 0) {
+
+		if (this.souls >= souls) {
 			this.souls -= souls;
 			isSuccess = true;
 		}
 		else {
 			isSuccess = false;
 		}
+
 		return isSuccess;
 	}
 
 	/**
-	 *
 	 * @param requiredSouls
 	 */
 	@Override
@@ -146,7 +138,6 @@ public class Player extends Actor implements Soul, Resettable {
 	}
 
 	/**
-	 *
 	 * @param souls
 	 */
 	@Override
@@ -155,20 +146,39 @@ public class Player extends Actor implements Soul, Resettable {
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	@Override
 	public int getSouls() {
-		return souls;
+		return this.souls;
 	}
 
 	/**
-	 *
+	 * @param hitPoints
+	 */
+	public void setHitPoints(int hitPoints) {
+		this.hitPoints = hitPoints;
+	}
+
+	/**
 	 * @return
 	 */
-	public int getMaxHp() {
-		return maxHitPoints;
+	public int getHitPoints() {
+		return this.hitPoints;
+	}
+
+	/**
+	 * @param maxHitPoints
+	 */
+	public void setMaxHitPoints(int maxHitPoints) {
+		this.maxHitPoints = maxHitPoints;
+	}
+
+	/**
+	 * @return
+	 */
+	public int getMaximumHitPoints() {
+		return this.maxHitPoints;
 	}
 
 	/**
@@ -176,12 +186,11 @@ public class Player extends Actor implements Soul, Resettable {
 	 */
 	@Override
 	public void resetInstance() {
-		this.hitPoints=100;
+		this.hitPoints = 100;
 
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	@Override

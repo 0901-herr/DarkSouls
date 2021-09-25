@@ -10,15 +10,11 @@ import game.interfaces.Soul;
  * The boss of Design o' Souls
  */
 public abstract class LordOfCinder extends Enemy {
-    int souls = 5000;
-
     /**
      * Constructor.
      */
-    public LordOfCinder(String name, char displayChar, int hitPoints, Location initialLocation) {
-        super(name, displayChar, hitPoints, initialLocation);
-        this.addCapability(Status.IS_YHORM);
-        setSouls(this.souls);
+    public LordOfCinder(String name, char displayChar, int hitPoints, Location initialLocation, int souls) {
+        super(name, displayChar, hitPoints, initialLocation, souls);
         try {
             addItemToInventory(new GreatMachete(this));
         } catch (Exception e) {

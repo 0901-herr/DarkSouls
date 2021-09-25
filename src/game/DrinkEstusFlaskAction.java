@@ -48,6 +48,6 @@ public class DrinkEstusFlaskAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return String.format("%s drink Estus Flask %d/%d",actor.toString(),ef.getCharge(),ef.getMAX_CHARGE());
+        return String.format("%s drink Estus Flask (%d/%d)",actor.toString(),ef.getCharge(),ef.getMAX_CHARGE());
     }
 }

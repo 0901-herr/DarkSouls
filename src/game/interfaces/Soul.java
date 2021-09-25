@@ -36,7 +36,9 @@ public interface Soul {
 
     default void setRequiredSouls(int requiredSouls) {}
 
-    void setSouls(int souls);
+    default void setSouls(int souls) {}
 
-    int getSouls();
+    default int getSouls() {
+        return 0;
+    }
 }

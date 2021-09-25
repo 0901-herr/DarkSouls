@@ -21,7 +21,6 @@ public class GreatMachete extends MeleeWeapon{
     public int chanceToHit(){
         int hitRate = this.hitRate;
         if (actor.hasCapability(Status.RAGE_MODE)){
-            System.out.println("Hit rate INCREASE!!!");
             hitRate += 30;
         }
         return hitRate;

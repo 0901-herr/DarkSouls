@@ -11,15 +11,15 @@ import java.util.ArrayList;
  * An undead minion.
  */
 public class Yhorm extends LordOfCinder {
-    private boolean isEnraged = false;
+    private EnrageBehaviour enrageBehaviour;
 
     /**
      * Constructor.
      * @param name the name of Yhorm
      */
     public Yhorm(String name, char displayChar, int hitPoints, Location initialLocation) {
-        super(name, displayChar, hitPoints, initialLocation);
-        registerInstance();
+        super(name, displayChar, hitPoints, initialLocation, 5000);
+        this.addCapability(Status.IS_YHORM);
     }
 
     /**
@@ -28,15 +28,18 @@ public class Yhorm extends LordOfCinder {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        if (getIsReset()) {
-            setReset(false);
-            return new DoNothingAction();
-        }
 
         // when Yhorm hp < 50% max hp add EnrageBehaviour
         if (getHitPoints() < (getMaxHitPoints()*0.5)) {
             this.addCapability(Status.RAGE_MODE);
             addEnrageBehaviour();
+        }
+
+        // when Yhorm is stunned
+        if (this.hasCapability(Status.STUNNED)){
+            display.println(this + " is stunned");
+            this.removeCapability(Status.STUNNED);
+            return new DoNothingAction();
         }
 
         // loop through all behaviours
@@ -45,62 +48,33 @@ public class Yhorm extends LordOfCinder {
             if (action != null)
                 return action;
         }
+
         return new DoNothingAction();
     }
 
-    /**
-     * At the moment, we only make it can be attacked by enemy that has HOSTILE capability
-     * You can do something else with this method.
-     * @param otherActor the Actor that might be performing attack
-     * @param direction  String representing the direction of the other Actor
-     * @param map        current GameMap
-     * @return list of actions
-     * @see Status#HOSTILE_TO_ENEMY
-     */
-    @Override
-    public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
-        Actions actions = new Actions();
-
-        // it can be attacked only by the HOSTILE opponent, and this action will not attack the HOSTILE enemy back.
-        if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            // add behaviours for Undead
-            addBehaviour(otherActor);
-
-            // AttackAction to Player
-            actions.add(new AttackAction(this, direction));
-        }
-
-        return actions;
-    }
-
-    public void addBehaviour(Actor otherActor) {
-        if (getFollowBehaviour() == null) {
-            // Add AttackBehaviour
-            getBehaviours().add(0, new AttackBehaviour());
-
-            // add FollowBehaviour
-            setFollowBehaviour(new FollowBehaviour(otherActor));
-            getBehaviours().add(1, getFollowBehaviour());
-        }
-    }
-
     public void addEnrageBehaviour() {
-        if (!isEnraged) {
-            isEnraged = true;
-            getBehaviours().add(0, new EnrageBehaviour(isEnraged));
+        if (enrageBehaviour == null) {
+            this.setEnrageBehaviour(new EnrageBehaviour());
+            this.getBehaviours().add(0, enrageBehaviour);
         }
     }
 
     @Override
     public void resetInstance() {
+        this.getBehaviours().clear();
+
         // remove FollowBehaviour
-        setFollowBehaviour(null);
+        this.setFollowBehaviour(null);
+
+        // remove EnrageBehaviour
+        this.setEnrageBehaviour(null);
 
         // reset location
-        getInitialLocation().map().moveActor(this, getInitialLocation());
-        this.hitPoints = getMaxHitPoints();
+        this.getInitialLocation().map().moveActor(this, this.getInitialLocation());
+        this.hitPoints = this.getMaxHitPoints();
+    }
 
-        // reset burn action
-        isEnraged = false;
+    public void setEnrageBehaviour(EnrageBehaviour enrageBehaviour) {
+        this.enrageBehaviour = enrageBehaviour;
     }
 }

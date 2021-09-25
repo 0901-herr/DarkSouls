@@ -41,7 +41,6 @@ public class StormRuler extends MeleeWeapon {
         return allowableActions.getUnmodifiableActionList();
     }
 
-    @Override
     /**
      * Get an action or skill from the weapon that will be used against one target.
      * This method allows weapon instance to interact with Actor class.
@@ -52,6 +51,7 @@ public class StormRuler extends MeleeWeapon {
      * @param direction the direction of target, e.g. "north"
      * @return null by default because a weapon doesn't have any active skill. Otherwise, return a WeaponAction instance.
      */
+    @Override
     public WeaponAction getActiveSkill(Actor target, String direction){
         if (target.hasCapability(Status.IS_YHORM) && numberOfCharge == maxNumberOfCharge){
             return new WindSlashAction(this, target);

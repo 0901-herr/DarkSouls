@@ -17,7 +17,7 @@ public class EstusFlask extends Item implements Resettable {
         super("EstusFlask", 'e', false);
         this.player=player;
         this.charge=MAX_CHARGE;
-        drinkEstusFlaskAction = new DrinkEstusFlaskAction(this, (int)(player.getMaxHp()*0.4));
+        drinkEstusFlaskAction = new DrinkEstusFlaskAction(this, (int)(player.getMaximumHitPoints()*0.4));
         registerInstance();
     }
 

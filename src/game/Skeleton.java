@@ -22,9 +22,7 @@ import java.util.Random;
  */
 
 public class Skeleton extends Enemy {
-    // Will need to change this to a collection if Undeads gets additional Behaviours.
     Random rand = new Random();
-    int souls = 250;
 
     /**
      * Constructor.
@@ -32,40 +30,11 @@ public class Skeleton extends Enemy {
      * @param name the name of this Undead
      */
     public Skeleton(String name, Location initialLocation) {
-        super(name, 's', 100, initialLocation);
-        getBehaviours().add(new WanderBehaviour());
-        addRandomizeWeapon();
-        setSouls(this.souls);
-        setInitialLocation(initialLocation);
+        super(name, 's', 100, initialLocation, 250);
+        this.setInitialLocation(initialLocation);
+        this.getBehaviours().add(new WanderBehaviour());
+        this.addRandomizeWeapon();
     }
-
-    /**
-     * At the moment, we only make it can be attacked by enemy that has HOSTILE capability
-     * You can do something else with this method.
-     * @param otherActor the Actor that might be performing attack
-     * @param direction  String representing the direction of the other Actor
-     * @param map        current GameMap
-     * @return list of actions
-     * @see Status#HOSTILE_TO_ENEMY
-     */
-    @Override
-    public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
-        // create follow behaviour here
-        // add followbehaviour in behaviour list
-        Actions actions = new Actions();
-
-        // it can be attacked only by the HOSTILE opponent, and this action will not attack the HOSTILE enemy back.
-        if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            // add behaviours for Undead
-            addBehaviour(otherActor);
-
-            // AttackAction to Player
-            actions.add(new AttackAction(this, direction));
-        }
-
-        return actions;
-    }
-
 
     /**
      * Figure out what to do next.
@@ -73,14 +42,9 @@ public class Skeleton extends Enemy {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        // Revive it Skeleton
-        if (getIsReset()) {
-            setReset(false);
-            return new DoNothingAction();
-        }
 
+        // Skeleton has 50% chance to revive once
         if (!isConscious() && this.hasCapability(Abilities.REVIVE_FOR_ONCE) && rand.nextBoolean()) {
-            System.out.println("Skeleton is Revived");
             this.heal(getMaxHitPoints());
 
             // Remove ability
@@ -99,19 +63,21 @@ public class Skeleton extends Enemy {
     }
 
     @Override
-    public void addBehaviour(Actor otherActor) {
-        if (getFollowBehaviour() == null) {
-            // Add AttackBehaviour
-            getBehaviours().add(0, new AttackBehaviour());
+    public void resetInstance() {
+        this.getInitialLocation().map().removeActor(this);
 
-            // add FollowBehaviour
-            setFollowBehaviour(new FollowBehaviour(otherActor));
-            getBehaviours().add(1, getFollowBehaviour());
-        }
+        this.getBehaviours().clear();
+        this.getBehaviours().add(new WanderBehaviour());
+
+        // remove FollowBehaviour
+        this.setFollowBehaviour(null);
+
+        // reset location
+        this.getInitialLocation().map().moveActor(this, getInitialLocation());
+        this.hitPoints = getMaxHitPoints();
     }
 
     public void addRandomizeWeapon() {
-        Random rand = new Random();
         WeaponItem weapon;
         WeaponItem broadSword = new BroadSword();
         WeaponItem giantAxe = new GiantAxe();
@@ -123,6 +89,6 @@ public class Skeleton extends Enemy {
             weapon = broadSword;
         }
 
-        addItemToInventory(weapon);
+        this.addItemToInventory(weapon);
     }
 }

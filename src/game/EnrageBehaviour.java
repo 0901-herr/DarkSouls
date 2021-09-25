@@ -10,10 +10,8 @@ import game.interfaces.Behaviour;
  *
  */
 public class EnrageBehaviour implements Behaviour {
-    private Actions actions = new Actions();
     private Actor target;
     private String direction;
-    private boolean isEnraged;
     private boolean isActivate;
 
     /**
@@ -21,22 +19,14 @@ public class EnrageBehaviour implements Behaviour {
      *
      //   * @param attackAction the AttackAction
      */
-    public EnrageBehaviour(boolean isEnraged) {
-        this.isEnraged = isEnraged;
+    public EnrageBehaviour() {
         this.isActivate = false;
     }
 
     @Override
     public Action getAction(Actor actor, GameMap map) {
-        if (isEnraged && !isActivate) {
-            System.out.println("Yhorm Call EnrageBehaviour");
+        if (!isActivate) {
             Location here = map.locationOf(actor);
-
-//            for (Item item: actor.getInventory()) {
-//                if (item.asWeapon() != null) {
-//                    return item.getAllowableActions().get(0);
-//                }
-//            }
 
             for (Exit exit : here.getExits()) {
                 Location destination = exit.getDestination();
@@ -47,12 +37,6 @@ public class EnrageBehaviour implements Behaviour {
             }
             isActivate = true;
             return actor.getWeapon().getActiveSkill(target, direction);
-        }
-        else if (!isEnraged) {
-            // if Yhorm is reset
-            // isEnrage is reset to false
-            // isActivate is also reset to false
-            isActivate = false;
         }
 
         return null;
