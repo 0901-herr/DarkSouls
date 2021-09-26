@@ -47,6 +47,7 @@ public class Yhorm extends LordOfCinder {
         // when Yhorm is stunned
         if (this.hasCapability(Status.STUNNED)){
             display.println(this + " is stunned");
+            this.removeCapability(Status.STUNNED);
             return new DoNothingAction();
         }
 

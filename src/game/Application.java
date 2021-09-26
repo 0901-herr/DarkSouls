@@ -56,10 +56,9 @@ public class Application {
 			world.addPlayer(player, gameMap.at(38, 12));
 
 			//Place Yhorm the Giant/boss in the map
-			Location YhormInitialLocation = new Location(gameMap, 6, 25);
-			Enemy Yhorm = new Yhorm("Yhorm the Giant", 'Y', 300, YhormInitialLocation);
-			gameMap.at(6, 25).addActor(Yhorm);
-			YhormInitialLocation.setGround(gameMap.locationOf(Yhorm).getGround());
+			Location YhormInitialLocation = gameMap.at(6, 25);
+			Enemy Yhorm = new Yhorm("Yhorm the Giant", 'Y', 500, YhormInitialLocation);
+			YhormInitialLocation.addActor(Yhorm);
 
 			// Place Storm Ruler in the map
 			gameMap.at(7, 25).addItem(new StormRuler(player));

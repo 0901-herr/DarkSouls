@@ -50,7 +50,14 @@ public class Skeleton extends Enemy {
 
             // Remove ability
             this.removeCapability(Abilities.REVIVE_FOR_ONCE);
+
+            display.println(this + " is resurrected from death!");
+
             return new DoNothingAction();
+        }
+        else if (!isConscious() && this.hasCapability(Abilities.REVIVE_FOR_ONCE)) {
+            DyingAction dyingAction = new DyingAction(map.locationOf(this), this.asSoul().getSouls(),null, this,null,null, false);
+            return dyingAction;
         }
 
         // loop through all behaviours

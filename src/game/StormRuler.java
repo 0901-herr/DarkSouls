@@ -89,7 +89,6 @@ public class StormRuler extends MeleeWeapon {
         }
         else{
             this.addCapability(Status.DULLNESS);
-            display.println(this + "in DULLNESS STATE");
         }
 
         return null;
