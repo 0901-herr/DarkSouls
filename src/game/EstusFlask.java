@@ -3,15 +3,17 @@ package game;
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actions;
 import edu.monash.fit2099.engine.Item;
+import game.interfaces.Chargeable;
 import game.interfaces.Resettable;
 
 import java.util.List;
 
-public class EstusFlask extends Item implements Resettable {
+public class EstusFlask extends Item implements Resettable, Chargeable {
 
     private int MAX_CHARGE=3;
     private int charge;
     private int maxHitPoints;
+    private int healValue;
 
     /**
      * Constructor
@@ -21,6 +23,7 @@ public class EstusFlask extends Item implements Resettable {
         super("Estus Flask", 'e', false);
         this.charge = MAX_CHARGE;
         this.maxHitPoints = maxHitPoints;
+        this.healValue = maxHitPoints * 40 / 100;
         registerInstance();
     }
 
@@ -34,32 +37,47 @@ public class EstusFlask extends Item implements Resettable {
     @Override
     public List<Action> getAllowableActions() {
         Actions allowableActions = new Actions();
-        allowableActions.add(new DrinkEstusFlaskAction(this));
+        allowableActions.add(new DrinkEstusFlaskAction(this, healValue));
         return allowableActions.getUnmodifiableActionList();
     }
 
     /**
-     * Getter
+     * Increase the number of charge of Estus Flask
+     *
+     * @param charges number of charges to be incremented.
+     * @return transaction status. True if addition successful, otherwise False.
+     */
+    @Override
+    public boolean addCharge(int charges){
+        if (charges > 0 && this.charge < this.MAX_CHARGE){
+            this.charge += charges;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Deduct the number of charge of Estus Flask.
+     *
+     * @param charges number of charges to be deducted
+     * @return transaction status. True if subtraction successful, otherwise False.
+     */
+    @Override
+    public boolean subtractCharge(int charges){
+        if (charges > 0 && this.charge > 0){
+            this.charge -= charges;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Getter of the number of charge of Estus Flask.
      * @return an integer represents the number of charge of Estus Flask
      */
-    public int getCharge() {
-        return charge;
-    }
-
-    /**
-     * Getter
-     * @return an integer represents the maximum number of charge of Estus Flask
-     */
-    public int getMaxHitPoints(){
-        return maxHitPoints;
-    }
-
-    /**
-     * To substract to number of charge of Estus Flask
-     * @param number an integer represents the number of charge that will be subtracted
-     */
-    public void subtractCharge(int number) {
-        this.charge -= number;
+    @Override
+    public int getCharge(){
+        return this.charge;
     }
 
     /**

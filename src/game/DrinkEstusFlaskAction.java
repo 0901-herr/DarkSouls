@@ -4,22 +4,25 @@ import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import game.enums.Abilities;
+import game.interfaces.Chargeable;
 
 /**
  * The action class to handle drinking of Estus Flask.
- * @see Action
  */
 public class DrinkEstusFlaskAction extends Action {
 
-    private EstusFlask estusFlask;
+    private Chargeable item;
+    private int healValue;
 
     /**
      * Constructor
-     * @param estusFlask
+     * @param item an item that is chargeable.
+     * @param healValue an integer which represents the amount of value that will be healed.
      * Bind the parameter with the class variable.
      */
-    public DrinkEstusFlaskAction(EstusFlask estusFlask) {
-        this.estusFlask = estusFlask;
+    public DrinkEstusFlaskAction(Chargeable item, int healValue) {
+        this.item = item;
+        this.healValue = healValue;
     }
 
     /**
@@ -30,15 +33,14 @@ public class DrinkEstusFlaskAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        String result = actor + " cannot drink " + estusFlask;
+        String result = actor + " cannot drink " + item;
         if (actor.hasCapability(Abilities.DRINK)) {
-            if (estusFlask.getCharge() == 0) {
-                result = estusFlask + " has no charge";
+            if (item.subtractCharge(1)) {
+                actor.heal(healValue);
+                result = actor + " drank " + item + " and healed for " + healValue;
             }
             else {
-                actor.heal((int)(estusFlask.getMaxHitPoints()*0.4));
-                estusFlask.subtractCharge(1);
-                result = actor + " drank " + estusFlask;
+                result = item + " has no charge";
             }
         }
         return result;
@@ -51,6 +53,6 @@ public class DrinkEstusFlaskAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " drinks " + estusFlask;
+        return actor + " drinks " + item;
     }
 }
