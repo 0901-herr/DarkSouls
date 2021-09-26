@@ -20,7 +20,7 @@ public class BonfireRestAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         ResetManager.getInstance().run();
-        return actor+ " rest in Bonfire";
+        return actor + " rest at Bonfire";
     }
 
     /**
@@ -30,6 +30,6 @@ public class BonfireRestAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor.toString()+ " rest in ";
+        return actor + " rest at Firelink Shrine's Bonfire ";
     }
 }

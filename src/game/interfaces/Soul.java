@@ -14,6 +14,11 @@ public interface Soul {
      */
     default void transferSouls(Soul soulObject) {};
 
+    /**
+     * Transfer current instance's souls to another Soul instance.
+     * @param soulObject a target souls.
+     * @param souls required souls to transfer .
+     */
     default void transferSouls(Soul soulObject, int souls) {}
 
     /**
@@ -36,8 +41,18 @@ public interface Soul {
      */
     default boolean subtractSouls(int souls){ return false;}
 
+    /**
+     * Set souls for this soul object
+     *
+     * @param souls the number of souls
+     */
     default void setSouls(int souls) {}
 
+    /**
+     * Get this soul object souls
+     *
+     * @return
+     */
     default int getSouls() {
         return 0;
     }
