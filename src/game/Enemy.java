@@ -22,10 +22,10 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
      *
      * A default constructor for each Enemy
      *
-     * @param name The name of the enemy
-     * @param displayChar The character representation of the enemy
-     * @param hitPoints The hitpoints of the enemy
-     * @param initialLocation The initial location of the enemy
+     * @param name The name of the Enemy
+     * @param displayChar The character representation of the Enemy
+     * @param hitPoints The hitpoints of the Enemy
+     * @param initialLocation The initial location of the Enemy
      * @param souls The number of souls of the enemy
      */
     public Enemy(String name, char displayChar, int hitPoints, Location initialLocation, int souls) {
@@ -40,10 +40,10 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     /**
      * Select and return an action to perform on the current turn of the enemy.
      *
-     * @param actions    Collection of possible Actions for this Enemy
-     * @param lastAction The Action this Enemy took last turn.
-     * @param map        The map containing the Enemy
-     * @param display    The I/O object to which messages may be written
+     * @param actions    collection of possible Actions for this Enemy
+     * @param lastAction the Action this Enemy took last turn.
+     * @param map        the map containing the Enemy
+     * @param display    the I/O object to which messages may be written
      * @return the Action to be performed by the Enemy
      */
     @Override
@@ -58,10 +58,10 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     }
 
     /**
-     * Available actions that other actor can do to this enemy
+     * Available actions that other actor can do to this Enemy
      *
      * @param otherActor the Actor that might be performing attack
-     * @param direction  String representing the direction of the other Actor
+     * @param direction  string representing the direction of the other Actor
      * @param map        current GameMap
      * @return list of actions
      * @see Status#HOSTILE_TO_ENEMY
@@ -89,7 +89,7 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     }
 
     /**
-     * Add all behaviour an enemy should have
+     * Add all behaviour an Enemy should have
      *
      * @param otherActor The actor that the action should be performing on
      */
@@ -105,7 +105,7 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     }
 
     /**
-     * Resetting the enemy
+     * Resetting the Enemy
      *
      */
     @Override
@@ -126,12 +126,12 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
      */
     @Override
     public void transferSouls(Soul soulObject) {
-        soulObject.addSouls(getSouls());
-        this.subtractSouls(getSouls());
+        soulObject.addSouls(this.getSouls());
+        this.subtractSouls(this.getSouls());
     }
 
     /**
-     * Check the existence ot this enemy in the game
+     * Check the existence ot this Enemy in the game
      *
      * @return the existence of the instance in the game.
      */
@@ -141,7 +141,7 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     }
 
     /**
-     * Subtracting souls from this enemy
+     * Subtracting souls from this Enemy
      *
      * @param souls number souls to be deducted
      * @return Whether the process it successful
@@ -160,7 +160,7 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     }
 
     /**
-     * Setting the number of souls of this enemy
+     * Setting the number of souls of this Enemy
      *
      * @param souls The number of souls
      */
@@ -170,7 +170,7 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     }
 
     /**
-     * Getting the number of souls of this enemy
+     * Getting the number of souls of this Enemy
      *
      * @return The number of souls
      */
@@ -180,7 +180,7 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     }
 
     /**
-     * Getting all behaviours of this enemy
+     * Getting all behaviours of this Enemy
      *
      * @return A list of behaviours
      */
@@ -189,72 +189,72 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
     }
 
     /**
-     * Setting the hitPoints of this enemy
+     * Setting the hitPoints of this Enemy
      *
-     * @param hitPoints The hitPoints of this enemy
+     * @param hitPoints The hitPoints of this Enemy
      */
     public void setHitPoints(int hitPoints) {
         this.hitPoints = hitPoints;
     }
 
     /**
-     * Getting the hitPoints of this enemy
+     * Getting the hitPoints of this Enemy
      *
-     * @return The hitPoints of this enemy
+     * @return The hitPoints of this Enemy
      */
     public int getHitPoints() {
         return this.hitPoints;
     }
 
     /**
-     * Getting the maximum hitPoints of this enemy
+     * Getting the maximum hitPoints of this Enemy
      *
-     * @return The maximum hitPoints of this enemy
+     * @return The maximum hitPoints of this Enemy
      */
     public int getMaxHitPoints() {
         return this.maxHitPoints;
     }
 
     /**
-     * Getting the initial location of this enemy
+     * Getting the initial location of this Enemy
      *
-     * @return The initial location of this enemy
+     * @return The initial location of this Enemy
      */
     public Location getInitialLocation() {
         return initialLocation;
     }
 
     /**
-     * Setting the initial location of this enemy
+     * Setting the initial location of this Enemy
      *
-     * @param initialLocation The initial location of this enemy
+     * @param initialLocation The initial location of this Enemy
      */
     public void setInitialLocation(Location initialLocation) {
         this.initialLocation = initialLocation;
     }
 
     /**
-     * Getting the follow behaviour of this enemy
+     * Getting the follow behaviour of this Enemy
      *
-     * @return The follow behaviour of this enemy
+     * @return The follow behaviour of this Enemy
      */
     public FollowBehaviour getFollowBehaviour() {
         return followBehaviour;
     }
 
     /**
-     * Setting the follow behaviour of this enemy
+     * Setting the follow behaviour of this Enemy
      *
-     * @param followBehaviour The follow behaviour of this enemy
+     * @param followBehaviour The follow behaviour of this Enemy
      */
     public void setFollowBehaviour(FollowBehaviour followBehaviour) {
         this.followBehaviour = followBehaviour;
     }
 
     /**
-     * Output details of this enemy
+     * Output details of this Enemy
      *
-     * @return A string of details of this enemy
+     * @return A string of details of this Enemy
      */
     @Override
     public String toString() {

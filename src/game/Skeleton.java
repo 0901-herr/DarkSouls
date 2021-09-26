@@ -58,7 +58,7 @@ public class Skeleton extends Enemy {
     }
 
     /**
-     * Resetting the Skeleton
+     * Resetting Skeleton
      *
      */
     @Override
