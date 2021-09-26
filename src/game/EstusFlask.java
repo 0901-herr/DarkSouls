@@ -12,18 +12,17 @@ public class EstusFlask extends Item implements Resettable, Chargeable {
 
     private int MAX_CHARGE=3;
     private int charge;
-    private int maxHitPoints;
+    private Player player;
     private int healValue;
 
     /**
      * Constructor
-     * @param maxHitPoints the maximum hit points of actor
+     * @param player the player that has this item.
      */
-    public EstusFlask(int maxHitPoints) {
+    public EstusFlask(Player player) {
         super("Estus Flask", 'e', false);
         this.charge = MAX_CHARGE;
-        this.maxHitPoints = maxHitPoints;
-        this.healValue = maxHitPoints * 40 / 100;
+        this.player = player;
         registerInstance();
     }
 
@@ -37,6 +36,7 @@ public class EstusFlask extends Item implements Resettable, Chargeable {
     @Override
     public List<Action> getAllowableActions() {
         Actions allowableActions = new Actions();
+        healValue = player.getMaximumHitPoints() * 40 / 100;
         allowableActions.add(new DrinkEstusFlaskAction(this, healValue));
         return allowableActions.getUnmodifiableActionList();
     }
