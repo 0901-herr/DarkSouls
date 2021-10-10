@@ -7,7 +7,6 @@ import game.enums.Status;
  * The Yhorm boss.
  */
 public class Yhorm extends LordOfCinder {
-    private EnrageBehaviour enrageBehaviour;
 
     /**
      * Constructor.
@@ -22,7 +21,7 @@ public class Yhorm extends LordOfCinder {
         this.addCapability(Status.IS_YHORM);
         this.addCapability(Status.WEAK_TO_STORMRULER);
         this.addItemToInventory(new GreatMachete(this));
-        this.addItemToInventory(new CinderOfLord());
+        this.addItemToInventory(new CinderOfLord(this, "Cinder of Yhorm the Giant"));
     }
 
     /**
@@ -40,7 +39,7 @@ public class Yhorm extends LordOfCinder {
         // when Yhorm hp < 50% max hp, add EnrageBehaviour
         if (getHitPoints() < (getMaxHitPoints()*0.5)) {
             this.addCapability(Status.RAGE_MODE);
-            addEnrageBehaviour();
+            this.addEnrageBehaviour();
             display.println(this + " is in RAGE MODE, hit rate increases");
         }
 
@@ -52,45 +51,5 @@ public class Yhorm extends LordOfCinder {
         }
 
         return super.playTurn(actions, lastAction, map, display);
-    }
-
-    /**
-     * Adding Yhorm's enrage behaviour to the behaviours list
-     *
-     */
-    public void addEnrageBehaviour() {
-        if (enrageBehaviour == null) {
-            this.setEnrageBehaviour(new EnrageBehaviour());
-            this.getBehaviours().add(0, new EnrageBehaviour());
-        }
-    }
-
-    /**
-     * Resetting Yhorm
-     *
-     */
-    @Override
-    public void resetInstance() {
-        this.getBehaviours().clear();
-
-        // remove FollowBehaviour
-        this.setFollowBehaviour(null);
-
-        // remove EnrageBehaviour
-        this.setEnrageBehaviour(null);
-        this.removeCapability(Status.RAGE_MODE);
-
-        // reset location
-        this.getInitialLocation().map().moveActor(this, this.getInitialLocation());
-        this.hitPoints = this.getMaxHitPoints();
-    }
-
-    /**
-     * Setting Yhorm's enrage behaviour
-     *
-     * @param enrageBehaviour
-     */
-    public void setEnrageBehaviour(EnrageBehaviour enrageBehaviour) {
-        this.enrageBehaviour = enrageBehaviour;
     }
 }

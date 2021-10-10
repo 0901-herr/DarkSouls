@@ -9,6 +9,7 @@ public enum Status {
     HOSTILE_TO_PLAYER,  // use this capability to be hostile towards player
     IS_PLAYER,          // use this capability to identify player
     IS_YHORM,           // use this capability to identify Yhorm
+    IS_ALDRICH,         // use this capability to identify Aldrich
     IS_VALLEY,          // use this capability to identify valley
     ABLE_TO_BUY,        // use this capability to identify actor that are able to buy from vendor
     RAGE_MODE,          // use this capability to identify if Yhorm is in rage mode
@@ -20,4 +21,5 @@ public enum Status {
     FULLY_CHARGED,      // use this capability to check if storm ruler is fully charged
     DULLNESS,           // use this capability to check if storm ruler is attacking enemy other than Yhorm
     IS_PICKED_UP,       // use this capability to check if item is picked up
+    TRADABLE
 }

@@ -14,14 +14,14 @@ public class GreatMachete extends MeleeWeapon{
 
     /**
      * Constructor
-     * @param actor that will equip this weapon.
+//     * @param actor that will equip this weapon.
      */
     public GreatMachete(Actor actor){
         super("Yhorm's Great Machete", 'M', 95, "smashes", 60);
         this.actor = actor;
-        if (!(actor.hasCapability(Status.IS_YHORM))){
-            display.println(actor + " cannot equip " + this);
-        }
+//        if (!(actor.hasCapability(Status.IS_YHORM))){
+//            display.println(actor + " cannot equip " + this);
+//        }
     }
 
     /**
