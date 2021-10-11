@@ -31,3 +31,4 @@ public class FogDoor extends Ground {
         return true;
     }
 }
+

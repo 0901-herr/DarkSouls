@@ -1,10 +1,9 @@
 package game;
 
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Ground;
-import edu.monash.fit2099.engine.Location;
+import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
+
+import java.util.HashMap;
 
 /**
  * The class that handle the Bonfire in the middle of the game map.
@@ -30,8 +29,22 @@ public class Bonfire extends Ground {
      */
     @Override
     public Actions allowableActions(Actor actor, Location location, String direction) {
+        String [] hotKeyArr ={"a","b","c","d","e","f"};
+        int i=1;
         Actions actions=new Actions();
         actions.add(new BonfireRestAction(name));
+        HashMap<Location,Bonfire>bonfireHashMap= BonfireManager.getInstance().getBonfires();
+        for (Location key: bonfireHashMap.keySet()){
+            System.out.println(bonfireHashMap.get(key).toString() + "1");
+            if(!key.equals(location)){
+                actions.add(new MoveActorAction(key,bonfireHashMap.get(key).toString(),hotKeyArr[i++]));
+            }
+        }
         return actions;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

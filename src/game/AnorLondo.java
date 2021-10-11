@@ -9,9 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AnorLondo extends GameMap {
-
-
-    public AnorLondo() {
+    private static AnorLondo instance;
+    private AnorLondo() {
         super(new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Valley(),new FogDoor())
                 , Arrays.asList(
                         "___________###........................................+..............+++++..",
@@ -35,6 +34,13 @@ public class AnorLondo extends GameMap {
                         "...+.__..+...#+++...................................+...................+...",
                         "...+.....+._.#.+.....+++++...++....................._....................++.",
                         "___.......___#.++++++++++++++.+++...................+.....................++"));
+    }
+
+    public static AnorLondo getInstance() {
+        if (instance==null) {
+            instance=new AnorLondo();
+        }
+        return instance;
     }
 
 

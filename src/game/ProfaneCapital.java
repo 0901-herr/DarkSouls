@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProfaneCapital extends GameMap {
-
-    public ProfaneCapital() {
+    private static ProfaneCapital instance;
+    private ProfaneCapital() {
         super(new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Valley(),new FogDoor())
                 , Arrays.asList(
                         "..++++++..+++...........................++++......+++.................+++.......",
@@ -39,5 +39,12 @@ public class ProfaneCapital extends GameMap {
                         "...+.....+._.#.+.....+++++...++..............................................++.",
                         "___.......___#.++++++++++++++.+++.............................................++"));
 
+    }
+
+    public static ProfaneCapital getInstance() {
+        if (instance==null){
+            instance=new ProfaneCapital();
+        }
+        return instance;
     }
 }

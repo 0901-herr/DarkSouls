@@ -20,9 +20,9 @@ public class Application {
 
 			World world = new World(new Display());
 
-			GameMap gameMap = new ProfaneCapital();
+			GameMap gameMap = ProfaneCapital.getInstance();
 			world.addGameMap(gameMap);
-			GameMap secMap=new AnorLondo();
+			GameMap secMap= AnorLondo.getInstance();
 			world.addGameMap(secMap);
 
 			Actor player = new Player("Unkindled (Player)", '@', 1000);
@@ -72,8 +72,8 @@ public class Application {
 			gameMap.at(38,16).setGround(new FogDoor(secMap));
 
 			// Place Bonfire at the center of the map
-			gameMap.at(38,11).setGround(new Bonfire("Firelink Shrine"));
-
+			BonfireManager bn = BonfireManager.getInstance();
+			bn.addBonfire();
 			// Place Fire Keeper (Vendor) besides Bonfire
 			gameMap.at(37,11).addActor(new Vendor());
 
