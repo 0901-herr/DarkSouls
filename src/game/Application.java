@@ -77,6 +77,11 @@ public class Application {
 			// Place Fire Keeper (Vendor) besides Bonfire
 			gameMap.at(37,11).addActor(new Vendor());
 
+			//Place Yhorm the Giant/boss in the map
+			Location AldrichInitialLocation = secMap.at(32, 11);
+			Enemy Aldrich = new Aldrich("Aldrich the Devourer", 'A', 350, AldrichInitialLocation);
+			AldrichInitialLocation.addActor(Aldrich);
+
 			// run the game
 			world.run();
 	}

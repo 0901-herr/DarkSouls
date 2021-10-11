@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Aldrich extends LordOfCinder{
     ArrayList<Location> expandedLocations = new ArrayList<>();
@@ -12,7 +11,7 @@ public class Aldrich extends LordOfCinder{
     public Aldrich(String name, char displayChar, int hitPoints, Location initialLocation) {
         super(name, displayChar, hitPoints, initialLocation, 5000);
         this.addCapability(Status.IS_ALDRICH);
-        this.addItemToInventory(new BroadSword());
+        this.addItemToInventory(new Longbow());
         this.addItemToInventory(new CinderOfLord(this, "Cinder of Aldrich the Devourer"));
     }
 
@@ -29,7 +28,9 @@ public class Aldrich extends LordOfCinder{
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         // scan surrounding 7x7 exits for target
-        this.scanExpandedExits(map);
+        if (getFollowBehaviour() == null) {
+            this.scanExpandedExits(map);
+        }
 
         // when Aldrich hp < 50% max hp, add EnrageBehaviour
         if (this.getHitPoints() < (this.getMaxHitPoints()*0.5)) {
@@ -70,14 +71,12 @@ public class Aldrich extends LordOfCinder{
     }
 
     public void addBehaviour(Actor otherActor) {
-        if (getFollowBehaviour() == null) {
-            // Add AttackBehaviour
-            this.getBehaviours().add(0, new AttackBehaviour());
+        // Add AttackBehaviour
+        this.getBehaviours().add(0, new AttackBehaviour());
 
-            // add FollowBehaviour
-            this.setFollowBehaviour(new FollowBehaviour(otherActor));
-            this.getBehaviours().add(1, this.getFollowBehaviour());
-        }
+        // add FollowBehaviour
+        this.setFollowBehaviour(new FollowBehaviour(otherActor));
+        this.getBehaviours().add(1, this.getFollowBehaviour());
     }
 
     public void addExpandedExits(GameMap map) {

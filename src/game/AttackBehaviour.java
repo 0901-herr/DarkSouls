@@ -52,42 +52,20 @@ public class AttackBehaviour implements Behaviour {
         }
         // actor is Aldrich, add range weapon actions
         else {
-            // TODO: Searching should be in LongBow, AttackBehaviour just need to getAllowableActions from LongBow
-            // search for player in expanded range
-            for (Location location : this.getExpandedExits(map, actor)) {
-                for (Exit exit: location.getExits()) {
-                    Location destination = exit.getDestination();
+            actions = new Actions();
 
-                    if (destination.containsAnActor() && destination.getActor().hasCapability(Status.IS_PLAYER)) {
-                        target = destination.getActor();
-                        return new AttackAction(target, exit.getName());
-                    }
-                }
+            // search for player in expanded range
+            for (Item item : actor.getInventory()) {
+                actions.add(item.getAllowableActions());
+            }
+
+            // randomly selects a action to return
+            if (actions.size() > 0) {
+                System.out.println("get attack action");
+                return actions.get(0);
             }
         }
 
         return null;
-    }
-
-    public ArrayList<Location> getExpandedExits(GameMap map, Actor actor) {
-        ArrayList<Location> expandedLocations = new ArrayList<>();
-
-        Location here = map.locationOf(actor);
-
-        Location topLeft = map.at(here.x()-2, here.y()-2);
-        Location topRight = map.at(here.x()+2, here.y()-2);
-        Location midLeft = map.at(here.x()-2, here.y());
-        Location midRight = map.at(here.x()+2, here.y());
-        Location botLeft = map.at(here.x()-2, here.y()+2);
-        Location botRight = map.at(here.x()+2, here.y()+2);
-
-        expandedLocations.add(topLeft);
-        expandedLocations.add(topRight);
-        expandedLocations.add(midLeft);
-        expandedLocations.add(midRight);
-        expandedLocations.add(botLeft);
-        expandedLocations.add(botRight);
-
-        return expandedLocations;
     }
 }
