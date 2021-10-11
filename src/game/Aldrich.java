@@ -3,15 +3,16 @@ package game;
 import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Aldrich extends LordOfCinder{
-    Random rand = new Random();
+    ArrayList<Location> expandedLocations = new ArrayList<>();
 
     public Aldrich(String name, char displayChar, int hitPoints, Location initialLocation) {
         super(name, displayChar, hitPoints, initialLocation, 5000);
         this.addCapability(Status.IS_ALDRICH);
-//        this.addItemToInventory(new LongBow(this));
+        this.addItemToInventory(new BroadSword());
         this.addItemToInventory(new CinderOfLord(this, "Cinder of Aldrich the Devourer"));
     }
 
@@ -27,25 +28,8 @@ public class Aldrich extends LordOfCinder{
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        Actor target;
-        Location here = map.locationOf(this);
-
-        // TODO: extend exit search to 7x7
-        // search exits of the actor to find the target
-        // instead of adding behaviours in enemy's getAllowableActions
-        // Aldrich needs to actively scan its surroundings to detect player
-
-        if (this.getFollowBehaviour() != null) {
-            for (Exit exit : here.getExits()) {
-                Location destination = exit.getDestination();
-
-                if (destination.containsAnActor() && destination.getActor().hasCapability(Status.IS_PLAYER)) {
-                    target = destination.getActor();
-                    this.addBehaviour(target);
-                    break;
-                }
-            }
-        }
+        // scan surrounding 7x7 exits for target
+        this.scanExpandedExits(map);
 
         // when Aldrich hp < 50% max hp, add EnrageBehaviour
         if (this.getHitPoints() < (this.getMaxHitPoints()*0.5)) {
@@ -58,17 +42,33 @@ public class Aldrich extends LordOfCinder{
             display.println(this + " is in RAGE MODE, hit rate increases");
         }
 
-        // when Aldrich is stunned
-        if (this.hasCapability(Status.STUNNED)){
-            display.println(this + " is stunned");
-            this.removeCapability(Status.STUNNED);
-            return new DoNothingAction();
-        }
-
         return super.playTurn(actions, lastAction, map, display);
     }
 
-    @Override
+    public void scanExpandedExits(GameMap map) {
+        Actor target;
+
+        // add expanded exits to scan
+        this.addExpandedExits(map);
+
+        // search exits of the actor to find the target
+        // instead of adding behaviours in enemy's getAllowableActions
+        // because Aldrich needs to actively scan its surroundings to detect player
+
+        for (Location location : this.expandedLocations) {
+            for (Exit exit: location.getExits()) {
+                System.out.println("searching...");
+                Location destination = exit.getDestination();
+                if (destination.containsAnActor() && destination.getActor().hasCapability(Status.IS_PLAYER)) {
+                    target = destination.getActor();
+                    this.addBehaviour(target);
+                    System.out.println("Found player, add behaviours");
+                    return;
+                }
+            }
+        }
+    }
+
     public void addBehaviour(Actor otherActor) {
         if (getFollowBehaviour() == null) {
             // Add AttackBehaviour
@@ -78,5 +78,24 @@ public class Aldrich extends LordOfCinder{
             this.setFollowBehaviour(new FollowBehaviour(otherActor));
             this.getBehaviours().add(1, this.getFollowBehaviour());
         }
+    }
+
+    public void addExpandedExits(GameMap map) {
+        expandedLocations.clear();
+        Location here = map.locationOf(this);
+
+        Location topLeft = map.at(here.x()-2, here.y()-2);
+        Location topRight = map.at(here.x()+2, here.y()-2);
+        Location midLeft = map.at(here.x()-2, here.y());
+        Location midRight = map.at(here.x()+2, here.y());
+        Location botLeft = map.at(here.x()-2, here.y()+2);
+        Location botRight = map.at(here.x()+2, here.y()+2);
+
+        expandedLocations.add(topLeft);
+        expandedLocations.add(topRight);
+        expandedLocations.add(midLeft);
+        expandedLocations.add(midRight);
+        expandedLocations.add(botLeft);
+        expandedLocations.add(botRight);
     }
 }

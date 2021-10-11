@@ -73,7 +73,7 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
 
         // it can be attacked only by the HOSTILE opponent, and this action will not attack the HOSTILE enemy back.
         if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            // add behaviours for Undead
+            // add behaviours for Enemy
             this.addBehaviour(otherActor);
 
             // check if player is in disarmed status
