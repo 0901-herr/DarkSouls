@@ -51,17 +51,15 @@ public class Longbow extends MeleeWeapon {
 
         // add exit
         for (int i = 1; i <= 3; i++) {
-            exits.add(new Exit("North", map.at(x, y - i), null));
-            exits.add(new Exit("North-East", map.at(x + i, y - i), null));
-            exits.add(new Exit("East", map.at(x + i, y), null));
-            exits.add(new Exit("South-East", map.at(x + i, y + i), null));
-            exits.add(new Exit("South", map.at(x, y + i), null));
-            exits.add(new Exit("South-West", map.at(x - i, y + i), null));
-            exits.add(new Exit("West", map.at(x - i, y), null));
-            exits.add(new Exit("North-West", map.at(x - i, y - i), null));
-
             for (int j = 1; j <= 3; j++) {
-
+                exits.add(new Exit("North", map.at(x, y - j), null));
+                exits.add(new Exit("North-East", map.at(x + i, y - j), null));
+                exits.add(new Exit("East", map.at(x + i, y), null));
+                exits.add(new Exit("South-East", map.at(x + i, y + j), null));
+                exits.add(new Exit("South", map.at(x, y + j), null));
+                exits.add(new Exit("South-West", map.at(x - i, y + j), null));
+                exits.add(new Exit("West", map.at(x - i, y), null));
+                exits.add(new Exit("North-West", map.at(x - i, y - j), null));
             }
         }
 
