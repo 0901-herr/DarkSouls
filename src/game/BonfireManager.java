@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class BonfireManager {
     private HashMap<Location,Bonfire> bonfires;
     private static BonfireManager instance;
+    private Location lastInteract;
     public BonfireManager() {
         bonfires = new HashMap<Location,Bonfire>();
     }
@@ -25,10 +26,11 @@ public class BonfireManager {
     public void addBonfire(){
         GameMap pMap= ProfaneCapital.getInstance();
         GameMap aMap= AnorLondo.getInstance();
-        Bonfire pBn = new Bonfire("Firelink Shrine");
+        Bonfire pBn = new Bonfire("Firelink Shrine",true);
         pMap.at(38,11).setGround(pBn);
         bonfires.put(pMap.at(38,11),pBn);
-        Bonfire aBn = new Bonfire("AnorLondo's Bonfire");
+        this.lastInteract=pMap.at(38,12);
+        Bonfire aBn = new Bonfire("AnorLondo's Bonfire",false);
         aMap.at(22,10).setGround(aBn);
         bonfires.put(aMap.at(22,10),aBn);
 
@@ -36,5 +38,12 @@ public class BonfireManager {
 
     public HashMap<Location, Bonfire> getBonfires() {
         return bonfires;
+    }
+
+    public void updateLastInteract(Location location){
+        this.lastInteract=location;
+    }
+    public Location getLastInteract(){
+        return this.lastInteract;
     }
 }

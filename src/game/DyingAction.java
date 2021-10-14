@@ -69,7 +69,8 @@ public class DyingAction extends Action {
                     ANSI_BLUE+"****    **** ************ ---  --  --- ****              ****    ****  ********   ****         ****  ****\n"+ANSI_RESET+
                     ANSI_BLUE+"------------ ----    ---- ***  **  *** ------------       ----------    ------    ------------ ----   ----\n"+ANSI_RESET+
                     ANSI_RED+"************ ****    **** ---      --- ************        ********      ****     ************ ****    ****"+ANSI_RESET);
-            map.moveActor(actor, map.at(38, 12));
+            BonfireManager bm = BonfireManager.getInstance();
+            map.moveActor(actor,bm.getLastInteract());
             if (previousTokenOfSoul != null) {
                 previousTokenOfSoul.getLocation().removeItem(previousTokenOfSoul);
             }

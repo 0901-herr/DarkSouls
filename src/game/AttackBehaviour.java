@@ -82,18 +82,18 @@ public class AttackBehaviour implements Behaviour {
             }
         }
 
-        if (actor.hasCapability(Status.IS_SKELETON)) {
-            // randomly selects a action to return
-            int randInt = rand.nextInt(actions.size());
-
-            return actions.get(randInt);
-        }
-        else {
-            if (actions.size() > 0) {
-                System.out.println("get attack action");
-                return actions.get(0);
-            }
-        }
+//        if (actor.hasCapability(Status.IS_SKELETON)) {
+//            // randomly selects a action to return
+//            //int randInt = rand.nextInt(actions.size());
+//
+//            return actions.get(randInt);
+//        }
+//        else {
+//            if (actions.size() > 0) {
+//                System.out.println("get attack action");
+//                return actions.get(0);
+//            }
+//        }
 
         return null;
     }
