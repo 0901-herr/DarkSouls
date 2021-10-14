@@ -9,5 +9,6 @@ public enum Abilities {
     BURN,             // Use this ability if the ground can be burnt
     DROP,             // Use this ability if the item can be dropped
     REST,             // Use this ability if the actor can rest
-    DRINK             // Use this ability if the actor can drink
+    DRINK,            // Use this ability if the actor can drink
+    FIRE              // Use this ability if the attack of weapon can burn ground
 }

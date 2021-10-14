@@ -21,5 +21,7 @@ public enum Status {
     FULLY_CHARGED,      // use this capability to check if storm ruler is fully charged
     DULLNESS,           // use this capability to check if storm ruler is attacking enemy other than Yhorm
     IS_PICKED_UP,       // use this capability to check if item is picked up
-    TRADABLE
+    TRADABLE,
+    IS_SKELETON,
+    BLOCKED
 }

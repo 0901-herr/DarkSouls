@@ -47,8 +47,20 @@ public class AttackAction extends Action {
 	public String execute(Actor actor, GameMap map) {
 		Weapon weapon = actor.getWeapon();
 
+		if (target.hasCapability(Status.BLOCKED)){
+			target.removeCapability(Status.BLOCKED);
+			return actor + " attack is blocked";
+		}
+
 		if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
 			return actor + " misses " + target + ".";
+		}
+
+		if (actor.hasCapability(Abilities.FIRE)){
+			Location targetLocation = map.locationOf(target);
+			if (targetLocation.getGround().hasCapability(Abilities.BURN)){
+				targetLocation.setGround(new BurnedGround(targetLocation.getGround()));
+			}
 		}
 
 		int damage = weapon.damage();

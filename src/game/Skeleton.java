@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.WeaponItem;
 import edu.monash.fit2099.engine.Location;
 import game.enums.Abilities;
+import game.enums.Status;
 
 import java.util.Random;
 
@@ -30,6 +31,7 @@ public class Skeleton extends Enemy {
         this.setInitialLocation(initialLocation);
         this.getBehaviours().add(new WanderBehaviour());
         this.addRandomizeWeapon();
+        this.addCapability(Status.IS_SKELETON);
     }
 
     /**

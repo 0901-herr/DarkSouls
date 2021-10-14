@@ -29,37 +29,66 @@ public class AttackBehaviour implements Behaviour {
     public Action getAction(Actor actor, GameMap map) {
         Location here = map.locationOf(actor);
 
-        if (!actor.hasCapability(Status.IS_ALDRICH)) {
-            // search exits of the actor to find the target
-            for (Exit exit : here.getExits()) {
-                Location destination = exit.getDestination();
+//        if (!actor.hasCapability(Status.IS_ALDRICH)) {
+//            // search exits of the actor to find the target
+//            for (Exit exit : here.getExits()) {
+//                Location destination = exit.getDestination();
+//
+//                if (destination.containsAnActor() && destination.getActor().hasCapability(Status.IS_PLAYER)) {
+//                    target = destination.getActor();
+//                    actions.add(new AttackAction(target, exit.getName()));
+//
+//                    // add actions from the item of the inventory
+//                    for (Item item : actor.getInventory()) {
+//                        actions.add(item.getAllowableActions());
+//                    }
+//
+//                    // randomly selects a action to return
+//                    int randInt = rand.nextInt(actions.size());
+//
+//                    return actions.get(randInt);
+//                }
+//            }
+//        }
+//        // actor is Aldrich, add range weapon actions
+//        else {
+//            actions = new Actions();
+//
+//            // search for player in expanded range
+//            for (Item item : actor.getInventory()) {
+//                actions.add(item.getAllowableActions());
+//            }
+//
+//            // randomly selects a action to return
+//            if (actions.size() > 0) {
+//                System.out.println("get attack action");
+//                return actions.get(0);
+//            }
+//        }
 
-                if (destination.containsAnActor() && destination.getActor().hasCapability(Status.IS_PLAYER)) {
-                    target = destination.getActor();
-                    actions.add(new AttackAction(target, exit.getName()));
+        actions = new Actions();
+        // add actions from the item of the inventory
+        for (Item item : actor.getInventory()) {
+            actions.add(item.getAllowableActions());
+        }
 
-                    // add actions from the item of the inventory
-                    for (Item item : actor.getInventory()) {
-                        actions.add(item.getAllowableActions());
-                    }
+        // search exits of the actor to find the target
+        for (Exit exit : here.getExits()) {
+            Location destination = exit.getDestination();
 
-                    // randomly selects a action to return
-                    int randInt = rand.nextInt(actions.size());
-
-                    return actions.get(randInt);
-                }
+            if (destination.containsAnActor() && destination.getActor().hasCapability(Status.IS_PLAYER)) {
+                target = destination.getActor();
+                actions.add(new AttackAction(target, exit.getName()));
             }
         }
-        // actor is Aldrich, add range weapon actions
-        else {
-            actions = new Actions();
 
-            // search for player in expanded range
-            for (Item item : actor.getInventory()) {
-                actions.add(item.getAllowableActions());
-            }
-
+        if (actor.hasCapability(Status.IS_SKELETON)) {
             // randomly selects a action to return
+            int randInt = rand.nextInt(actions.size());
+
+            return actions.get(randInt);
+        }
+        else {
             if (actions.size() > 0) {
                 System.out.println("get attack action");
                 return actions.get(0);
