@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Status;
 
 import java.util.Random;
 
@@ -16,6 +17,8 @@ public class Mimic extends Enemy {
         super(name, 'M', 100, initialLocation, 200);
         this.getBehaviours().add(new WanderBehaviour());
         this.setInitialLocation(initialLocation);
+        this.addRandomTokenOfSouls();
+        this.addCapability(Status.IS_MIMIC);
     }
 
     /**
@@ -30,7 +33,6 @@ public class Mimic extends Enemy {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         if (!isConscious()) {
-            this.addRandomTokenOfSouls();
             DyingAction dyingAction = new DyingAction(map.locationOf(this), this.asSoul().getSouls(),null, this,null,null, false);
             return dyingAction;
         }
@@ -41,10 +43,12 @@ public class Mimic extends Enemy {
 
     public void addRandomTokenOfSouls() {
         int randomNumber;
-        randomNumber = rand.nextInt(4);
+        randomNumber = rand.nextInt(3);
 
-        for (int i = 0; i < randomNumber; i++) {
-            this.addItemToInventory(new TokenOfSoul("Token of Soul", '$', false, this));
+        for (int i = 0; i < randomNumber+1; i++) {
+            TokenOfSoul tokenOfSouls = new TokenOfSoul("Token of Soul", '$', false, this);
+            tokenOfSouls.setSouls(100);
+            this.addItemToInventory(tokenOfSouls);
         }
     }
 
@@ -75,7 +79,7 @@ public class Mimic extends Enemy {
      */
     @Override
     public String toString() {
-        String hitPointsStatus = "(" + getHitPoints() + "/" + getMaxHitPoints() + ")";
+        String hitPointsStatus = " (" + getHitPoints() + "/" + getMaxHitPoints() + ")";
         String weaponStatus = "no weapon";
         String weaponStatusMessage = " (" + weaponStatus + ")";
         return (name + hitPointsStatus + weaponStatusMessage);

@@ -29,11 +29,16 @@ public class Longbow extends RangedWeapon {
     public List<Action> getAllowableActions() {
         Actions allowableActions = new Actions();
 
-        if (actor.hasCapability(Status.IS_PLAYER) || actor.hasCapability(Status.RAGE_MODE)) {
+        if (actor.hasCapability(Status.IS_PLAYER)) {
             allowableActions.add(new FireArrowAction(this));
         }
         allowableActions.add(super.getAllowableActions());
         return allowableActions.getUnmodifiableActionList();
+    }
+
+    @Override
+    public WeaponAction getActiveSkill(Actor target, String direction) {
+        return new FireArrowAction(this);
     }
 
     @Override

@@ -134,8 +134,11 @@ public class RangedWeapon extends WeaponItem {
      */
     @Override
     public void tick(Location currentLocation, Actor actor) {
-        this.actor = actor;
         this.map = currentLocation.map();
+
+        if (map.contains(actor)) {
+            this.actor = actor;
+        }
     }
 
     public void createExit(List<Exit> exits, int x, int y, String name, String hotKey) {

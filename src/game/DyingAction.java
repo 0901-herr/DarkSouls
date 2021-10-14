@@ -59,7 +59,7 @@ public class DyingAction extends Action {
             return actor.toString() + " died instantly by chance";
         }
 
-        if(actor.hasCapability(Status.IS_PLAYER) && target.hasCapability(Status.IS_PLAYER)) {
+        if (actor.hasCapability(Status.IS_PLAYER) && target.hasCapability(Status.IS_PLAYER)) {
             display.println(ANSI_RED+
                     "------------    ------      ********   ------------        --------   ---    ---  ------------ -----------\n"+ANSI_RESET+
                     ANSI_BLUE+"************   ********    ----------  ************       **********  ***    ***  ************ ***********\n"+ANSI_RESET+
@@ -86,15 +86,26 @@ public class DyingAction extends Action {
 
             ResetManager.getInstance().run();
         }
-        else{
+
+        else {
             target.asSoul().transferSouls(actor.asSoul());
             Actions dropActions = new Actions();
+
             // drop all items
-            for (Item item : target.getInventory())
-                dropActions.add(item.getDropAction(actor));
+            for (Item item : target.getInventory()) {
+                if (target.hasCapability(Status.IS_MIMIC)) {
+                    dropActions.add(new DropItemAction(item));
+                }
+                else {
+                    dropActions.add(item.getDropAction(actor));
+                }
+            }
+
             for (Action drop : dropActions)
                 drop.execute(target, map);
+
             map.removeActor(target);
+
             if (target.hasCapability(Status.IS_YHORM)){
                 display.println(ANSI_YELLOW+
                         "----           --------   -----------  ----------          --------   ------------      ------------ --------  ----    ---- ----------   ------------ -----------\n"+

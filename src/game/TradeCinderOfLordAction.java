@@ -21,7 +21,7 @@ public class TradeCinderOfLordAction extends Action {
             this.setWeaponItem(new GreatMachete(actor));
         }
         else if (cinderOfLord.hasCapability(Status.IS_ALDRICH)) {
-            this.setWeaponItem(new GreatMachete(actor));
+            this.setWeaponItem(new Longbow(actor));
         }
 
         // removing cinder of lord

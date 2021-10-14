@@ -54,7 +54,7 @@ public class GreatMachete extends MeleeWeapon{
     @Override
     public List<Action> getAllowableActions() {
         Actions allowableActions = new Actions();
-        if (actor.hasCapability(Status.IS_PLAYER) || actor.hasCapability(Status.RAGE_MODE)) {
+        if (actor.hasCapability(Status.IS_PLAYER)) {
             allowableActions.add(new BurnGroundAction(this));
         }
         return allowableActions.getUnmodifiableActionList();

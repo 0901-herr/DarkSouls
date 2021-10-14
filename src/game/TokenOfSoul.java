@@ -26,7 +26,7 @@ public class TokenOfSoul extends Item implements Soul {
     public TokenOfSoul(String name, char displayChar, boolean portable, Actor actor) {
         super(name, displayChar, portable);
         this.actor = actor;
-        addCapability(Abilities.DROP);
+        this.addCapability(Abilities.DROP);
     }
 
     /**
@@ -38,6 +38,15 @@ public class TokenOfSoul extends Item implements Soul {
         List<Action> pickup= new ArrayList<Action>();
         pickup.add(new PickUpTokenAction(this));
         return pickup;
+    }
+
+    @Override
+    public DropItemAction getDropAction(Actor actor) {
+        if (!actor.isConscious()) {
+            return new DropItemAction(this);
+        }
+
+        return null;
     }
 
     /**

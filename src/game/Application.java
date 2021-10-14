@@ -25,9 +25,9 @@ public class Application {
 			GameMap secMap= AnorLondo.getInstance();
 			world.addGameMap(secMap);
 
-			Actor player = new Player("Unkindled (Player)", '@', 1000);
+			// Add Actors for Profane Capital
+			Actor player = new Player("Unkindled (Player)", '@', 100000);
 			world.addPlayer(player, gameMap.at(38, 12));
-//			world.addPlayer(player, gameMap.at(8, 25));
 
 			//Place Yhorm the Giant/boss in the map
 			Location YhormInitialLocation = gameMap.at(6, 25);
@@ -77,10 +77,52 @@ public class Application {
 			// Place Fire Keeper (Vendor) besides Bonfire
 			gameMap.at(37,11).addActor(new Vendor());
 
-			//Place Yhorm the Giant/boss in the map
+			// Place chest
+			Location chest1InitialLocation = gameMap.at(24, 8);
+			Chest chest1 = new Chest(chest1InitialLocation);
+			chest1InitialLocation.addActor(chest1);
+
+			Location chest2InitialLocation = gameMap.at(50, 18);
+			Chest chest2 = new Chest(chest2InitialLocation);
+			chest2InitialLocation.addActor(chest2);
+
+			Location chest3InitialLocation = gameMap.at(13, 19);
+			Chest chest3 = new Chest(chest3InitialLocation);
+			chest3InitialLocation.addActor(chest3);
+
+			Location chest4InitialLocation = gameMap.at(8, 20);
+			Chest chest4 = new Chest(chest4InitialLocation);
+			chest4InitialLocation.addActor(chest4);
+
+			// Add actors to Anor Londo
+			//Place Aldrich the Giant/boss in the map
 			Location AldrichInitialLocation = secMap.at(32, 11);
 			Enemy Aldrich = new Aldrich("Aldrich the Devourer", 'A', 350, AldrichInitialLocation);
 			AldrichInitialLocation.addActor(Aldrich);
+
+			// Add cementery for undead
+			secMap.at(32, 4).setGround(new Cementery());
+			secMap.at(27, 14).setGround(new Cementery());
+			secMap.at(49, 12).setGround(new Cementery());
+			secMap.at(58, 5).setGround(new Cementery());
+			secMap.at(36, 15).setGround(new Cementery());
+
+			// Place chest
+			chest1InitialLocation = secMap.at(24, 8);
+			chest1 = new Chest(chest1InitialLocation);
+			chest1InitialLocation.addActor(chest1);
+
+			chest2InitialLocation = secMap.at(50, 18);
+			chest2 = new Chest(chest2InitialLocation);
+			chest2InitialLocation.addActor(chest2);
+
+			chest3InitialLocation = secMap.at(13, 19);
+			chest3 = new Chest(chest3InitialLocation);
+			chest3InitialLocation.addActor(chest3);
+
+			chest4InitialLocation = secMap.at(6, 20);
+			chest4 = new Chest(chest4InitialLocation);
+			chest4InitialLocation.addActor(chest4);
 
 			// run the game
 			world.run();

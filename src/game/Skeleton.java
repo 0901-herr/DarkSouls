@@ -85,7 +85,7 @@ public class Skeleton extends Enemy {
      */
     public void addRandomizeWeapon() {
         WeaponItem weapon;
-        WeaponItem broadSword = new BroadSword();
+        WeaponItem broadSword = new GiantAxe();
         WeaponItem giantAxe = new GiantAxe();
 
         if (rand.nextBoolean()) {

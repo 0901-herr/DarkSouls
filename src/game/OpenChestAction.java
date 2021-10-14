@@ -22,20 +22,20 @@ public class OpenChestAction extends Action {
         Actions actions = new Actions();
         boolean luck = rand.nextBoolean();
 
-        if (luck){
-            for (Item item: chest.getInventory()){
-                actions.add(new DropItemAction(item));
-            }
-            for (Action action: actions){
-                result += System.lineSeparator() + action.execute(chest, map);
-            }
-            map.removeActor(chest);
-        }
-        else{
+//        if (luck){
+//            for (Item item: chest.getInventory()){
+//                actions.add(new DropItemAction(item));
+//            }
+//            for (Action action: actions){
+//                result += System.lineSeparator() + action.execute(chest, map);
+//            }
+//            map.removeActor(chest);
+//        }
+//        else{
             map.removeActor(chest);
             here.addActor(new Mimic("Mimic", here));
             result += System.lineSeparator() + "Oh no!! "+ chest + " turns into mimic.";
-        }
+//        }
 
         return result;
     }

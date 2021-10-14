@@ -35,7 +35,7 @@ public class Aldrich extends LordOfCinder{
         }
 
         // when Aldrich hp < 50% max hp, add EnrageBehaviour
-        if (this.getHitPoints() < (this.getMaxHitPoints()*0.5)) {
+        if (this.getHitPoints() < (this.getMaxHitPoints()*0.5) && this.getEnrageBehaviour() == null) {
             this.addCapability(Status.RAGE_MODE);
             this.addEnrageBehaviour();
 
@@ -48,28 +48,6 @@ public class Aldrich extends LordOfCinder{
     }
 
     public void scanExpandedExits(GameMap map) {
-//        Actor target;
-//
-//        // add expanded exits to scan
-//        this.addExpandedExits(map);
-//
-//        // search exits of the actor to find the target
-//        // instead of adding behaviours in enemy's getAllowableActions
-//        // because Aldrich needs to actively scan its surroundings to detect player
-//
-//        for (Location location : this.expandedLocations) {
-//            for (Exit exit: location.getExits()) {
-//                System.out.println("searching...");
-//                Location destination = exit.getDestination();
-//                if (destination.containsAnActor() && destination.getActor().hasCapability(Status.IS_PLAYER)) {
-//                    target = destination.getActor();
-//                    this.addBehaviour(target);
-//                    System.out.println("Found player, add behaviours");
-//                    return;
-//                }
-//            }
-//        }
-
         Location here = map.locationOf(this);
         NumberRange xs, ys;
         int range = 3;
@@ -100,22 +78,9 @@ public class Aldrich extends LordOfCinder{
         this.getBehaviours().add(1, this.getFollowBehaviour());
     }
 
-    public void addExpandedExits(GameMap map) {
-        expandedLocations.clear();
-        Location here = map.locationOf(this);
-
-        Location topLeft = map.at(here.x()-2, here.y()-2);
-        Location topRight = map.at(here.x()+2, here.y()-2);
-        Location midLeft = map.at(here.x()-2, here.y());
-        Location midRight = map.at(here.x()+2, here.y());
-        Location botLeft = map.at(here.x()-2, here.y()+2);
-        Location botRight = map.at(here.x()+2, here.y()+2);
-
-        expandedLocations.add(topLeft);
-        expandedLocations.add(topRight);
-        expandedLocations.add(midLeft);
-        expandedLocations.add(midRight);
-        expandedLocations.add(botLeft);
-        expandedLocations.add(botRight);
+    @Override
+    public void resetInstance() {
+        this.removeCapability(Abilities.FIRE);
+        super.resetInstance();
     }
 }

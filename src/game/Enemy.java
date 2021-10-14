@@ -78,8 +78,10 @@ public abstract class Enemy extends Actor implements Soul, Resettable {
 
             // check if player is in disarmed status
             if (!otherActor.hasCapability(Status.DISARMED)) {
-                // add WeaponAction to Player
-                actions.add(otherActor.getWeapon().getActiveSkill(this, direction));
+                if (this.hasCapability(Status.IS_YHORM)) {
+                    // add WeaponAction to Player
+                    actions.add(otherActor.getWeapon().getActiveSkill(this, direction));
+                }
 
                 // add AttackAction to Player
                 actions.add(new AttackAction(this, direction));

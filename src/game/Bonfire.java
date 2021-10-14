@@ -37,7 +37,6 @@ public class Bonfire extends Ground {
             actions.add(new BonfireRestAction(name,this));
             HashMap<Location, Bonfire> bonfireHashMap = BonfireManager.getInstance().getBonfires();
             for (Location key : bonfireHashMap.keySet()) {
-                System.out.println(bonfireHashMap.get(key).toString() + "1");
                 if (!key.equals(location)) {
                     actions.add(new TeleportAction(key, bonfireHashMap.get(key).toString(),this));
                 }

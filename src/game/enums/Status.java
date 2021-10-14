@@ -23,5 +23,6 @@ public enum Status {
     IS_PICKED_UP,       // use this capability to check if item is picked up
     TRADABLE,
     IS_SKELETON,
+    IS_MIMIC,
     BLOCKED
 }

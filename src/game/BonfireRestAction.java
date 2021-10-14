@@ -42,6 +42,6 @@ public class BonfireRestAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " rest at Firelink Shrine's Bonfire ";
+        return actor + " rest at " + bonfire + "'s Bonfire ";
     }
 }
