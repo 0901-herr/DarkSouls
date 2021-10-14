@@ -80,7 +80,6 @@ public class Aldrich extends LordOfCinder{
 
     @Override
     public void resetInstance() {
-        this.removeCapability(Abilities.FIRE);
         super.resetInstance();
     }
 }

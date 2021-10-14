@@ -1,12 +1,15 @@
 package game;
 
-import edu.monash.fit2099.engine.*;
-import game.enums.Abilities;
-import game.enums.Status;
+import edu.monash.fit2099.engine.Action;
+import edu.monash.fit2099.engine.Actions;
+import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.WeaponAction;
+import game.enums.*;
+import game.interfaces.Resettable;
 
 import java.util.List;
 
-public class Longbow extends RangedWeapon {
+public class Longbow extends RangedWeapon implements Resettable {
 
     /**
      * Constructor.
@@ -16,6 +19,7 @@ public class Longbow extends RangedWeapon {
         this.actor = actor;
         this.addCapability(Abilities.CRITICAL_STRIKE);
         this.criticalStrikeRate = 15;
+        registerInstance();
     }
 
     /**
@@ -43,9 +47,19 @@ public class Longbow extends RangedWeapon {
 
     @Override
     public String toString(){
-        if (this.hasCapability(Abilities.FIRE))
+        if (actor.hasCapability(Abilities.FIRE))
             return name +  " (ACTIVATED)";
         else
             return name +  " (DEACTIVATED)";
+    }
+
+    @Override
+    public void resetInstance() {
+        actor.removeCapability(Abilities.FIRE);
+    }
+
+    @Override
+    public boolean isExist() {
+        return true;
     }
 }

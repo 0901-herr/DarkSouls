@@ -3,7 +3,7 @@ package game;
 
 import edu.monash.fit2099.engine.Ground;
 import edu.monash.fit2099.engine.Location;
-import game.enums.Status;
+import game.enums.*;
 
 /**
  * The class to handle the generation of the burned ground
@@ -21,6 +21,7 @@ public class BurnedGround extends Ground {
         super('v');
         this.previousGround = previousGround;
         this.round = 0;
+        this.addCapability(Abilities.BURN);
     }
 
     /**

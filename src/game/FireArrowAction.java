@@ -19,13 +19,11 @@ public class FireArrowAction extends WeaponAction {
     @Override
     public String execute(Actor actor, GameMap map){
         String result = actor + " activates Fire Arrow";
-        if (weapon.hasCapability(Abilities.FIRE)){
-            weapon.removeCapability(Abilities.FIRE);
+        if (actor.hasCapability(Abilities.FIRE)){
             actor.removeCapability(Abilities.FIRE);
             result = actor + " deactivates Fire Arrow";
         }
         else {
-            weapon.addCapability(Abilities.FIRE);
             actor.addCapability(Abilities.FIRE);
         }
         return result;
@@ -33,7 +31,7 @@ public class FireArrowAction extends WeaponAction {
 
     @Override
     public String menuDescription(Actor actor){
-        if (weapon.hasCapability(Abilities.FIRE)){
+        if (actor.hasCapability(Abilities.FIRE)){
             return actor + " deactivates Fire Arrow";
         }
         else {
