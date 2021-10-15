@@ -58,8 +58,7 @@ public class Skeleton extends Enemy {
             return new DoNothingAction();
         }
         else if (!isConscious() && this.hasCapability(Abilities.REVIVE_FOR_ONCE)) {
-            DyingAction dyingAction = new DyingAction(map.locationOf(this), this.asSoul().getSouls(),null, this,null,null, false);
-            return dyingAction;
+            return new DyingAction(this);
         }
 
         // loop through all behaviours

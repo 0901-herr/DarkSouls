@@ -3,14 +3,16 @@ package game;
 import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 
+import java.util.HashMap;
+
 /**
  * The action to be performed when trading items with Vendor
  *
  */
 public class TradeAction extends Action {
-    Actor vendor;
-    Item item;
-    Item returnItem;
+    private Actor vendor;
+    private Item item;
+    private Item returnItem;
 
     /**
      * Constructor.

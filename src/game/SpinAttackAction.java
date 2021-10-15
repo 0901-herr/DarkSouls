@@ -46,8 +46,10 @@ public class SpinAttackAction extends WeaponAction {
                     }
                     target.hurt(damage);
                     result += System.lineSeparator() + actor + " " + "Spin Attack" + " " + target + " for " + damage + " damage.";
-                    if (!target.isConscious() && (!target.hasCapability(Status.IS_PLAYER)) && (!target.hasCapability(Abilities.REVIVE_FOR_ONCE))) {
-                        DyingAction dyingAction = new DyingAction(map.locationOf(actor), actor.asSoul().getSouls(), null, target, null, null, false);
+
+                    boolean canDie = (!target.hasCapability(Status.IS_PLAYER)) && (!target.hasCapability(Abilities.REVIVE_FOR_ONCE));
+                    if (!target.isConscious() && canDie) {
+                        DyingAction dyingAction = new DyingAction(target);
                         dyingAction.execute(actor, map);
                         result += System.lineSeparator() + target + " is killed.";
                     }

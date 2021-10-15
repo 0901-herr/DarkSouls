@@ -22,8 +22,10 @@ public class PickUpTokenAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
+        System.out.println(tokenOfSoul.getSouls());
         map.locationOf(actor).removeItem(tokenOfSoul);
         tokenOfSoul.transferSouls(actor.asSoul());
+        System.out.println("TRANSFERRING SOULS TO " + actor);
         return actor.toString()+" picked up Token of Soul";
     }
 

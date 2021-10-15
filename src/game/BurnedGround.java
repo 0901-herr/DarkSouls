@@ -1,6 +1,7 @@
 package game;
 
 
+import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.Ground;
 import edu.monash.fit2099.engine.Location;
 import game.enums.*;
@@ -32,11 +33,18 @@ public class BurnedGround extends Ground {
      */
     @Override
     public void tick(Location location){
+        Display display = new Display();
         super.tick(location);
 
         if (location.containsAnActor()){
             if (!location.getActor().hasCapability(Status.IMMUNE_TO_BURN)){
                 location.getActor().hurt(25);
+
+                if (!location.getActor().hasCapability(Status.IS_PLAYER) && !location.getActor().isConscious()) {
+                    DyingAction dyingAction = new DyingAction(location.getActor());
+                    dyingAction.execute(location.getActor(), location.map());
+                    display.println(location.getActor() + " died in Burned Ground");
+                }
             }
         }
 

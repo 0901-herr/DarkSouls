@@ -14,26 +14,33 @@ public class DyingAction extends Action {
     private Location previousLocation;
     private TokenOfSoul tokenOfSoul;
     private TokenOfSoul previousTokenOfSoul;
-    private Boolean UndeadRandomDead;
 
     /**
+     * First constructor for player's dying action
      *
      * @param location
      * @param soul
      * @param previousLocation
-     * @param target
      * @param tokenOfSoul
      * @param previousTokenOfSoul
      * Bind all the parameter with the class variable
      */
-    public DyingAction(Location location,int soul,Location previousLocation,Actor target,TokenOfSoul tokenOfSoul,TokenOfSoul previousTokenOfSoul,Boolean UndeadRandomDead){
-        this.previousLocation=previousLocation;
-        this.location=location;
-        this.soul=soul;
-        this.tokenOfSoul=tokenOfSoul;
-        this.previousTokenOfSoul=previousTokenOfSoul;
-        this.target=target;
-        this.UndeadRandomDead=UndeadRandomDead;
+    public DyingAction(Actor target, Location location, int soul, Location previousLocation,TokenOfSoul tokenOfSoul, TokenOfSoul previousTokenOfSoul){
+        this.target = target;
+        this.location = location;
+        this.previousLocation = previousLocation;
+        this.soul = soul;
+        this.tokenOfSoul = tokenOfSoul;
+        this.previousTokenOfSoul = previousTokenOfSoul;
+    }
+
+    /**
+     * Second constructor for enemy's dying action
+     *
+     * @param target the target that is dead
+     */
+    public DyingAction(Actor target) {
+        this.target = target;
     }
 
     /**
@@ -54,7 +61,7 @@ public class DyingAction extends Action {
         Display display = new Display();
         String res = actor + " is dead";
 
-        if (UndeadRandomDead) {
+        if (actor.hasCapability(Status.RANDOM_DEAD)) {
             map.removeActor(actor);
             return actor.toString() + " died instantly by chance";
         }
@@ -70,7 +77,7 @@ public class DyingAction extends Action {
                     ANSI_BLUE+"------------ ----    ---- ***  **  *** ------------       ----------    ------    ------------ ----   ----\n"+ANSI_RESET+
                     ANSI_RED+"************ ****    **** ---      --- ************        ********      ****     ************ ****    ****"+ANSI_RESET);
             BonfireManager bm = BonfireManager.getInstance();
-            map.moveActor(actor,bm.getLastInteract());
+            map.moveActor(actor, bm.getLastInteract());
             if (previousTokenOfSoul != null) {
                 previousTokenOfSoul.getLocation().removeItem(previousTokenOfSoul);
             }
@@ -94,6 +101,7 @@ public class DyingAction extends Action {
             // drop all items
             for (Item item : target.getInventory()) {
                 if (target.hasCapability(Status.IS_MIMIC)) {
+                    item.asSoul().setSouls(100);
                     dropActions.add(new DropItemAction(item));
                 }
                 else {
@@ -101,8 +109,9 @@ public class DyingAction extends Action {
                 }
             }
 
-            for (Action drop : dropActions)
+            for (Action drop : dropActions) {
                 drop.execute(target, map);
+            }
 
             map.removeActor(target);
 

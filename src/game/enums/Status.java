@@ -24,5 +24,6 @@ public enum Status {
     TRADABLE,           // use this capability to identify if the item is tradable to vendor
     IS_SKELETON,        // use this capability to identify if the actor is a skeleton
     IS_MIMIC,           // use this capability to identify if the actor is a mimic
-    BLOCKED             // use this capability to identify if the attack is blocked
+    BLOCKED,            // use this capability to identify if the attack is blocked
+    RANDOM_DEAD         // use this capability to identify if the actor randomly died
 }
