@@ -6,7 +6,7 @@ import game.interfaces.Behaviour;
 
 
 /**
- * A Behaviour that is called when Yhorm's HP < 50%
+ * A Behaviour that is called when Lord Of Cinder is in enrage mode (Hp < 50%)
  *
  */
 public class EnrageBehaviour implements Behaviour {
@@ -23,7 +23,7 @@ public class EnrageBehaviour implements Behaviour {
     }
 
     /**
-     * Getting the action Yhorm is performing when enrage mode is activated
+     * Getting the action Lord Of Cinder is performing when enrage mode is activated
      *
      * @param actor the Actor acting
      * @param map the GameMap containing the Actor

@@ -4,11 +4,21 @@ import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
 import game.enums.Status;
 
-import java.util.ArrayList;
+/**
+ *
+ * The second boss of the game in the second map, Anor Londo.
+ *
+ */
+public class Aldrich extends LordOfCinder {
 
-public class Aldrich extends LordOfCinder{
-    ArrayList<Location> expandedLocations = new ArrayList<>();
-
+    /**
+     * Constructor.
+     *
+     * @param name name of Aldrich
+     * @param displayChar character representing Yhorm
+     * @param hitPoints the hitpoints of Yhorm
+     * @param initialLocation the initial location of Yhorm
+     */
     public Aldrich(String name, char displayChar, int hitPoints, Location initialLocation) {
         super(name, displayChar, hitPoints, initialLocation, 5000);
         this.addCapability(Status.IS_ALDRICH);
@@ -47,6 +57,12 @@ public class Aldrich extends LordOfCinder{
         return super.playTurn(actions, lastAction, map, display);
     }
 
+    /**
+     * Figure out what to do next, including invoking enrage behaviour,
+     * being stunned etc.
+     *
+     * @param map the current map of the actor is at
+     */
     public void scanExpandedExits(GameMap map) {
         Location here = map.locationOf(this);
         NumberRange xs, ys;
@@ -54,14 +70,16 @@ public class Aldrich extends LordOfCinder{
         xs = new NumberRange(here.x() - range, range * 2 + 1);
         ys = new NumberRange(here.y() - range, range * 2 + 1);
 
-        for (int x : xs) {
-            for (int y : ys) {
+        // scanning surroundings
+        for (int x: xs) {
+            for (int y: ys) {
                 if (map.getXRange().contains(x) && map.getYRange().contains(y)) {
                     if (!(x == here.x() && y == here.y()) && map.at(x, y).containsAnActor()){
                         Actor target = map.at(x, y).getActor();
+
+                        // check if target is Player
                         if (target.hasCapability(Status.HOSTILE_TO_ENEMY)){
                             this.addBehaviour(target);
-                            System.out.println("target found");
                         }
                     }
                 }
@@ -69,15 +87,10 @@ public class Aldrich extends LordOfCinder{
         }
     }
 
-    public void addBehaviour(Actor otherActor) {
-        // Add AttackBehaviour
-        this.getBehaviours().add(0, new AttackBehaviour());
-
-        // add FollowBehaviour
-        this.setFollowBehaviour(new FollowBehaviour(otherActor));
-        this.getBehaviours().add(1, this.getFollowBehaviour());
-    }
-
+    /**
+     * Resetting Aldrich
+     *
+     */
     @Override
     public void resetInstance() {
         super.resetInstance();

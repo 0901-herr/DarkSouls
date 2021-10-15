@@ -5,30 +5,35 @@ import game.enums.Status;
 
 import java.util.Random;
 
+/**
+ *
+ * A Mimic has 50% chances of appearing when chest is opened
+ *
+ */
 public class Mimic extends Enemy {
     Random rand = new Random();
 
     /**
      * Constructor.
-     * All Undeads are represented by an 'u' and have 30 hit points.
+     *
+     * All Mimic are represented by an 'M' and have 100 hit points.
      * @param name the name of this Undead
      */
     public Mimic(String name, Location initialLocation) {
         super(name, 'M', 100, initialLocation, 200);
-        this.getBehaviours().add(new WanderBehaviour());
         this.setInitialLocation(initialLocation);
         this.addRandomTokenOfSouls();
         this.addCapability(Status.IS_MIMIC);
     }
 
     /**
-     * Select and return an action to perform on the current turn of the Undead.
+     * Select and return an action to perform on the current turn of the Mimic.
      *
-     * @param actions    Collection of possible Actions for this Undead
-     * @param lastAction The Action this Undead took last turn.
-     * @param map        The map containing the Undead
+     * @param actions    Collection of possible Actions for this Mimic
+     * @param lastAction The Action this Mimic took last turn.
+     * @param map        The map containing the Mimic
      * @param display    The I/O object to which messages may be written
-     * @return the Action to be performed by the Undead
+     * @return the Action to be performed by the Mimic
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
@@ -41,6 +46,10 @@ public class Mimic extends Enemy {
         return super.playTurn(actions, lastAction, map, display);
     }
 
+    /**
+     * Adding random number of Token of Souls (1 to 3) to the Mimic's inventory
+     *
+     */
     public void addRandomTokenOfSouls() {
         int randomNumber;
         randomNumber = rand.nextInt(3);
@@ -54,8 +63,8 @@ public class Mimic extends Enemy {
 
     /**
      * When this method is called:
-     * Behavior of Undead is cleared.
-     * Undead is removed from map.
+     * Behavior of Mimic is cleared.
+     * Mimic is removed from map.
      */
     @Override
     public void resetInstance() {

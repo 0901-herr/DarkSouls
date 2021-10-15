@@ -34,6 +34,6 @@ public class PickUpTokenAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor.toString()+" pick up Token of Soul.";
+        return actor.toString()+" picks up Token of Soul";
     }
 }

@@ -58,13 +58,13 @@ public class Vendor extends Actor implements Soul {
                 actions.add(new BuyItemAction(this, item.getKey(), item.getValue()));
             }
 
-            // add action tp buy increase maximum hp
+            // add action to buy increase maximum hp
             actions.add(new BuyIncreaseMaxHPAction(this));
 
             // add actions to trade Cinder Of Lord
             for (Item item: otherActor.getInventory()) {
                 if (item.hasCapability(Status.TRADABLE)) {
-                    actions.add(new TradeCinderOfLordAction(this, item));
+                    actions.add(new TradeAction(this, item));
                 }
             }
         }

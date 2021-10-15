@@ -20,19 +20,7 @@ public abstract class LordOfCinder extends Enemy {
     }
 
     /**
-     * @param actions    collection of possible Actions for this Actor
-     * @param lastAction The Action this Actor took last turn.
-     * @param map        the map containing the Actor
-     * @param display    the I/O object to which messages may be written
-     * @return the current action to be executed
-     */
-    @Override
-    public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        return super.playTurn(actions, lastAction, map, display);
-    }
-
-    /**
-     * Adding Yhorm's enrage behaviour to the behaviours list
+     * Adding Lord of Cinder's enrage behaviour to the behaviours list
      *
      */
     public void addEnrageBehaviour() {
@@ -43,7 +31,7 @@ public abstract class LordOfCinder extends Enemy {
     }
 
     /**
-     * Resetting Yhorm
+     * Resetting Lord Of Cinder
      *
      */
     @Override
@@ -63,18 +51,18 @@ public abstract class LordOfCinder extends Enemy {
     }
 
     /**
-     * Setting Yhorm's enrage behaviour
+     * Setting Lord Of Cinder's enrage behaviour
      *
-     * @param enrageBehaviour
+     * @param enrageBehaviour the enrage behaviour of the Lord Of Cinder
      */
     public void setEnrageBehaviour(EnrageBehaviour enrageBehaviour) {
         this.enrageBehaviour = enrageBehaviour;
     }
 
     /**
-     * Setting Lord Of Cinder enrage behaviour
+     * Getting Lord Of Cinder EnrageBehaviour
      *
-     *
+     * @return Lord Of Cinder's EnrageBehaviour
      */
     public EnrageBehaviour getEnrageBehaviour() {
         return this.enrageBehaviour;

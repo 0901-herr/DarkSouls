@@ -1,6 +1,5 @@
 package game;
 
-import edu.monash.fit2099.engine.Actor;
 import game.enums.Status;
 
 /**
@@ -19,12 +18,18 @@ public class CinderOfLord extends PortableItem {
         this.addCinderOfLordCapability();
     }
 
+    /**
+     * To add the capability of different types of Cinder of Lord
+     *
+     */
     public void addCinderOfLordCapability() {
         this.addCapability(Status.TRADABLE);
 
+        // Aldrich's Cinder of Lord
         if (lordOfCinder.hasCapability(Status.IS_ALDRICH)) {
             this.addCapability(Status.IS_ALDRICH);
         }
+        // Yhorm's Cinder of Lord
         else if (lordOfCinder.hasCapability(Status.IS_YHORM)){
             this.addCapability(Status.IS_YHORM);
         }
