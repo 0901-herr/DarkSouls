@@ -9,8 +9,8 @@ import java.util.HashMap;
  * @see Ground
  */
 public class Bonfire extends Ground {
-    String name;
-    Boolean isActivated;
+    private String name;
+    private Boolean isActivated;
     /**
      * Constructor
      *
@@ -22,7 +22,12 @@ public class Bonfire extends Ground {
     }
 
     /**
-     * This method return the allowable action that player can select from menu to perform Rest action
+     * This method return the allowable action that player can select from menu to perform the following action:
+     * <ul>
+     *     <li>If the bonfire is not activated LightUpBonfireAction</li>
+     *     <li>Rest Action</li>
+     *     <li>Teleport Action</li>
+     * </ul>
      * @param actor the Actor acting
      * @param location the current Location
      * @param direction the direction of the Ground from the Actor
@@ -38,8 +43,9 @@ public class Bonfire extends Ground {
             HashMap<Location, Bonfire> bonfireHashMap = BonfireManager.getInstance().getBonfires();
             for (Location key : bonfireHashMap.keySet()) {
                 if (!key.equals(location)) {
-                    actions.add(new TeleportAction(key, bonfireHashMap.get(key).toString(),this));
-                }
+                    if (bonfireHashMap.get(key).getIsActivated()){
+                        actions.add(new TeleportAction(key, bonfireHashMap.get(key).toString(),this));
+                }}
             }
             return actions;
         }
@@ -50,12 +56,27 @@ public class Bonfire extends Ground {
         }
     }
 
+    /**
+     * toString method
+     * @return name
+     */
     @Override
     public String toString() {
         return name;
     }
 
+    /**
+     * Set the isActivated to true
+     */
     public void activateBonfire(){
         isActivated=true;
+    }
+
+    /**
+     * Getter for isActivated
+     * @return isActivated
+     */
+    public Boolean getIsActivated(){
+        return isActivated;
     }
 }

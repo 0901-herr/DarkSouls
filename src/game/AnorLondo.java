@@ -10,6 +10,10 @@ import java.util.List;
 
 public class AnorLondo extends GameMap {
     private static AnorLondo instance;
+
+    /**
+     * Constructor
+     */
     private AnorLondo() {
         super(new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Valley(),new FogDoor())
                 , Arrays.asList(
@@ -36,6 +40,10 @@ public class AnorLondo extends GameMap {
                         "___.......___#.++++++++++++++.+++...................+.....................++"));
     }
 
+    /**
+     * Static Factory method
+     * @return instance of AnorLondo class
+     */
     public static AnorLondo getInstance() {
         if (instance==null) {
             instance=new AnorLondo();

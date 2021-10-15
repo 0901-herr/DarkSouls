@@ -9,6 +9,10 @@ import java.util.List;
 
 public class ProfaneCapital extends GameMap {
     private static ProfaneCapital instance;
+
+    /**
+     * Constructor
+     */
     private ProfaneCapital() {
         super(new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Valley(),new FogDoor())
                 , Arrays.asList(
@@ -41,6 +45,10 @@ public class ProfaneCapital extends GameMap {
 
     }
 
+    /**
+     * Static Factory method
+     * @return instance of ProfaneCapital
+     */
     public static ProfaneCapital getInstance() {
         if (instance==null){
             instance=new ProfaneCapital();
