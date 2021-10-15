@@ -12,12 +12,26 @@ public class Chest extends Enemy {
 
     private Random rand = new Random();
 
+    /**
+     * Constructor.
+     *
+     * @param initialLocation the initial location of chest
+     */
     public Chest(Location initialLocation) {
         super("Chest", '?', 9999, initialLocation, 200);
         this.setInitialLocation(initialLocation);
         addRandomTokenOfSouls();
     }
 
+    /**
+     * Available actions that other actor can do to Chest.
+     * e.g. OpenChestAction
+     *
+     * @param otherActor the Actor that might be performing attack
+     * @param direction  string representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return a list of actions
+     */
     @Override
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
         Actions actions = new Actions();
@@ -30,6 +44,14 @@ public class Chest extends Enemy {
         return actions;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    /**
+     * Equip chest with random number of tokens of soul with a minimum of 1 and maximum of 3.
+     */
     public void addRandomTokenOfSouls() {
         int randomNumber;
         randomNumber = rand.nextInt(3);
@@ -39,11 +61,6 @@ public class Chest extends Enemy {
             tokenOfSouls.setSouls(100);
             this.addItemToInventory(tokenOfSouls);
         }
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 
 }

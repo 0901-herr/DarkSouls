@@ -15,15 +15,15 @@ public class Longbow extends RangedWeapon implements Resettable {
      * Constructor.
      */
     public Longbow(Actor actor) {
-        super("Darkmoon Longbow", '8', 70, "pierces", 80, 3);
+        super("Darkmoon Longbow", '8', 70, "pierces", 80, 3, 15);
         this.actor = actor;
-        this.addCapability(Abilities.CRITICAL_STRIKE);
         this.criticalStrikeRate = 15;
         registerInstance();
     }
 
     /**
      * Getter of the allowable actions of Darkmoon Longbow.
+     * e.g. FireArrowAction.
      *
      * Returns an unmodifiable copy of the actions list so that calling methods won't.
      * be able to change what this Item can do without the Item checking.
@@ -40,6 +40,14 @@ public class Longbow extends RangedWeapon implements Resettable {
         return allowableActions.getUnmodifiableActionList();
     }
 
+    /**
+     * Get an action or skill from Darkmoon Longbow.
+     * e.g FireArrowAction
+     *
+     * @param target the target actor.
+     * @param direction the direction of target, e.g. "north".
+     * @return null by default because a weapon doesn't have any active skill. Otherwise, return a WeaponAction instance.
+     */
     @Override
     public WeaponAction getActiveSkill(Actor target, String direction) {
         return new FireArrowAction(this);
@@ -53,11 +61,19 @@ public class Longbow extends RangedWeapon implements Resettable {
             return name +  " (DEACTIVATED)";
     }
 
+    /**
+     * Reset the active skill of Darkmoon Longbow.
+     */
     @Override
     public void resetInstance() {
         actor.removeCapability(Abilities.FIRE);
     }
 
+    /**
+     * A useful method to clean up the list of instances in the ResetManager class
+     * @return the existence of the instance in the game.
+     * for example, true to keep it permanent, or false if instance needs to be removed from the reset list.
+     */
     @Override
     public boolean isExist() {
         return true;

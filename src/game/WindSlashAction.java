@@ -5,7 +5,7 @@ import game.enums.Status;
 
 public class WindSlashAction extends WeaponAction {
 
-    protected StormRuler weapon;
+    protected StormRuler stormRuler;
     protected Actor target;
 
     /**
@@ -15,7 +15,7 @@ public class WindSlashAction extends WeaponAction {
      */
     public WindSlashAction(StormRuler stormRuler, Actor target){
         super(stormRuler);
-        this.weapon = stormRuler;
+        this.stormRuler = stormRuler;
         this.target = target;
     }
 
@@ -31,7 +31,7 @@ public class WindSlashAction extends WeaponAction {
      */
     @Override
     public String execute(Actor actor, GameMap map){
-        int damage = weapon.damage() * 2;
+        int damage = stormRuler.damage() * 2;
         target.hurt(damage);
         String result = actor + " uses Wind Slash on " + target + " for " + damage + " damage and stuns " + target;
         if (!target.isConscious()) {
@@ -43,8 +43,8 @@ public class WindSlashAction extends WeaponAction {
         target.addCapability(Status.STUNNED);
 
         // reset charge
-        weapon.resetCharge();
-        weapon.removeCapability(Status.FULLY_CHARGED);
+        stormRuler.resetCharge();
+        stormRuler.removeCapability(Status.FULLY_CHARGED);
 
         return result;
     }

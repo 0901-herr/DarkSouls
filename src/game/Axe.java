@@ -1,7 +1,7 @@
 package game;
 
 
-public class MeleeWeapon extends GameWeaponItem {
+public abstract class Axe extends MeleeWeapon {
 
     /**
      * Constructor.
@@ -12,7 +12,8 @@ public class MeleeWeapon extends GameWeaponItem {
      * @param verb        verb to use for this weapon, e.g. "hits", "zaps"
      * @param hitRate     the probability/chance to hit the target.
      */
-    public MeleeWeapon(String name, char displayChar, int damage, String verb, int hitRate) {
+    public Axe(String name, char displayChar, int damage, String verb, int hitRate) {
         super(name, displayChar, damage, verb, hitRate);
     }
+
 }

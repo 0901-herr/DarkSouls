@@ -11,7 +11,7 @@ import game.enums.*;
 import java.util.List;
 
 
-public class StormRuler extends MeleeWeapon {
+public class StormRuler extends Sword {
 
     private int numberOfCharge;
     private int MAX_NUMBER_OF_CHARGE = 3;
@@ -19,12 +19,11 @@ public class StormRuler extends MeleeWeapon {
 
     /**
      * Constructor.
-     * @param actor that will equip this weapon.
+     *
+     * @param actor the holder of this weapon.
      */
     public StormRuler(Actor actor) {
-        super("Storm Ruler", '7', 70, "strikes", 60);
-        this.addCapability(Abilities.CRITICAL_STRIKE);
-        this.criticalStrikeRate = 20;
+        super("Storm Ruler", '7', 70, "strikes", 60, 20);
         this.numberOfCharge = 0;
         this.actor = actor;
         if (!actor.hasCapability(Status.IS_PLAYER)){
@@ -50,6 +49,7 @@ public class StormRuler extends MeleeWeapon {
 
     /**
      * Getter of the allowable actions of StormRuler.
+     * e.g. ChargeAction
      *
      * Returns an unmodifiable copy of the actions list so that calling methods won't.
      * be able to change what this Item can do without the Item checking.
@@ -68,7 +68,6 @@ public class StormRuler extends MeleeWeapon {
 
     /**
      * Get an action or skill from StormRuler.
-     *
      * If StormRuler is fully charged and Yhorm is nearby, return WindSlashAction.
      * If target is not WEAK_TO_YHORM, change StormRuler to DULLNESS state.
      *
@@ -111,6 +110,7 @@ public class StormRuler extends MeleeWeapon {
     /**
      * Inform the StormRuler to charge its weapon.
      * This method is called once per turn, if the Item is being carried.
+     *
      * @param currentLocation The location of the ground on which we lie.
      */
     @Override
@@ -137,7 +137,7 @@ public class StormRuler extends MeleeWeapon {
 
 
     /**
-     * Reset the charge of StormRuler to 0.
+     * Reset the charge of StormRuler.
      */
     public void resetCharge(){
         numberOfCharge = 0;
