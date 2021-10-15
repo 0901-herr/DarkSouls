@@ -40,16 +40,14 @@ public class SpinAttackAction extends WeaponAction {
                 Actor target = destination.getActor();
 
                 if (actor.hasCapability(Status.IS_PLAYER) && target.hasCapability(Status.HOSTILE_TO_PLAYER) ||
-                    actor.hasCapability(Status.HOSTILE_TO_PLAYER) && target.hasCapability(Status.IS_PLAYER)) {
+                        actor.hasCapability(Status.HOSTILE_TO_PLAYER) && target.hasCapability(Status.IS_PLAYER)) {
                     if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
                         result += System.lineSeparator() + actor + " misses " + target + ".";
                     }
                     target.hurt(damage);
                     result += System.lineSeparator() + actor + " " + "Spin Attack" + " " + target + " for " + damage + " damage.";
-
-                    boolean canDie = (!target.hasCapability(Status.IS_PLAYER)) && (!target.hasCapability(Abilities.REVIVE_FOR_ONCE));
-                    if (!target.isConscious() && canDie) {
-                        DyingAction dyingAction = new DyingAction(target);
+                    if (!target.isConscious() && (!target.hasCapability(Status.IS_PLAYER)) && (!target.hasCapability(Abilities.REVIVE_FOR_ONCE))) {
+                        DyingAction dyingAction = new DyingAction(map.locationOf(actor), actor.asSoul().getSouls(), null, target, null, null);
                         dyingAction.execute(actor, map);
                         result += System.lineSeparator() + target + " is killed.";
                     }

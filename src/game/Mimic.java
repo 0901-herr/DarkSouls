@@ -38,7 +38,7 @@ public class Mimic extends Enemy {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         if (!isConscious()) {
-            DyingAction dyingAction = new DyingAction(this);
+            DyingAction dyingAction = new DyingAction(map.locationOf(this), this.asSoul().getSouls(), null, this, null, null);
             return dyingAction;
         }
 

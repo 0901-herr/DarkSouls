@@ -41,7 +41,7 @@ public class BurnedGround extends Ground {
                 location.getActor().hurt(25);
 
                 if (!location.getActor().hasCapability(Status.IS_PLAYER) && !location.getActor().isConscious()) {
-                    DyingAction dyingAction = new DyingAction(location.getActor());
+                    DyingAction dyingAction = new DyingAction(location, location.getActor().asSoul().getSouls(), null, location.getActor(), null, null);
                     dyingAction.execute(location.getActor(), location.map());
                     display.println(location.getActor() + " died in Burned Ground");
                 }

@@ -53,7 +53,7 @@ public class Player extends Actor implements Soul, Resettable {
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		if (!isConscious()) {
 			ts = new TokenOfSoul("Token of Soul", '$', false, this);
-			return new DyingAction(this, map.locationOf(this), souls, previousLocation, ts, previousTokenOfSoul);
+			return new DyingAction(map.locationOf(this), souls, previousLocation, this, ts, previousTokenOfSoul);
 		}
 		this.previousTokenOfSoul = ts;
 		this.previousLocation = map.locationOf(this);

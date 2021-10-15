@@ -2,7 +2,6 @@ package game;
 
 
 import edu.monash.fit2099.engine.*;
-import game.enums.Status;
 
 import java.util.Random;
 
@@ -38,8 +37,7 @@ public class Undead extends Enemy {
 		// 10% chance to die
 		if (rand.nextInt(10)==1){
 			this.getBehaviours().clear();
-			this.addCapability(Status.RANDOM_DEAD);
-			return new DyingAction(this);
+			return new DyingAction(map.locationOf(this),0,null,this,null,null);
 		}
 
 		// loop through all behaviours
