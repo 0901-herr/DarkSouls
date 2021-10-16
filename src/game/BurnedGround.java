@@ -36,14 +36,16 @@ public class BurnedGround extends Ground {
         Display display = new Display();
         super.tick(location);
 
-        if (location.containsAnActor()){
-            if (!location.getActor().hasCapability(Status.IMMUNE_TO_BURN)){
-                location.getActor().hurt(25);
+        if (round < 3) {
+            if (location.containsAnActor()) {
+                if (!location.getActor().hasCapability(Status.IMMUNE_TO_BURN)) {
+                    location.getActor().hurt(25);
 
-                if (!location.getActor().hasCapability(Status.IS_PLAYER) && !location.getActor().isConscious()) {
-                    DyingAction dyingAction = new DyingAction(location, location.getActor().asSoul().getSouls(), null, location.getActor(), null, null);
-                    dyingAction.execute(location.getActor(), location.map());
-                    display.println(location.getActor() + " died in Burned Ground");
+                    if (!location.getActor().hasCapability(Status.IS_PLAYER) && !location.getActor().isConscious()) {
+                        DyingAction dyingAction = new DyingAction(location, location.getActor().asSoul().getSouls(), null, location.getActor(), null, null);
+                        dyingAction.execute(location.getActor(), location.map());
+                        display.println(location.getActor() + " died in Burned Ground");
+                    }
                 }
             }
         }
