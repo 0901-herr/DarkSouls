@@ -9,9 +9,9 @@ import java.util.HashMap;
  * The action to be performed when trading items with Vendor
  *
  */
-public class TradeAction extends Action {
+public class TradeItemAction extends Action {
     private Actor vendor;
-    private Item item;
+    private Item tradeItem;
     private Item returnItem;
 
     /**
@@ -20,9 +20,9 @@ public class TradeAction extends Action {
      * @param vendor the Actor to sell, trade items
      * @param item the item that is used for trading
      */
-    public TradeAction(Actor vendor, Item item) {
+    public TradeItemAction(Actor vendor, Item item) {
         this.vendor = vendor;
-        this.item = item;
+        this.tradeItem = item;
     }
 
     /**
@@ -37,16 +37,11 @@ public class TradeAction extends Action {
         String result;
 
         // check the type of item that is being traded
-        if (item.hasCapability(Status.IS_YHORM)) {
-            this.setReturnItem(new GreatMachete(actor));
-        }
-        else if (item.hasCapability(Status.IS_ALDRICH)) {
-            this.setReturnItem(new Longbow(actor));
-        }
+        this.checkTradeItem(tradeItem, actor);
 
         // removing item that is used to trade
-        vendor.addItemToInventory(item);
-        actor.removeItemFromInventory(item);
+        vendor.addItemToInventory(tradeItem);
+        actor.removeItemFromInventory(tradeItem);
 
         // swapping traded weapon with current weapon
         SwapWeaponAction swapWeaponAction = new SwapWeaponAction(this.getReturnItem());
@@ -58,13 +53,31 @@ public class TradeAction extends Action {
     }
 
     /**
+     * Check the item that is used to trade and determine the return item.
+     *
+     * @param tradeItem The map the actor is on.
+     * @param actor The actor performing the action.
+     */
+    public void checkTradeItem(Item tradeItem, Actor actor) {
+        // check trade item
+        if (tradeItem.hasCapability(Status.IS_YHORM)) {
+            GreatMachete greatMachete = new GreatMachete(actor);
+            this.setReturnItem(greatMachete);
+        }
+        else if (tradeItem.hasCapability(Status.IS_ALDRICH)) {
+            Longbow longBow = new Longbow(actor);
+            this.setReturnItem(longBow);
+        }
+    }
+
+    /**
      * Returns a descriptive string
      * @param actor The actor performing the action.
      * @return the text we put on the menu
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " trades " + item;
+        return actor + " trades " + tradeItem;
     }
 
     /**

@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Status;
 
 import java.util.HashMap;
 
@@ -35,25 +36,28 @@ public class Bonfire extends Ground {
      */
     @Override
     public Actions allowableActions(Actor actor, Location location, String direction) {
-        if (isActivated) {
-            String[] hotKeyArr = {"a", "b", "c", "d", "e", "f"};
-            int i = 1;
-            Actions actions = new Actions();
-            actions.add(new BonfireRestAction(name,this));
-            HashMap<Location, Bonfire> bonfireHashMap = BonfireManager.getInstance().getBonfires();
-            for (Location key : bonfireHashMap.keySet()) {
-                if (!key.equals(location)) {
-                    if (bonfireHashMap.get(key).getIsActivated()){
-                        actions.add(new TeleportAction(key, bonfireHashMap.get(key).toString(),this));
-                }}
+        Actions actions = new Actions();
+
+        if (location.containsAnActor() && location.getActor().hasCapability(Status.IS_PLAYER)) {
+            if (isActivated) {
+                actions.add(new BonfireRestAction(name, this));
+                HashMap<Location, Bonfire> bonfireHashMap = BonfireManager.getInstance().getBonfires();
+                for (Location key : bonfireHashMap.keySet()) {
+                    if (!key.equals(location)) {
+                        if (bonfireHashMap.get(key).getIsActivated()) {
+                            actions.add(new TeleportAction(key, bonfireHashMap.get(key).toString(), this));
+                        }
+                    }
+                }
+                return actions;
+            } else {
+                Actions lightup = new Actions();
+                lightup.add(new LightUpBonfireAction(this));
+                return lightup;
             }
-            return actions;
         }
-        else{
-            Actions lightup = new Actions();
-            lightup.add(new LightUpBonfireAction(this));
-            return lightup;
-        }
+
+        return actions;
     }
 
     /**

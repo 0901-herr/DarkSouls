@@ -86,12 +86,26 @@ public class DyingAction extends Action {
         }
 
         else {
-            target.asSoul().transferSouls(actor.asSoul());
+            if (target.hasCapability(Abilities.REVIVE_FOR_ONCE)) {
+                for (Exit exit: location.getExits()) {
+                    if (exit.getDestination().containsAnActor()) {
+                        Actor exitActor = exit.getDestination().getActor();
+                        if (exit.getDestination().getActor().hasCapability(Status.IS_PLAYER)) {
+                            target.asSoul().transferSouls(exitActor.asSoul());
+                        }
+                    }
+                }
+            }
+            else {
+                target.asSoul().transferSouls(actor.asSoul());
+            }
+
             Actions dropActions = new Actions();
 
             // drop all items
             for (Item item : target.getInventory()) {
                 if (target.hasCapability(Status.IS_MIMIC)) {
+                    item.asSoul().setSouls(100);
                     dropActions.add(new DropItemAction(item));
                 }
                 else {
@@ -99,12 +113,13 @@ public class DyingAction extends Action {
                 }
             }
 
-            for (Action drop : dropActions)
+            for (Action drop : dropActions) {
                 drop.execute(target, map);
+            }
 
             map.removeActor(target);
 
-            if (target.hasCapability(Status.IS_YHORM)){
+            if (target.hasCapability(Status.IS_YHORM) || target.hasCapability(Status.IS_ALDRICH)){
                 display.println(ANSI_YELLOW+
                         "----           --------   -----------  ----------          --------   ------------      ------------ --------  ----    ---- ----------   ------------ -----------\n"+
                         "****          **********  ***********  ************       **********  ************      ************ ********  *****   **** ************ ************ ***********\n"+

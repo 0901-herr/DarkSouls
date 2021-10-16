@@ -2,6 +2,7 @@ package game;
 
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Status;
 
 import java.util.Random;
 
@@ -36,6 +37,7 @@ public class Undead extends Enemy {
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// 10% chance to die
 		if (rand.nextInt(10)==1){
+			this.addCapability(Status.RANDOM_DEAD);
 			this.getBehaviours().clear();
 			return new DyingAction(map.locationOf(this),0,null,this,null,null);
 		}

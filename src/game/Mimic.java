@@ -27,26 +27,6 @@ public class Mimic extends Enemy {
     }
 
     /**
-     * Select and return an action to perform on the current turn of the Mimic.
-     *
-     * @param actions    Collection of possible Actions for this Mimic
-     * @param lastAction The Action this Mimic took last turn.
-     * @param map        The map containing the Mimic
-     * @param display    The I/O object to which messages may be written
-     * @return the Action to be performed by the Mimic
-     */
-    @Override
-    public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        if (!isConscious()) {
-            DyingAction dyingAction = new DyingAction(map.locationOf(this), this.asSoul().getSouls(), null, this, null, null);
-            return dyingAction;
-        }
-
-        // loop through all behaviours
-        return super.playTurn(actions, lastAction, map, display);
-    }
-
-    /**
      * Adding random number of Token of Souls (1 to 3) to the Mimic's inventory
      *
      */

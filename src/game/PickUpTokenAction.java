@@ -3,6 +3,7 @@ package game;
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
+import game.enums.Status;
 
 /**
  * The class that handle the pick up token action and add the soul directly to actor's soul.
@@ -22,10 +23,8 @@ public class PickUpTokenAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        System.out.println(tokenOfSoul.getSouls());
         map.locationOf(actor).removeItem(tokenOfSoul);
         tokenOfSoul.transferSouls(actor.asSoul());
-        System.out.println("TRANSFERRING SOULS TO " + actor);
         return actor.toString()+" picked up Token of Soul";
     }
 

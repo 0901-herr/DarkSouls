@@ -45,7 +45,6 @@ public class TokenOfSoul extends Item implements Soul {
         if (!actor.isConscious()) {
             return new DropItemAction(this);
         }
-
         return null;
     }
 

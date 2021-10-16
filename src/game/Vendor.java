@@ -64,7 +64,7 @@ public class Vendor extends Actor implements Soul {
             // add actions to trade Cinder Of Lord
             for (Item item: otherActor.getInventory()) {
                 if (item.hasCapability(Status.TRADABLE)) {
-                    actions.add(new TradeAction(this, item));
+                    actions.add(new TradeItemAction(this, item));
                 }
             }
         }

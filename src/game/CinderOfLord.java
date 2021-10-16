@@ -1,18 +1,19 @@
 package game;
 
+import edu.monash.fit2099.engine.Actor;
 import game.enums.Status;
 
 /**
  * The item dropping after Yhorm is defeated
  */
 public class CinderOfLord extends PortableItem {
-    LordOfCinder lordOfCinder;
+    Actor lordOfCinder;
 
     /**
      * Constructor for the item.
      *
      */
-    public CinderOfLord(LordOfCinder lordOfCinder, String name) {
+    public CinderOfLord(Actor lordOfCinder, String name) {
         super(name, '%');
         this.lordOfCinder = lordOfCinder;
         this.addCinderOfLordCapability();
