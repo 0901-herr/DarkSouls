@@ -9,7 +9,7 @@ import edu.monash.fit2099.engine.MoveActorAction;
 
 
 public class TeleportAction extends MoveActorAction {
-    Bonfire bonfire;
+    private Bonfire bonfire;
 
     /**
      * Constructor

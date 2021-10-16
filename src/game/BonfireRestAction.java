@@ -9,8 +9,8 @@ import java.util.HashMap;
  * @see Action
  */
 public class BonfireRestAction extends Action {
-    String name;
-    Bonfire bonfire;
+    private String name;
+    private Bonfire bonfire;
     public BonfireRestAction(String name,Bonfire bonfire){
         this.name=name;
         this.bonfire=bonfire;

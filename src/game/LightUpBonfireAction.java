@@ -10,7 +10,7 @@ import edu.monash.fit2099.engine.Location;
 import java.util.HashMap;
 
 public class LightUpBonfireAction extends Action {
-    Bonfire bonfire;
+    private Bonfire bonfire;
     public LightUpBonfireAction(Bonfire bonfire) {
         this.bonfire=bonfire;
     }
