@@ -69,7 +69,8 @@ public class Application {
 			Enemy skeleton6 = new Skeleton("Skeleton", skeleton6InitialLocation);
 			skeleton6InitialLocation.addActor(skeleton6);
 
-			gameMap.at(38,16).setGround(new FogDoor(secMap));
+			gameMap.at(38,25).setGround(new FogDoor(secMap));
+			secMap.at(38, 0).setGround(new FogDoor(gameMap));
 
 			// Place Bonfire at the center of the map
 			BonfireManager bn = BonfireManager.getInstance();
@@ -106,6 +107,7 @@ public class Application {
 			secMap.at(49, 12).setGround(new Cementery());
 			secMap.at(58, 5).setGround(new Cementery());
 			secMap.at(36, 15).setGround(new Cementery());
+
 
 			// Place chest
 			chest1InitialLocation = secMap.at(24, 8);

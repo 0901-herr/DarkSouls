@@ -51,5 +51,8 @@ public class AnorLondo extends GameMap {
         return instance;
     }
 
-
+    @Override
+    public String toString() {
+        return "Anor Londo";
+    }
 }

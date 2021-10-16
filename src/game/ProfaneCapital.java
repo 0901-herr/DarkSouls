@@ -55,4 +55,9 @@ public class ProfaneCapital extends GameMap {
         }
         return instance;
     }
+
+    @Override
+    public String toString() {
+        return "Profane Capital";
+    }
 }
