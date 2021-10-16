@@ -78,16 +78,13 @@ public class StormRuler extends Sword {
     @Override
     public WeaponAction getActiveSkill(Actor target, String direction){
 
-        // return WindSlashAction by Yhorm
-        if (target.hasCapability(Status.IS_YHORM) && numberOfCharge == MAX_NUMBER_OF_CHARGE){
-            return new WindSlashAction(this, target);
-        }
-
         if (target.hasCapability(Status.WEAK_TO_STORMRULER)){
             this.removeCapability(Status.DULLNESS);
         }
-        else{
-            this.addCapability(Status.DULLNESS);
+
+        // return WindSlashAction by Yhorm
+        if (target.hasCapability(Status.IS_YHORM) && numberOfCharge == MAX_NUMBER_OF_CHARGE){
+            return new WindSlashAction(this, target);
         }
 
         return null;
@@ -115,6 +112,7 @@ public class StormRuler extends Sword {
      */
     @Override
     public void tick(Location currentLocation, Actor actor) {
+        this.addCapability(Status.DULLNESS);
         if (this.hasCapability(Status.CHARGING)){
             numberOfCharge += 1;
             if (numberOfCharge == MAX_NUMBER_OF_CHARGE) {

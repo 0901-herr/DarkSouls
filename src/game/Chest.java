@@ -21,6 +21,7 @@ public class Chest extends Enemy {
         super("Chest", '?', 9999, initialLocation, 200);
         this.setInitialLocation(initialLocation);
         addRandomTokenOfSouls();
+        this.removeCapability(Status.HOSTILE_TO_PLAYER);
     }
 
     /**

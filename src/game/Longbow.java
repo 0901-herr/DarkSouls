@@ -1,9 +1,6 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.WeaponAction;
+import edu.monash.fit2099.engine.*;
 import game.enums.*;
 import game.interfaces.Resettable;
 
@@ -53,9 +50,26 @@ public class Longbow extends RangedWeapon implements Resettable {
         return new FireArrowAction(this);
     }
 
+    /**
+     * Add/remove the fire ability of the holder of this weapon.
+     * Inform a carried Item of the passage of time.
+     * This method is called once per turn, if the Item is being carried.
+     *
+     * @param currentLocation The location of the actor carrying this Item.
+     * @param actor           The actor carrying this Item.
+     */
+    @Override
+    public void tick(Location currentLocation, Actor actor) {
+        if (this.hasCapability(Abilities.FIRE))
+            actor.addCapability(Abilities.FIRE);
+        else
+            actor.removeCapability(Abilities.FIRE);
+        super.tick(currentLocation, actor);
+    }
+
     @Override
     public String toString(){
-        if (actor.hasCapability(Abilities.FIRE))
+        if (this.hasCapability(Abilities.FIRE))
             return name +  " (ACTIVATED)";
         else
             return name +  " (DEACTIVATED)";
@@ -66,7 +80,7 @@ public class Longbow extends RangedWeapon implements Resettable {
      */
     @Override
     public void resetInstance() {
-        actor.removeCapability(Abilities.FIRE);
+        this.removeCapability(Abilities.FIRE);
     }
 
     /**
