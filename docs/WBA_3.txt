@@ -1,0 +1,37 @@
+﻿Work Breakdown Agreement Lab 02 Team 6
+
+
+Group members:
+1. Yong Liang Herr 31987850
+2. William Ho Swee Chiong 32579756
+3. Yap Yong Hong 31899412
+
+
+Individual work breakdown:
+1. Yong Liang Herr
+Code implementation, UML class diagram and design rationale:
+* Requirement 3: Aldrich the Devourer (Lord of Cinder)
+* Requirement 4: Mimic
+* Requirement 5: Trade Cinder of Lord
+
+
+2.William Ho Swee Chiong
+Code implementation, UML class diagram and design rationale:
+* Requirement 1: New Map & Fog Door
+* Requirement 2 : Update Bonfire
+
+
+3. Yap Yong Hong
+Code implementation, UML class diagram and design rationale:
+* Requirement 3: Aldrich the Devourer, Weapon and WeaponAction
+* Requirement 4: Chest
+
+
+Group work:
+* Sequence diagram for Requirement 5
+
+
+Agreement for work breakdown:
+1. I, Yong Liang Herr, agree with the above work breakdown. 
+2. I, Yap Yong Hong, agree with the above work breakdown. 
+3.
