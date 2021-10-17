@@ -86,15 +86,14 @@ public class DyingAction extends Action {
         }
 
         else {
+            System.out.println(actor + ", " + target);
+
             if (target.hasCapability(Abilities.REVIVE_FOR_ONCE)) {
-                for (Exit exit: location.getExits()) {
-                    if (exit.getDestination().containsAnActor()) {
-                        Actor exitActor = exit.getDestination().getActor();
-                        if (exit.getDestination().getActor().hasCapability(Status.IS_PLAYER)) {
-                            target.asSoul().transferSouls(exitActor.asSoul());
-                        }
-                    }
-                }
+                // scan normal exits for player to transfer soul
+                this.scanExitsTransferSoul();
+
+                // scan expanded exits for player to transfer soul
+                this.scanExpandedExitsTransferSoul(map, actor);
             }
             else {
                 target.asSoul().transferSouls(actor.asSoul());
@@ -134,6 +133,54 @@ public class DyingAction extends Action {
 
         return res;
     }
+
+    /**
+     * Scan normal exits for the player to transfer souls
+     *
+     */
+    public void scanExitsTransferSoul() {
+        for (Exit exit: location.getExits()) {
+            if (exit.getDestination().containsAnActor()) {
+                Actor exitActor = exit.getDestination().getActor();
+                if (exit.getDestination().getActor().hasCapability(Status.IS_PLAYER)) {
+                    target.asSoul().transferSouls(exitActor.asSoul());
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Scan expanded exits for the player to transfer souls
+     *
+     * @param map the current map of the actor is at
+     * @param actor the actor that is transferring souls to the target
+     */
+    public void scanExpandedExitsTransferSoul(GameMap map, Actor actor) {
+        Location here = map.locationOf(actor);
+        NumberRange xs, ys;
+        int range = 3;
+        xs = new NumberRange(here.x() - range, range * 2 + 1);
+        ys = new NumberRange(here.y() - range, range * 2 + 1);
+
+        // scanning surroundings
+        for (int x: xs) {
+            for (int y: ys) {
+                if (map.getXRange().contains(x) && map.getYRange().contains(y)) {
+                    if (!(x == here.x() && y == here.y()) && map.at(x, y).containsAnActor()){
+                        Actor target = map.at(x, y).getActor();
+
+                        // check if target is Player
+                        if (target.hasCapability(Status.IS_PLAYER)){
+                            actor.asSoul().transferSouls(target.asSoul());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Menu Description method
      * @param actor The actor performing the action.

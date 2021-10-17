@@ -72,7 +72,9 @@ public class AttackBehaviour implements Behaviour {
                 actions.add(new AttackAction(target, exit.getName()));
 
                 // add in all actions of the actor item
-                this.addItemActions(actor);
+                if (!actor.hasCapability(Status.IS_MIMIC)) {
+                    this.addItemActions(actor);
+                }
 
                 break;
             }

@@ -34,7 +34,7 @@ public class BurnGroundAction extends WeaponAction {
             Location destination = exit.getDestination();
 
             if (destination.getGround().hasCapability(Abilities.BURN)){
-                destination.setGround(new BurnedGround(destination.getGround()));
+                destination.setGround(new BurnedGround(destination.getGround(), actor));
             }
         }
         return result;

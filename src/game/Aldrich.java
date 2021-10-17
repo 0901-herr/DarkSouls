@@ -86,13 +86,4 @@ public class Aldrich extends LordOfCinder {
             }
         }
     }
-
-    /**
-     * Resetting Aldrich
-     *
-     */
-    @Override
-    public void resetInstance() {
-        super.resetInstance();
-    }
 }

@@ -59,7 +59,7 @@ public class AttackAction extends Action {
 		if (actor.hasCapability(Abilities.FIRE)){
 			Location targetLocation = map.locationOf(target);
 			if (targetLocation.getGround().hasCapability(Abilities.BURN)){
-				targetLocation.setGround(new BurnedGround(targetLocation.getGround()));
+				targetLocation.setGround(new BurnedGround(targetLocation.getGround(), actor));
 			}
 		}
 

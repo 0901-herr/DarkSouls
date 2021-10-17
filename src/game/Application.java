@@ -26,7 +26,7 @@ public class Application {
 			world.addGameMap(secMap);
 
 			// Add Actors for Profane Capital
-			Actor player = new Player("Unkindled (Player)", '@', 100000);
+			Actor player = new Player("Unkindled (Player)", '@', 100);
 			world.addPlayer(player, gameMap.at(38, 12));
 
 			//Place Yhorm the Giant/boss in the map
@@ -109,7 +109,7 @@ public class Application {
 			secMap.at(36, 15).setGround(new Cementery());
 
 
-			// Place chest
+			// Place chests
 			chest1InitialLocation = secMap.at(24, 8);
 			chest1 = new Chest(chest1InitialLocation);
 			chest1InitialLocation.addActor(chest1);

@@ -2,6 +2,7 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
+import game.enums.Status;
 import game.interfaces.Soul;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class TokenOfSoul extends Item implements Soul {
      */
     @Override
     public List<Action> getAllowableActions() {
-        List<Action> pickup= new ArrayList<Action>();
+        List<Action> pickup = new ArrayList<Action>();
         pickup.add(new PickUpTokenAction(this));
         return pickup;
     }
