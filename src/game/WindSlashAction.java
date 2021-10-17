@@ -1,21 +1,22 @@
 package game;
 
-import edu.monash.fit2099.engine.*;
-import game.enums.Status;
+import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.GameMap;
+import edu.monash.fit2099.engine.WeaponAction;
+import edu.monash.fit2099.engine.WeaponItem;
+import game.enums.*;
 
 public class WindSlashAction extends WeaponAction {
 
-    protected StormRuler stormRuler;
-    protected Actor target;
+    private Actor target;
 
     /**
      * Constructor.
-     * @param stormRuler the weapon item that will activate WindSlashAction.
+     * @param weaponItem the weapon item that will activate WindSlashAction.
      * @param target the actor to attack.
      */
-    public WindSlashAction(StormRuler stormRuler, Actor target){
-        super(stormRuler);
-        this.stormRuler = stormRuler;
+    public WindSlashAction(WeaponItem weaponItem, Actor target){
+        super(weaponItem);
         this.target = target;
     }
 
@@ -31,7 +32,7 @@ public class WindSlashAction extends WeaponAction {
      */
     @Override
     public String execute(Actor actor, GameMap map){
-        int damage = stormRuler.damage() * 2;
+        int damage = weapon.damage() * 2;
         target.hurt(damage);
         String result = actor + " uses Wind Slash on " + target + " for " + damage + " damage and stuns " + target;
         if (!target.isConscious()) {
@@ -44,8 +45,8 @@ public class WindSlashAction extends WeaponAction {
         target.addCapability(Status.STUNNED);
 
         // reset charge
-        stormRuler.resetCharge();
-        stormRuler.removeCapability(Status.FULLY_CHARGED);
+        weapon.addCapability(Abilities.RESET_CHARGE);
+        weapon.removeCapability(Status.FULLY_CHARGED);
 
         return result;
     }

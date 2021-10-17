@@ -1,6 +1,10 @@
 package game;
 
-import edu.monash.fit2099.engine.*;
+import edu.monash.fit2099.engine.Action;
+import edu.monash.fit2099.engine.Actions;
+import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.Location;
+import edu.monash.fit2099.engine.WeaponAction;
 import game.enums.*;
 import game.interfaces.Resettable;
 

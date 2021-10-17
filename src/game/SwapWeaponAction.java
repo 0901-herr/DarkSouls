@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Abilities;
 import game.enums.Status;
 
 import java.util.List;
@@ -38,6 +39,10 @@ public class SwapWeaponAction extends PickUpItemAction {
         // additionally, add new weapon to the inventory (equip).
         super.execute(actor, map);
         item.addCapability(Status.IS_PICKED_UP);
+
+        // remove the fire attack ability if it is activated
+        actor.removeCapability(Abilities.FIRE);
+
         return actor + " swaps " + currentWeapon + " with " + item;
     }
 

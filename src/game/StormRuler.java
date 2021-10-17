@@ -121,24 +121,21 @@ public class StormRuler extends Sword {
                 actor.removeCapability(Status.DISARMED);
             }
         }
+
+        if (this.hasCapability(Abilities.RESET_CHARGE)){
+            numberOfCharge = 0;
+            this.removeCapability(Abilities.RESET_CHARGE);
+        }
     }
 
     @Override
     public String toString(){
         if (this.hasCapability(Status.CHARGING))
-            return name + " (" + numberOfCharge + "/" + MAX_NUMBER_OF_CHARGE + ") " + " (CHARGING) ";
+            return name + " (" + numberOfCharge + "/" + MAX_NUMBER_OF_CHARGE + ") " + "(CHARGING)";
         else if (this.hasCapability(Status.FULLY_CHARGED))
-            return name + " (" + numberOfCharge + "/" + MAX_NUMBER_OF_CHARGE + ") " + " (FULLY_CHARGED) ";
+            return name + " (" + numberOfCharge + "/" + MAX_NUMBER_OF_CHARGE + ") " + "(FULLY_CHARGED)";
         else
             return name + " (" + numberOfCharge + "/" + MAX_NUMBER_OF_CHARGE + ") ";
-    }
-
-
-    /**
-     * Reset the charge of StormRuler.
-     */
-    public void resetCharge(){
-        numberOfCharge = 0;
     }
 }
 

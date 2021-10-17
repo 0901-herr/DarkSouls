@@ -10,5 +10,6 @@ public enum Abilities {
     DROP,             // Use this ability if the item can be dropped
     REST,             // Use this ability if the actor can rest
     DRINK,            // Use this ability if the actor can drink
+    RESET_CHARGE,     // Use this ability to reset the charge of StormRuler
     FIRE              // Use this ability if the attack of weapon can burn ground
 }
